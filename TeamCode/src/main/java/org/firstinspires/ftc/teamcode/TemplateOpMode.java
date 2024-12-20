@@ -8,11 +8,10 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
 @gamePhase(name = "myOpModeName", group = "myOpGroup")
-public class ExampleOpMode extends OpMode {
+public class TemplateOpMode extends OpMode {
     /**
      * Here you will create your motor objects as private
      */
