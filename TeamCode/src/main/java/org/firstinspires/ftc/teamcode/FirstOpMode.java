@@ -1,20 +1,18 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-@TeleOp(name = "myTelop", group = "myGroup")
-public class FirstOpMode extends OpMode {
+
+import org.firstinspires.ftc.robotcontroller.external.samples.BasicOpMode_Iterative;
+
+@TeleOp
+public class FirstOpMode extends LinearOpMode {
     DcMotor myMotor;
 
-
     @Override
-    public void init() {
-        myMotor = hardwareMap.get(DcMotor.class, "myMotor");
-    }
+    public void runOpMode() throws InterruptedException {
 
-    @Override
-    public void loop() {
-        myMotor.setPower(-gamepad1.left_stick_y);
     }
 }
