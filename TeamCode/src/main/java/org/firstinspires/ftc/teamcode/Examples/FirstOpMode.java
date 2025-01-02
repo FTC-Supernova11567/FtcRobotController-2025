@@ -17,8 +17,6 @@ public class FirstOpMode extends OpMode {
 
     @Override
     public void loop() {
-        while(gamepad1.a) {
-            myMotor.setPower(0.7);
-        }
+    myMotor.setPower(-gamepad1.left_stick_y);
     }
 }
