@@ -23,14 +23,17 @@ public class MechanumDrive extends OpMode {
 
     @Override
     public void loop(){
-        frontRight.setPower(-gamepad1.right_stick_x);
-        backRight.setPower(gamepad1.right_stick_x);
+        //left joystick controls front back left and right motion
+        frontRight.setPower(-gamepad1.left_stick_x);
+         // no minus on purpose
+        backRight.setPower(gamepad1.left_stick_x);
         frontLeft.setPower(-gamepad1.left_stick_x);
+        // no minus purpose
         backLeft.setPower(gamepad1.left_stick_x);
 
 
-        frontRight.setPower(-gamepad1.right_stick_y);
-        backRight.setPower(-gamepad1.right_stick_y);
+        frontRight.setPower(-gamepad1.left_stick_y);
+        backRight.setPower(-gamepad1.left_stick_y);
         frontLeft.setPower(gamepad1.left_stick_y);
         backLeft.setPower(gamepad1.left_stick_y);
     }
