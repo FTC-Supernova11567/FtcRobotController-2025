@@ -36,5 +36,14 @@ public class MechanumDrive extends OpMode {
         backRight.setPower(-gamepad1.left_stick_y);
         frontLeft.setPower(gamepad1.left_stick_y);
         backLeft.setPower(gamepad1.left_stick_y);
+
+
+
+        //right joystick controls spin motion
+        frontRight.setPower(-gamepad1.right_stick_x);
+        backRight.setPower(-gamepad1.right_stick_x);
+        frontLeft.setPower(-gamepad1.right_stick_x);
+        backLeft.setPower(-gamepad1.right_stick_x);
+
     }
 }
