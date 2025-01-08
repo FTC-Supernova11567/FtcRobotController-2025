@@ -1,3 +1,4 @@
+
 package org.firstinspires.ftc.teamcode.ElbowAngle;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -21,8 +22,14 @@ public class AngleControl extends OpMode {
         boolean downDegreeControl = gamepad1.dpad_down;
         if (upDegreeControl == true) {
             angleControl.setPower(0.6);
-        } else if (downDegreeControl == false) {
+        } else if (upDegreeControl == false) {
+            angleControl.setPower(0);
+        }
+        if (downDegreeControl== true){
             angleControl.setPower(-0.6);
+        }
+        else if (downDegreeControl == false) {
+            angleControl.setPower(0);
         }
     }
 }
