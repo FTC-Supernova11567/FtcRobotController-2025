@@ -25,8 +25,10 @@ public class TankDrive extends OpMode {
     }
     @Override
     public void loop(){
+        //right joystick controls the wheels on the right side
         frontRight.setPower(-gamepad1.right_stick_y);
         backRight.setPower(-gamepad1.right_stick_y);
+        //left joystick controls the wheels on the left side
         frontLeft.setPower(gamepad1.left_stick_y);
         backLeft.setPower(gamepad1.left_stick_y);
 
