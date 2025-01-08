@@ -10,28 +10,47 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 @TeleOp
 
 public class Gripper extends OpMode {
-    private ServoEx gripperCatcherServo;
+//    private ServoEx gripperCatcherServo;
     private ServoEx gripperAngleServo;
-
+    double gamepadStickPlace = 0;
 
     @Override
     public void init() {
-        gripperCatcherServo = new SimpleServo(hardwareMap, "catcher", 0, Double.POSITIVE_INFINITY, AngleUnit.DEGREES);
-        gripperAngleServo = new SimpleServo(hardwareMap, "angle", 45, 135, AngleUnit.DEGREES);
-
+//        gripperCatcherServo = new SimpleServo(hardwareMap, "catcher", 0, Double.POSITIVE_INFINITY, AngleUnit.DEGREES);
+        gripperAngleServo = new SimpleServo(hardwareMap, "angle", 0, 270, AngleUnit.DEGREES);
     }
 
     @Override
     public void loop() {
-        if(gamepad1.a){
-            gripperCatcherServo.rotateBy(0.1);
-        }else{
-            gripperCatcherServo.turnToAngle(0);
+//        if(gamepad1.a){
+//            gripperCatcherServo.rotateBy(0.1);
+//        }else{
+//            gripperCatcherServo.turnToAngle(0);
+//        }
+        if (gamepad1.right_stick_y == 1){
+            gripperAngleServo.setPosition(1);
+        }if(gamepad1.right_stick_y == 0.9){
+            gripperAngleServo.setPosition(0.95);
+        }if(gamepad1.right_stick_y == 0.8){
+            gripperAngleServo.setPosition(0.90);
+        }if(gamepad1.right_stick_y == 0.7){
+            gripperAngleServo.setPosition(0.85);
+        }if(gamepad1.right_stick_y == 0.6){
+            gripperAngleServo.setPosition(0.80);
+        }if(gamepad1.right_stick_y == 0.5){
+            gripperAngleServo.setPosition(0.75);
+        }if(gamepad1.right_stick_y == 0.4){
+            gripperAngleServo.setPosition(0.70);
+        }if(gamepad1.right_stick_y == 0.3){
+            gripperAngleServo.setPosition(0.65);
         }
-        if(gamepad1.right_stick_y != 0){
-           gripperAngleServo.setPosition(gamepad1.right_stick_y);
-        }else{
-            gripperAngleServo.turnToAngle(90);
+
+        gamepadStickPlace = gamepad1.right_stick_y;
+        if(gamepad1.right_stick_y != gamepadStickPlace && gamepad1.right_stick_y != 0){
+            gripperAngleServo.setPosition(gamepad1.right_stick_y);
+        }
+        if(gamepad1.right_stick_y == 0){
+            gripperAngleServo.setPosition(0.5);
         }
     }
 }
