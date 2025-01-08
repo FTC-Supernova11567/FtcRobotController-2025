@@ -43,14 +43,32 @@ public class Gripper extends OpMode {
             gripperAngleServo.setPosition(0.70);
         }if(gamepad1.right_stick_y == 0.3){
             gripperAngleServo.setPosition(0.65);
-        }
-
-        gamepadStickPlace = gamepad1.right_stick_y;
-        if(gamepad1.right_stick_y != gamepadStickPlace && gamepad1.right_stick_y != 0){
-            gripperAngleServo.setPosition(gamepad1.right_stick_y);
-        }
-        if(gamepad1.right_stick_y == 0){
-            gripperAngleServo.setPosition(0.5);
+        }if(gamepad1.right_stick_y == 0.2){
+            gripperAngleServo.setPosition(0.60);
+        }if(gamepad1.right_stick_y == 0.1){
+            gripperAngleServo.setPosition(0.55);
+        }if(gamepad1.right_stick_y == 0){
+            gripperAngleServo.setPosition(0.50);
+        }if(gamepad1.right_stick_y == -0.1){
+            gripperAngleServo.setPosition(0.45);
+        }if(gamepad1.right_stick_y == -0.2){
+          gripperAngleServo.setPosition(0.40);
+        }if(gamepad1.right_stick_y == -0.3){
+            gripperAngleServo.setPosition(0.35);
+        }if(gamepad1.right_stick_y == -0.4){
+            gripperAngleServo.setPosition(0.30);
+        }if(gamepad1.right_stick_y == -0.5){
+            gripperAngleServo.setPosition(0.25);
+        }if(gamepad1.right_stick_y == -0.6){
+            gripperAngleServo.setPosition(0.20);
+        }if(gamepad1.right_stick_y == -0.7){
+            gripperAngleServo.setPosition(0.15);
+        }if(gamepad1.right_stick_y == -0.8){
+            gripperAngleServo.setPosition(0.10);
+        }if(gamepad1.right_stick_y == -0.9){
+            gripperAngleServo.setPosition(0.05);
+        }if(gamepad1.right_stick_y == -1){
+            gripperAngleServo.setPosition(0);
         }
     }
 }
