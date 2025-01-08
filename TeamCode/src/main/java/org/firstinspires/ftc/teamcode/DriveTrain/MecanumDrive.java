@@ -5,11 +5,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp
-public class MechanumDrive extends OpMode {
-   DcMotor frontRight;
-   DcMotor backRight;
-   DcMotor frontLeft;
-   DcMotor backLeft;
+ public class MecanumDrive extends OpMode {
+ private   DcMotor frontRight;
+ private   DcMotor backRight;
+ private   DcMotor frontLeft;
+ private   DcMotor backLeft;
 
 
     @Override
@@ -24,19 +24,10 @@ public class MechanumDrive extends OpMode {
     @Override
     public void loop(){
         //left joystick controls front back left and right motion
-        frontRight.setPower(-gamepad1.left_stick_x);
-         // no minus on purpose
-        backRight.setPower(gamepad1.left_stick_x);
-        frontLeft.setPower(-gamepad1.left_stick_x);
-        // no minus purpose
-        backLeft.setPower(gamepad1.left_stick_x);
-
-
-        frontRight.setPower(-gamepad1.left_stick_y);
-        backRight.setPower(-gamepad1.left_stick_y);
-        frontLeft.setPower(gamepad1.left_stick_y);
-        backLeft.setPower(gamepad1.left_stick_y);
-
+        frontRight.setPower(-gamepad1.left_stick_y-gamepad1.right_stick_x);
+        backRight.setPower(-gamepad1.left_stick_y+gamepad1.left_stick_x);
+        frontLeft.setPower(gamepad1.left_stick_y+gamepad1.left_stick_x);
+        backLeft.setPower(gamepad1.left_stick_y-gamepad1.left_stick_x);
 
 
         //right joystick controls spin motion
