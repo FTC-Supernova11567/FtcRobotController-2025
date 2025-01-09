@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Elbow;
+package org.firstinspires.ftc.teamcode.Arm.ArmExtension;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp
-public class Lift extends OpMode {
+public class Extension extends OpMode {
 
     private DcMotor extantion;
 
