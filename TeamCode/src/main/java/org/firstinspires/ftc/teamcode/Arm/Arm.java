@@ -10,7 +10,7 @@ public class Arm extends SubsystemBase {
     private Motor extension;
     private Motor degree;
 
-    Arm (){
+    public Arm() {
         extension = new Motor(hardwareMap, "extension");
         degree = new Motor(hardwareMap, "degree");
     }
@@ -24,7 +24,7 @@ public class Arm extends SubsystemBase {
         //TODO: Continue extension motor
     }
 
-    void setExtension() {
+    public void setExtension() {
         extension.setRunMode(Motor.RunMode.RawPower);
         extension.set(0.6);
     }
@@ -33,4 +33,9 @@ public class Arm extends SubsystemBase {
         degree.setRunMode(Motor.RunMode.RawPower);
         extension.set(0.6);
     }
+
+    public void stopExtension() {
+        extension.set(0);
+    }
+
 }

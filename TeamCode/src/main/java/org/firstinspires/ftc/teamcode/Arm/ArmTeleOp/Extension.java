@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Arm.ArmExtension;
+package org.firstinspires.ftc.teamcode.Arm.ArmTeleOp;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -8,23 +8,24 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 @TeleOp
 public class Extension extends OpMode {
 
-    private DcMotor extantion;
+    private DcMotor extension;
 
     @Override
     public void init() {
-        extantion = hardwareMap.get(DcMotor.class, "extantion");
+        extension = hardwareMap.get(DcMotor.class, "extantion");
     }
 
     @Override
     public void loop() {
        if(gamepad1.right_trigger!=0){
-           extantion.setPower(0.7);
+           extension.setPower(0.7);
        }
         else if (gamepad1.right_bumper) {
-            extantion.setPower(-0.8);
+            extension.setPower(-0.8);
         }
         else{
-            extantion.setPower(0);
+            extension.setPower(0);
         }
+
     }
 }

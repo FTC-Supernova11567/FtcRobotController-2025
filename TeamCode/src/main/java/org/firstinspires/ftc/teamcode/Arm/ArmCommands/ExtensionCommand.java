@@ -2,20 +2,20 @@ package org.firstinspires.ftc.teamcode.Arm.ArmCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
+import org.firstinspires.ftc.teamcode.Arm.Arm;
+
 public class ExtensionCommand extends CommandBase {
-    @Override
-    public void initialize() {
-    }
+
+    Arm arm = new Arm();
 
     @Override
-    public void execute() {
+    public void initialize() {
+        arm.setExtension();
     }
 
     @Override
     public void end(boolean interrupted) {
+        arm.stopExtension();
     }
 
-    @Override
-    public boolean isFinished() {
-    }
 }
