@@ -18,6 +18,7 @@ public class Gripper extends OpMode {
     public void init() {
 //        gripperCatcherServo = new SimpleServo(hardwareMap, "catcher", 0, 360, AngleUnit.DEGREES);
         gripperAngleServo = new SimpleServo(hardwareMap, "angle", 0, 360, AngleUnit.DEGREES);
+
     }
 
     @Override
@@ -28,11 +29,14 @@ public class Gripper extends OpMode {
 //        if(gamepad1.b){
 //            gripperCatcherServo.turnToAngle(0);
 //        }
-        if(gamepad1.right_stick_y != 0){
-            gripperAngleServo.setPosition(-gamepad1.right_stick_y);
+        if(gamepad1.right_stick_y < 0){
+            gripperAngleServo.turnToAngle(200);
         }
-        if(gamepad1.right_stick_y == 0){
-            gripperAngleServo.turnToAngle(0);
+        if(gamepad1.right_stick_y > 0){
+            gripperAngleServo.turnToAngle(270);
+        }
+        if(gamepad1.x){
+            gripperAngleServo.turnToAngle(215);
         }
     }
 }
