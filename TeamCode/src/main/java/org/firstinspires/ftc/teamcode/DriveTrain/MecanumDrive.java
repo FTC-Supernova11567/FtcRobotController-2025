@@ -35,6 +35,5 @@ import com.qualcomm.robotcore.hardware.DcMotor;
         backRight.setPower(-gamepad1.right_stick_x);
         frontLeft.setPower(-gamepad1.right_stick_x);
         backLeft.setPower(-gamepad1.right_stick_x);
-
     }
 }
