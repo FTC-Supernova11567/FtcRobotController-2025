@@ -2,17 +2,15 @@ package org.firstinspires.ftc.teamcode.Arm;
 
 import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
-import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class Arm extends SubsystemBase {
+public class Arm{
     private Motor extension;
-    private Motor degree;
+    private Motor angleControl;
 
     public Arm() {
         extension = new Motor(hardwareMap, "extension");
-        degree = new Motor(hardwareMap, "degree");
+        angleControl = new Motor(hardwareMap, "degree");
     }
 
     int getCurrentPosition() {
@@ -30,12 +28,13 @@ public class Arm extends SubsystemBase {
     }
 
     void setDegree() {
-        degree.setRunMode(Motor.RunMode.RawPower);
+        angleControl.setRunMode(Motor.RunMode.RawPower);
         extension.set(0.6);
     }
 
     public void stopExtension() {
         extension.set(0);
     }
+
 
 }
