@@ -29,14 +29,22 @@ public class Gripper extends OpMode {
 //        if(gamepad1.b){
 //            gripperCatcherServo.turnToAngle(0);
 //        }
-        if(gamepad1.right_stick_y < 0){
-            gripperAngleServo.turnToAngle(200);
+
+
+//        if(gamepad1.right_stick_y < 0){
+//            gripperAngleServo.turnToAngle(200);
+//        }
+//        if(gamepad1.right_stick_y > 0){
+//            gripperAngleServo.turnToAngle(270);
+//        }
+//        if(gamepad1.x){
+//            gripperAngleServo.turnToAngle(215);
+//        }
+
+        double angle = gamepad1.right_stick_y * 55 + 215;
+        if (gamepad1.right_stick_button){
+            gripperAngleServo.turnToAngle(angle);
         }
-        if(gamepad1.right_stick_y > 0){
-            gripperAngleServo.turnToAngle(270);
-        }
-        if(gamepad1.x){
-            gripperAngleServo.turnToAngle(215);
-        }
+
     }
 }
