@@ -35,7 +35,7 @@ public class Arm{
 
     }
 
-    void dpadAngle() {
+    public void dpadAngle() {
         angleControl.setRunMode(Motor.RunMode.RawPower);
         if (myGamepad.dpad_up){
             angleControl.set(0.6);

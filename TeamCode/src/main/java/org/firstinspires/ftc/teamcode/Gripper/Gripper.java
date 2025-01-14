@@ -2,49 +2,42 @@ package org.firstinspires.ftc.teamcode.Gripper;
 
 import com.arcrobotics.ftclib.hardware.ServoEx;
 import com.arcrobotics.ftclib.hardware.SimpleServo;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-@TeleOp
 
-public class Gripper extends OpMode {
-//    private ServoEx gripperCatcherServo;
-    private ServoEx gripperAngleServo;
+public class Gripper {
+    private final ServoEx gripperCatcherServo;
+    private final ServoEx gripperAngleServo;
+    private Gamepad gripperGamepad;
 
+    public Gripper(HardwareMap constHardwareMap, Gamepad constGamepad){
+        gripperCatcherServo = new SimpleServo(constHardwareMap, "catcher", 0, 360, AngleUnit.DEGREES);
 
-    @Override
-    public void init() {
-//        gripperCatcherServo = new SimpleServo(hardwareMap, "catcher", 0, 360, AngleUnit.DEGREES);
-        gripperAngleServo = new SimpleServo(hardwareMap, "angle", 0, 360, AngleUnit.DEGREES);
+        gripperAngleServo = new SimpleServo(constHardwareMap, "angle", 215, 230,AngleUnit.DEGREES);
 
+        gripperGamepad = constGamepad;
     }
 
-    @Override
-    public void loop() {
-//        if(gamepad1.a){
-//            gripperCatcherServo.turnToAngle(360);
-//        }
-//        if(gamepad1.b){
-//            gripperCatcherServo.turnToAngle(0);
-//        }
-
-
-//        if(gamepad1.right_stick_y < 0){
-//            gripperAngleServo.turnToAngle(200);
-//        }
-//        if(gamepad1.right_stick_y > 0){
-//            gripperAngleServo.turnToAngle(270);
-//        }
-//        if(gamepad1.x){
-//            gripperAngleServo.turnToAngle(215);
-//        }
-
-        double angle = gamepad1.right_stick_y * 55 + 215;
-        if (gamepad1.right_stick_button){
-            gripperAngleServo.turnToAngle(angle);
+    public void anglePlace(double angle){
+        if(gripperGamepad.right_stick_y < 0){
+            gripperAngleServo.turnToAngle(222);
+        }else if(gripperGamepad.right_stick_y > 0){
+            gripperAngleServo.turnToAngle(225);
         }
+    }
 
+    public double getAngle(){
+        return gripperAngleServo.getAngle();
+    }
+
+    public void catcherDirection(){
+        if(gripperGamepad.a){
+            gripperCatcherServo.turnToAngle(360);
+        }
+        if(gripperGamepad.b){
+            gripperCatcherServo.turnToAngle(0);
+        }
     }
 }
