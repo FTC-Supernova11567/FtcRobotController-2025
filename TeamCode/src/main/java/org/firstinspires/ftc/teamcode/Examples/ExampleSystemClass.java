@@ -17,7 +17,7 @@ public class ExampleSystemClass {
     }
 
 
-    //Here yoe write the actions your system can do as functions.
+    //Here you write the actions your system can do as functions.
     void activateMyMotor(double power){
         myMotor.setPower(power);
     }
