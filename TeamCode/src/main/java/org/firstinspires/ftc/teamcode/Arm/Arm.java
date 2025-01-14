@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Arm;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -15,36 +14,36 @@ public class Arm{
         extension = new Motor(constHardwareMap, "extension");
         angleControl = new Motor(constHardwareMap, "angleControl");
         myGamepad = constMyGamePad;
+    }
+
+    public void rightTriggerExtension() {
+        if(myGamepad.right_trigger != 0){
+            extension.setRunMode(Motor.RunMode.RawPower);
+            extension.set(0.7);
+        }else{
+            stopExtension();
+        }
+    }
+
+    public void rightBumperRetraction() {
+        if (myGamepad.right_bumper) {
+            extension.setRunMode(Motor.RunMode.RawPower);
+            extension.set(-0.8);
+        }else{
+            stopExtension();
+        }
 
     }
 
-//    int getCurrentPosition() {
-//        return extension.getCurrentPosition();
-//    }
-
-//    Motor getExtension() {
-//        return extension;
-//        //TODO: Continue extension motor
-//    }
-
-    public void setExtension() {
-        extension.setRunMode(Motor.RunMode.RawPower);
-        extension.set(0.7);
-    }
-
-    public void setMinusExtension() {
-        extension.setRunMode(Motor.RunMode.RawPower);
-        extension.set(-0.8);
-    }
-
-    void setDegree() {
+    void dpadAngle() {
         angleControl.setRunMode(Motor.RunMode.RawPower);
-        angleControl.set(0.6);
-    }
-
-    void setMinusDegree(){
-        angleControl.setRunMode(Motor.RunMode.RawPower);
-        angleControl.set(-0.6);
+        if (myGamepad.dpad_up){
+            angleControl.set(0.6);
+        }else if(myGamepad.dpad_down){
+            angleControl.set(-0.6);
+        }else{
+            stopAngleControl();
+        }
     }
 
     public void stopExtension() {
