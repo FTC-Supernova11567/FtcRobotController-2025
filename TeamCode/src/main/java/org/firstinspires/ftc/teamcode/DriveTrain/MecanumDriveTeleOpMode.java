@@ -14,6 +14,6 @@ public class MecanumDriveTeleOpMode extends OpMode {
 
     @Override
     public void loop() {
-        mecanum.setMecanumDrivePowerAndDirection();
+        mecanum.rotateLeft();
     }
 }
