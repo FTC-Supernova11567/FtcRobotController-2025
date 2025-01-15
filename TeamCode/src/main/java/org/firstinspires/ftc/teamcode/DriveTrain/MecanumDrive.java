@@ -1,39 +1,85 @@
 package org.firstinspires.ftc.teamcode.DriveTrain;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
-@TeleOp
- public class MecanumDrive extends OpMode {
- private   DcMotor frontRight;
- private   DcMotor backRight;
- private   DcMotor frontLeft;
- private   DcMotor backLeft;
+public class MecanumDrive {
+    private final DcMotor frontRight;
+    private final DcMotor backRight;
+    private final DcMotor frontLeft;
+    private final DcMotor backLeft;
+    private Gamepad mecanumGamepad;
 
+    public MecanumDrive(HardwareMap constHardwareMap, Gamepad constmecanumGamepad) {
+        frontRight = constHardwareMap.get(DcMotor.class, "frontRight");
+        backRight = constHardwareMap.get(DcMotor.class, "backRight");
+        frontLeft = constHardwareMap.get(DcMotor.class, "frontLeft");
+        backLeft = constHardwareMap.get(DcMotor.class, "backLeft");
 
-    @Override
-    public void init(){
-        frontRight=hardwareMap.get(DcMotor.class, "frontRight");
-        backRight=hardwareMap.get(DcMotor.class, "backRight");
-        frontLeft=hardwareMap.get(DcMotor.class, "frontLeft");
-        backLeft=hardwareMap.get(DcMotor.class, "backLeft");
+        mecanumGamepad = constmecanumGamepad;
     }
 
-
-    @Override
-    public void loop(){
-        //left joystick controls front back left and right motion
-        frontRight.setPower(-gamepad1.left_stick_y-gamepad1.right_stick_x);
-        backRight.setPower(-gamepad1.left_stick_y+gamepad1.left_stick_x);
-        frontLeft.setPower(gamepad1.left_stick_y+gamepad1.left_stick_x);
-        backLeft.setPower(gamepad1.left_stick_y-gamepad1.left_stick_x);
-
-
-        //right joystick controls spin motion
-        frontRight.setPower(-gamepad1.right_stick_x);
-        backRight.setPower(-gamepad1.right_stick_x);
-        frontLeft.setPower(-gamepad1.right_stick_x);
-        backLeft.setPower(-gamepad1.right_stick_x);
+    public void setMecanumDrivePowerAndDirection() {
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        if(mecanumGamepad.left_stick_x < 0){
+            frontRight.setPower(-0.8);
+            backRight.setPower(-0.8);
+            frontLeft.setPower(0.8);
+            backLeft.setPower(0.8);
+        } else if (mecanumGamepad.left_stick_x > 0) {
+            frontRight.setPower(0.8);
+            backRight.setPower(0.8);
+            frontLeft.setPower(-0.8);
+            backLeft.setPower(-0.8);
+        }
+        if (mecanumGamepad.right_stick_y > 0 && mecanumGamepad.right_stick_x < 0) {
+            frontRight.setPower(0);
+            backRight.setPower(0.6);
+            frontLeft.setPower(0.6);
+            backLeft.setPower(0);
+        } else if (mecanumGamepad.right_stick_y > 0 && mecanumGamepad.right_stick_x == 0) {
+            frontRight.setPower(0.6);
+            backRight.setPower(0.6);
+            frontLeft.setPower(0.6);
+            backLeft.setPower(0.6);
+        } else if (mecanumGamepad.right_stick_y > 0 && mecanumGamepad.right_stick_x > 0) {
+            frontRight.setPower(0.6);
+            backRight.setPower(0);
+            frontLeft.setPower(0);
+            backLeft.setPower(0.6);
+        } else if (mecanumGamepad.right_stick_y == 0 && mecanumGamepad.right_stick_x > 0) {
+            frontRight.setPower(0.6);
+            backRight.setPower(-0.6);
+            frontLeft.setPower(-0.6);
+            backLeft.setPower(0.6);
+        } else if (mecanumGamepad.right_stick_y < 0 && mecanumGamepad.right_stick_x > 0) {
+            frontRight.setPower(0);
+            backRight.setPower(-0.6);
+            frontLeft.setPower(-0.6);
+            backLeft.setPower(0);
+        } else if (mecanumGamepad.right_stick_y < 0 && mecanumGamepad.right_stick_x == 0) {
+            frontRight.setPower(-0.6);
+            backRight.setPower(-0.6);
+            frontLeft.setPower(-0.6);
+            backLeft.setPower(-0.6);
+        } else if (mecanumGamepad.right_stick_y < 0 && mecanumGamepad.right_stick_x < 0) {
+            frontRight.setPower(-0.6);
+            backRight.setPower(0);
+            frontLeft.setPower(0);
+            backLeft.setPower(-0.6);
+        } else if (mecanumGamepad.right_stick_y == 0 && mecanumGamepad.right_stick_x < 0) {
+            frontRight.setPower(-0.6);
+            backRight.setPower(0.6);
+            frontLeft.setPower(0.6);
+            backLeft.setPower(-0.6);
+        }else{
+            frontRight.setPower(0);
+            backRight.setPower(0);
+            frontLeft.setPower(0);
+            backLeft.setPower(0);
+        }
     }
 }
