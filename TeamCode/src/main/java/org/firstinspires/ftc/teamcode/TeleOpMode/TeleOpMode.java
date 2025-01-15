@@ -36,6 +36,7 @@ public class TeleOpMode extends OpMode {
 
         telemetry.update();
         telemetry.addData("gripper angle", myGripper.getAngle());
-//        telemetry.addData("")
+        telemetry.addData("arm angle", myArm.getAngle());
+        telemetry.addData("gripper direction", myGripper.getDirection() );
     }
 }

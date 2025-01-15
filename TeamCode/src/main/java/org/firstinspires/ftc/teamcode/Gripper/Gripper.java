@@ -40,4 +40,16 @@ public class Gripper {
             gripperCatcherServo.turnToAngle(0);
         }
     }
+
+    public String getDirection(){
+        String direction;
+        if (gripperCatcherServo.getAngle() == 360){
+            direction = "catching";
+        }else if(gripperCatcherServo.getAngle() == 0){
+            direction = "release" ;
+        }else{
+            direction = "hasn't started yet";
+        }
+        return direction;
+    }
 }

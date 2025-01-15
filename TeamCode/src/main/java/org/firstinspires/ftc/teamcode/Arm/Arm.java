@@ -50,9 +50,16 @@ public class Arm{
         extension.set(0);
     }
 
-
     public void stopAngleControl() {
         angleControl.set(0);
     }
 
+    public Motor getAngleControl(){
+        return angleControl;
+    }
+
+    public double getAngle(){
+        double angleInDegrees = angleControl.getCurrentPosition() / 2048 * 360 / 300;
+        return angleInDegrees;
+    }
 }
