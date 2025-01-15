@@ -18,21 +18,29 @@ public class Arm{
 
     public void rightTriggerExtension() {
         if(myGamepad.right_trigger != 0){
-            extension.setRunMode(Motor.RunMode.RawPower);
-            extension.set(0.7);
+            extensionClose();
         }else{
             stopExtension();
         }
     }
 
+    public void extensionClose(){
+        extension.setRunMode(Motor.RunMode.RawPower);
+        extension.set(0.7);
+    }
+
     public void rightBumperRetraction() {
         if (myGamepad.right_bumper) {
-            extension.setRunMode(Motor.RunMode.RawPower);
-            extension.set(-0.8);
+            extensionOpen();
         }else{
             stopExtension();
         }
 
+    }
+
+    public void extensionOpen(){
+        extension.setRunMode(Motor.RunMode.RawPower);
+        extension.set(-0.8);
     }
 
     public void dpadAngle() {
