@@ -4,18 +4,22 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Arm.Arm;
+import org.firstinspires.ftc.teamcode.DriveTrain.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Gripper.Gripper;
 
 @TeleOp
 public class TeleOpModeGripperArm extends OpMode {
     Arm myArm;
     Gripper myGripper;
+    MecanumDrive mecanum;
 
     @Override
     public void init() {
         myArm = new Arm(hardwareMap, gamepad2);
 
         myGripper = new Gripper(hardwareMap, gamepad2);
+
+        mecanum = new MecanumDrive(hardwareMap, gamepad1);
     }
 
     @Override
@@ -26,6 +30,8 @@ public class TeleOpModeGripperArm extends OpMode {
 
         myGripper.anglePlace(215);
         myGripper.catcherDirection();
+
+        mecanum.setMecanumDrivePowerAndDirection();
 
         telemetry.update();
         telemetry.addData("gripper angle", myGripper.getAngle());
