@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.DriveTrain.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Gripper.Gripper;
 
 @TeleOp
-public class TeleOpModeGripperArm extends OpMode {
+public class TeleOpMode extends OpMode {
     Arm myArm;
     Gripper myGripper;
     MecanumDrive mecanum;
