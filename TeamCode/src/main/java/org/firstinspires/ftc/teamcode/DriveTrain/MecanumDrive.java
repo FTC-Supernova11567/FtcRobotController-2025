@@ -20,8 +20,8 @@ public class MecanumDrive {
 
         mecanumGamepad = constmecanumGamepad;
 
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     public void rotateLeftTeleOp() {

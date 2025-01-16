@@ -18,7 +18,7 @@ public class AutonomousArm extends LinearOpMode {
             arm.stopExtension();
         }
         while(getRuntime() <= 6){
-            arm.extensionClose();
+            arm.extensionOpen();
         }
     }
 }

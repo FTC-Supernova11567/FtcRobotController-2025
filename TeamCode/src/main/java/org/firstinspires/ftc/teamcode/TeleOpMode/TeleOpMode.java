@@ -27,7 +27,7 @@ public class TeleOpMode extends OpMode {
     public void loop() {
         myArm.rightTriggerExtension();
         myArm.rightBumperRetraction();
-        myArm.dpadAngle();
+        myArm.angleDown();
 
         myGripper.anglePlace(215);
         myGripper.catcherDirection();
