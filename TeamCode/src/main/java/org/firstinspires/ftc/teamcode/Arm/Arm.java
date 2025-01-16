@@ -16,44 +16,6 @@ public class Arm{
         myGamepad = constMyGamePad;
     }
 
-    public void rightTriggerExtension() {
-        if(myGamepad.right_trigger != 0){
-            extension();
-        }else{
-            stopExtension();
-        }
-    }
-
-    public void extension(){
-        extension.setRunMode(Motor.RunMode.RawPower);
-        extension.set(0.7);
-    }
-
-    public void rightBumperRetraction() {
-        if (myGamepad.right_bumper) {
-            retract();
-        }else{
-            stopExtension();
-        }
-
-    }
-
-    public void retract(){
-        extension.setRunMode(Motor.RunMode.RawPower);
-        extension.set(-0.8);
-    }
-
-    public void dpadAngle() {
-        angleControl.setRunMode(Motor.RunMode.RawPower);
-        if (myGamepad.dpad_up){
-            angleUp();
-        }else if(myGamepad.dpad_down){
-            angleDown();
-        }else{
-            stopAngleControl();
-        }
-    }
-
     public void angleDown(){
         angleControl.set(-0.6);
     }
@@ -72,6 +34,48 @@ public class Arm{
 
     public Motor getAngleControl(){
         return angleControl;
+    }
+
+    public void rightTriggerExtension() {
+        if(myGamepad.right_trigger != 0){
+            extend();
+        }
+        else{
+            stopExtension();
+        }
+    }
+
+    public void extend(){
+        extension.setRunMode(Motor.RunMode.RawPower);
+        extension.set(0.7);
+    }
+
+    public void rightBumperRetraction() {
+        if (myGamepad.right_bumper) {
+            retract();
+        }
+        else{
+            stopExtension();
+        }
+
+    }
+
+    public void retract(){
+        extension.setRunMode(Motor.RunMode.RawPower);
+        extension.set(-0.8);
+    }
+
+    public void dpadAngle() {
+        angleControl.setRunMode(Motor.RunMode.RawPower);
+        if (myGamepad.dpad_up){
+            angleUp();
+        }
+        else if(myGamepad.dpad_down){
+            angleDown();
+        }
+        else{
+            stopAngleControl();
+        }
     }
 
     public double getAngle(){

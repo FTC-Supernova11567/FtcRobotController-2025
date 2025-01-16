@@ -40,39 +40,39 @@ public class Gripper {
         gripperCatcherServo.turnToAngle(0);
     }
 
-    public void collectAngle(){
+    public void collectAngleRightstickY(){
         if(gripperGamepad.right_stick_y < 0){
             turnToCollect();
         }
     }
 
-    public void outtakeAngle(){
+    public void outtakeAngleRightstickY(){
         if(gripperGamepad.right_stick_y > 0){
             turnToOuttake();
         }
     }
 
-    public void turnForward() {
+    public void turnAForward() {
         if (gripperGamepad.a) {
             spinForward();
         }
     }
 
-    public void turnBackwards(){
+    public void turnBBackwards(){
         if(gripperGamepad.b){
             spinBackward();
         }
     }
 
     public void angleJoystick(){
-        collectAngle();
-        outtakeAngle();
+        collectAngleRightstickY();
+        outtakeAngleRightstickY();
     }
 
 
     public void buttonControl() {
-        turnForward();
-        turnBackwards();
+        turnAForward();
+        turnBBackwards();
     }
 
     public void gripperControl(){
