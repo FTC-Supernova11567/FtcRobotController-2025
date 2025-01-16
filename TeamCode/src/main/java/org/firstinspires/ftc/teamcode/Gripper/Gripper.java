@@ -20,45 +20,66 @@ public class Gripper {
         gripperGamepad = constGamepad;
     }
 
-    public void anglePlace(double angle){
-
+    public void turnToCollect(){
+        gripperAngleServo.turnToAngle(222);
     }
 
-    public void collectAngle(){
-        if(gripperGamepad.right_stick_y < 0){
-            gripperAngleServo.turnToAngle(222);
+    public void turnToOuttake(){
+        gripperAngleServo.turnToAngle(225);
     }
-        }
-
-        public void outtakeAngle(){
-         if(gripperGamepad.right_stick_y > 0){
-                gripperAngleServo.turnToAngle(225);
-            }
-        }
-
 
     public double getAngle(){
         return gripperAngleServo.getAngle();
     }
 
-    public void buttonControl() {
-        turnADirction();
-        turnBDirction();
+    public void spinForward(){
+        gripperCatcherServo.turnToAngle(360);
     }
 
+    public void spinBackward(){
+        gripperCatcherServo.turnToAngle(0);
+    }
 
+    public void collectAngle(){
+        if(gripperGamepad.right_stick_y < 0){
+            turnToCollect();
+        }
+    }
 
-    public void turnADirction() {
+    public void outtakeAngle(){
+        if(gripperGamepad.right_stick_y > 0){
+            turnToOuttake();
+        }
+    }
+
+    public void turnForward() {
         if (gripperGamepad.a) {
-            gripperCatcherServo.turnToAngle(360);
+            spinForward();
         }
     }
 
-    public void turnBDirction(){
+    public void turnBackwards(){
         if(gripperGamepad.b){
-            gripperCatcherServo.turnToAngle(0);
+            spinBackward();
         }
     }
+
+    public void angleJoystick(){
+        collectAngle();
+        outtakeAngle();
+    }
+
+
+    public void buttonControl() {
+        turnForward();
+        turnBackwards();
+    }
+
+    public void gripperControl(){
+        angleJoystick();
+        buttonControl();
+    }
+
 
     public String getDirection(){
         String direction;
