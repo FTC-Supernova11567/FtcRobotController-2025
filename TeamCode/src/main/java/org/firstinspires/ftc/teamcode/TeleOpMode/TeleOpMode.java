@@ -20,7 +20,7 @@ public class TeleOpMode extends OpMode {
 
         myGripper = new Gripper(hardwareMap, gamepad2);
 
-        
+
         mecanum = new MecanumDrive(hardwareMap, gamepad1);
     }
 
@@ -34,6 +34,6 @@ public class TeleOpMode extends OpMode {
         telemetry.update();
         telemetry.addData("gripper angle", myGripper.getAngle());
         telemetry.addData("arm angle", myArm.getAngle());
-        telemetry.addData("gripper direction", myGripper.getDirection() );
+//        telemetry.addData("gripper direction", myGripper.getDirection() );
     }
 }

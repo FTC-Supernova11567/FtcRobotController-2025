@@ -14,6 +14,8 @@ public class Arm{
         extension = new Motor(constHardwareMap, "extension");
         angleControl = new Motor(constHardwareMap, "angleControl");
         myGamepad = constMyGamePad;
+        extension.setInverted(true);
+        angleControl.setInverted(true);
     }
 
     public void angleDown(){
@@ -87,7 +89,6 @@ public class Arm{
     }
 
     public double getAngle(){
-        double angleInDegrees = angleControl.getCurrentPosition() / 2048 * 360 / 300;
-        return angleInDegrees;
+        return angleControl.getCurrentPosition();
     }
 }
