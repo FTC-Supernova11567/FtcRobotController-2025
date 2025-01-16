@@ -11,14 +11,18 @@ public class AutonomousArm extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        while(getRuntime() <= 2){
-            arm.extensionOpen();
-        }
-        while(getRuntime() <= 4){
+        while(getRuntime() <= 4.5){
             arm.stopExtension();
         }
-        while(getRuntime() <= 6){
+        while(getRuntime() <= 5.5){
             arm.extensionOpen();
         }
+        while(getRuntime() <= 7){
+            arm.stopExtension();
+        }
+        while(getRuntime() <= 8){
+            arm.extensionOpen();
+        }
+
     }
 }
