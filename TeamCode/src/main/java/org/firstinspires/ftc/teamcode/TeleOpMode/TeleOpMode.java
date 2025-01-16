@@ -20,18 +20,15 @@ public class TeleOpMode extends OpMode {
 
         myGripper = new Gripper(hardwareMap, gamepad2);
 
+        
         mecanum = new MecanumDrive(hardwareMap, gamepad1);
     }
 
     @Override
     public void loop() {
-        myArm.rightTriggerExtension();
-        myArm.rightBumperRetraction();
-        myArm.angleDown();
+        myArm.armControl();
 
-        myGripper.anglePlace(215);
-        myGripper.catcherDirection();
-
+        myGripper.gripperControl();
         mecanum.mecanumAlL();
 
         telemetry.update();
