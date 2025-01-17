@@ -16,6 +16,8 @@ public class Arm{
         myGamepad = constMyGamePad;
         extension.setInverted(true);
         angleControl.setInverted(true);
+        extension.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+        angleControl.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
     }
 
     public void angleDown(){
@@ -39,7 +41,7 @@ public class Arm{
         extension.set(-0.8);
     }
     public void rightBumperRetraction() {
-        if (myGamepad.right_bumper) {
+        if (myGamepad.left_trigger!=0) {
             retract();
         }
         else{
@@ -54,7 +56,7 @@ public class Arm{
 
     public void extend(){
         extension.setRunMode(Motor.RunMode.RawPower);
-        extension.set(0.7);
+        extension.set(0.8);
     }
 
     public void rightTriggerExtension() {
