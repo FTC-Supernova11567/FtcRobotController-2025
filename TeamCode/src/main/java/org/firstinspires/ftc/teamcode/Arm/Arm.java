@@ -9,7 +9,6 @@ public class Arm{
     private Motor extension;
     private Motor angleControl;
     private Gamepad myGamepad;
-
     public Arm(HardwareMap constHardwareMap, Gamepad constMyGamePad) {
         extension = new Motor(constHardwareMap, "extension");
         angleControl = new Motor(constHardwareMap, "angleControl");
@@ -91,6 +90,6 @@ public class Arm{
     }
 
     public double getAngle(){
-        return angleControl.getCurrentPosition();
+        return (angleControl.encoder.getRevolutions()/300*360);
     }
 }
