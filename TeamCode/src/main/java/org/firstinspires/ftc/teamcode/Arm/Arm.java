@@ -1,95 +1,115 @@
 package org.firstinspires.ftc.teamcode.Arm;
 
 
-import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.qualcomm.robotcore.hardware.Gamepad;
+import com.arcrobotics.ftclib.controller.PIDFController;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class Arm{
-    private Motor extension;
-    private Motor angleControl;
-    private Gamepad myGamepad;
-    public Arm(HardwareMap constHardwareMap, Gamepad constMyGamePad) {
-        extension = new Motor(constHardwareMap, "extension");
-        angleControl = new Motor(constHardwareMap, "angleControl");
-        myGamepad = constMyGamePad;
-        extension.setInverted(true);
-        angleControl.setInverted(true);
-        extension.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
-        angleControl.setZeroPowerBehavior(Motor.ZeroPowerBehavior.BRAKE);
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+public class Arm {
+    private final DcMotorEx extension;
+    private final DcMotorEx wrist;
+    Telemetry telemetry;
+
+    private int wristSetpoint = 0;
+
+    private PIDFController wristController = new PIDFController(0.5, 0.0, 0.0, 1.0);
+    private PIDFController extensionController = new PIDFController(5.0, 0.0, 0.0, 0.0);
+
+    public Arm(HardwareMap hardwareMap, Telemetry telemetry) {
+        extension = hardwareMap.get(DcMotorEx.class, "extension");
+        extension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        extension.setDirection(DcMotorSimple.Direction.REVERSE);
+        extension.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        wrist = hardwareMap.get(DcMotorEx.class, "angleControl");
+        wrist.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        wrist.setDirection(DcMotorSimple.Direction.REVERSE);
+        wrist.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        wristController.setTolerance(2000 );
+
+        this.telemetry = telemetry;
     }
 
-    public void angleDown(){
-        angleControl.set(-0.6);
+    public void angleDown() {
+        wrist.setPower(-0.6);
     }
 
-    public void angleUp(){
-        angleControl.set(0.6);
+    public void angleUp() {
+        wrist.setPower(0.6);
     }
 
     public void stopExtension() {
-        extension.set(0);
+        extension.setPower(0);
     }
 
     public void stopAngleControl() {
-        angleControl.set(0);
+        wrist.setPower(0);
     }
 
-    public void retract(){
-        extension.setRunMode(Motor.RunMode.RawPower);
-        extension.set(-0.8);
-    }
-    public void rightBumperRetraction() {
-        if (myGamepad.left_trigger!=0) {
-            retract();
-        }
-        else{
-            stopExtension();
-        }
-
+    public void retract() {
+        extension.setPower(-0.8);
     }
 
-    public Motor getAngleControl(){
-        return angleControl;
+//    public void leftStickYRetract() {
+//        if (myGamepad.left_stick_y < 0) {
+//            retract();
+//        }
+//        else{
+//            stopExtension();
+//        }
+//
+//    }
+
+    /**
+     * @param position Motor ticks 8192
+     */
+    public void setWristPosition(int position) {
+        wristSetpoint = position;
     }
 
-    public void extend(){
-        extension.setRunMode(Motor.RunMode.RawPower);
-        extension.set(0.8);
+    public void extend() {
+        extension.setPower(0.8);
     }
 
-    public void rightTriggerExtension() {
-        if (myGamepad.right_trigger != 0) {
-            extend();
-        } else {
-            stopExtension();
-        }
+    public void update() {
+        wrist.setPower(wristController.calculate(wrist.getCurrentPosition(), wristSetpoint));
     }
 
-    public void extensionControl(){
-        rightTriggerExtension();
-        rightBumperRetraction();
+//    public void extensionStickControl() {
+//        if (myGamepad.right_trigger != 0) {
+//            retract();
+//        } else if (myGamepad.left_trigger != 0) {
+//            extend();
+//        } else if (myGamepad.y) {
+//            motor.setTargetPosition(1000);
+//            motor.getController()
+//            motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//            telemetry.addData("hello", motor.getTargetPosition());
+//        } else {
+//            stopExtension();
+//        }
+//    }
 
-    }
-    public void armControl(){
-        extensionControl();
-        dpadAngle();
-    }
-
-    public void dpadAngle() {
-        angleControl.setRunMode(Motor.RunMode.RawPower);
-        if (myGamepad.dpad_up){
-            angleUp();
-        }
-        else if(myGamepad.dpad_down){
-            angleDown();
-        }
-        else{
-            stopAngleControl();
-        }
+//    public void armControl() {
+//        extensionStickControl();
+//        dpadAngle();
     }
 
-    public double getAngle(){
-        return (angleControl.encoder.getRevolutions()/300*360);
-    }
-}
+//    public void dpadAngle() {
+//        if (myGamepad.dpad_up) {
+//            angleUp();
+//        } else if (myGamepad.dpad_down) {
+//            angleDown();
+//        } else {
+//            stopAngleControl();
+//        }
+//    }
+
+//    public double getAngle() {
+//        return (((double) motor.encoder.getPosition()) / 8192 * 360);
+//    }

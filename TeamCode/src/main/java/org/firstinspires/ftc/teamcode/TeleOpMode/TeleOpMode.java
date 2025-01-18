@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.TeleOpMode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -7,33 +9,43 @@ import org.firstinspires.ftc.teamcode.Arm.Arm;
 import org.firstinspires.ftc.teamcode.DriveTrain.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Gripper.Gripper;
 
+@Config
 @TeleOp
 public class TeleOpMode extends OpMode {
-    Arm myArm;
+    Arm arm;
     Gripper myGripper;
     MecanumDrive mecanum;
 
-
     @Override
     public void init() {
-        myArm = new Arm(hardwareMap, gamepad2);
+        arm = new Arm(hardwareMap, telemetry);
 
         myGripper = new Gripper(hardwareMap, gamepad2);
 
-
         mecanum = new MecanumDrive(hardwareMap, gamepad1);
+
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        telemetry = dashboard.getTelemetry();
+
+        telemetry.addData("Status", "Initialized");
     }
 
     @Override
     public void loop() {
-        myArm.armControl();
+        if (gamepad2.y) {
+            arm.setWristPosition(1000);
+        }
 
+        arm.update();
         myGripper.gripperControl();
         mecanum.mecanumAlL();
-
         telemetry.update();
+
+        telemetry.addData("Status", "Run Time: " + getRuntime());
         telemetry.addData("gripper angle", myGripper.getAngle());
-        telemetry.addData("arm angle", myArm.getAngle());
+//        telemetry.addData("arm angle", myArm.getAngle());
+        telemetry.addData("left stick y", gamepad2.left_stick_y);
 //        telemetry.addData("gripper direction", myGripper.getDirection() );
+
     }
 }

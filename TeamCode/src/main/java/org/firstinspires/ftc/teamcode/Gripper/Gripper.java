@@ -23,7 +23,7 @@ public class Gripper {
     }
 
     public void turnToCollect() {
-        gripperAngleServo.turnToAngle(222);
+        gripperAngleServo.turnToAngle(223.3);
     }
 
     public void turnToOuttake() {
@@ -35,12 +35,10 @@ public class Gripper {
     }
 
     public void spinForward() {
-//        gripperCatcherServo.turnToAngle(360);
         gripperCatcherServo.set(1);
     }
 
     public void spinBackward() {
-//        gripperCatcherServo.turnToAngle(0);
         gripperCatcherServo.set(-1);
     }
 
@@ -81,13 +79,18 @@ public class Gripper {
     }
 
     public void angleJoystick() {
-        if (gripperGamepad.right_stick_y < 0 || gripperGamepad.right_stick_y > 0){
-            gripperAngleServo.setPosition(gripperGamepad.right_stick_y);
-        }else{
+        if (gripperGamepad.right_stick_y < 0){
+            gripperAngleServo.setPosition(gripperAngleServo.getPosition() - 0.001);
+        }else if(gripperGamepad.right_stick_y > 0){
+            gripperAngleServo.setPosition(gripperAngleServo.getPosition() + 0.001);
+        }
+        else{
             gripperAngleServo.rotateBy(0);
         }
 
     }
+
+
 
 
     public void buttonControl() {
