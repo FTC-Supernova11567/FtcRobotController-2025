@@ -13,14 +13,14 @@ import org.firstinspires.ftc.teamcode.Gripper.Gripper;
 @TeleOp
 public class TeleOpMode extends OpMode {
     Arm arm;
-    Gripper myGripper;
+    Gripper gripper;
     MecanumDrive mecanum;
 
     @Override
     public void init() {
-        arm = new Arm(hardwareMap, telemetry);
+        arm = new Arm(hardwareMap, gamepad2);
 
-        myGripper = new Gripper(hardwareMap, gamepad2);
+        gripper = new Gripper(hardwareMap, gamepad2);
 
         mecanum = new MecanumDrive(hardwareMap, gamepad1);
 
@@ -32,17 +32,13 @@ public class TeleOpMode extends OpMode {
 
     @Override
     public void loop() {
-        if (gamepad2.y) {
-            arm.setWristPosition(1000);
-        }
-
-        arm.update();
-        myGripper.gripperControl();
+        arm.armControl();
+        gripper.gripperControl();
         mecanum.mecanumAlL();
         telemetry.update();
 
         telemetry.addData("Status", "Run Time: " + getRuntime());
-        telemetry.addData("gripper angle", myGripper.getAngle());
+        telemetry.addData("gripper angle", gripper.getAngle());
 //        telemetry.addData("arm angle", myArm.getAngle());
         telemetry.addData("left stick y", gamepad2.left_stick_y);
 //        telemetry.addData("gripper direction", myGripper.getDirection() );
