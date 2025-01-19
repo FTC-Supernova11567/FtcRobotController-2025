@@ -12,12 +12,15 @@ public class SystemBasedOpMode extends OpMode {
     // along with passing the hardwareMap and gamepad1 through the constructor of the system.
     @Override
     public void init() {
-        mySystem = new ExampleSystemClass(hardwareMap, gamepad1);
+        mySystem = new ExampleSystemClass(hardwareMap, gamepad2);
     }
 
     //Here you use the actions you created in your system class.
     @Override
     public void loop() {
-        mySystem.activateWithAButton(0.5);
+        telemetry.update();
+        mySystem.setPositionWithXbutton(-2000);
+        mySystem.setPositionWithBbutton(0);
+        telemetry.addData("Pose", mySystem.getPose());
     }
 }
