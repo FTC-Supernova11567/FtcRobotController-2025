@@ -67,7 +67,7 @@ public class Arm {
     }
 
     public void rightBumperRetract() {
-        if (gamepad.left_stick_y < 0) {
+        if (gamepad.right_bumper) {
             retract();
         } else {
             stopExtension();

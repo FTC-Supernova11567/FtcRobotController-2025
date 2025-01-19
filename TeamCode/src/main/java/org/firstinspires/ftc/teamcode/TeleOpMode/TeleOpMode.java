@@ -24,8 +24,8 @@ public class TeleOpMode extends OpMode {
 
         mecanum = new MecanumDrive(hardwareMap, gamepad1);
 
-        FtcDashboard dashboard = FtcDashboard.getInstance();
-        telemetry = dashboard.getTelemetry();
+//        FtcDashboard dashboard = FtcDashboard.getInstance();
+//        telemetry = dashboard.getTelemetry();
 
         telemetry.addData("Status", "Initialized");
     }
@@ -42,6 +42,7 @@ public class TeleOpMode extends OpMode {
 //        telemetry.addData("arm angle", myArm.getAngle());
         telemetry.addData("left stick y", gamepad2.left_stick_y);
 //        telemetry.addData("gripper direction", myGripper.getDirection() );
+        telemetry.addData("Pose", arm.getAngle());
 
     }
 }
