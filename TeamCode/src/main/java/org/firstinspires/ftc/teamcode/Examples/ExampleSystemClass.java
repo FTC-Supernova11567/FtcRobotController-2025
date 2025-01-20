@@ -15,7 +15,7 @@ public class ExampleSystemClass {
 
     private Gamepad gamepad;
 
-    private PIDFController pidfController = new PIDFController(0.001, 0, 0, 0.001);
+    private PIDFController pidfController = new PIDFController(1, 0.05, 0.1, 0.13);
 
     //At the default constructor you initialize the motor .
     public ExampleSystemClass(HardwareMap constHardwareMap, Gamepad constGamepad) {
