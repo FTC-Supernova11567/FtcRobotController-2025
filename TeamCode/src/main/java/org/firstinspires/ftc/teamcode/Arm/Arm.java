@@ -43,11 +43,11 @@ public class Arm {
     }
 
     public void angleDown() {
-        angleMotor.setPower(-0.6);
+        angleMotor.setPower(0.6);
     }
 
     public void angleUp() {
-        angleMotor.setPower(0.6);
+        angleMotor.setPower(-0.6);
     }
 
     public void stopExtension() {
