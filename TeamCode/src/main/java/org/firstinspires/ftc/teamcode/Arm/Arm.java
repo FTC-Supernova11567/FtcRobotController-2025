@@ -53,6 +53,11 @@ public class Arm {
     public void stopExtension() {
         extensionMotor.setPower(0);
     }
+    public void stopTeleop(){
+        if (gamepad.right_bumper==false && gamepad.right_trigger==0){
+            stopExtension();
+        }
+    }
 
     public void stopAngle() {
         angleMotor.setPower(0);
@@ -69,22 +74,19 @@ public class Arm {
     public void rightBumperRetract() {
         if (gamepad.right_bumper) {
             retract();
-        } else {
-            stopExtension();
         }
     }
 
     public void rightTriggerExtend() {
         if (gamepad.right_trigger != 0) {
             extend();
-        } else {
-            stopExtension();
         }
     }
 
     public void extensionButtonControl() {
-        rightBumperRetract();
         rightTriggerExtend();
+        rightBumperRetract();
+        stopTeleop();
     }
 
     public void dpadAngle() {
