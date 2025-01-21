@@ -24,11 +24,11 @@ public class SystemBasedOpMode extends OpMode {
         telemetry.addData("Pose", mySystem.getPose());
         // telemetry.addData("x", gamepad2.x);
         // telemetry.addData("b", gamepad2.b);
-        telemetry.addData("setPoint", mySystem.getTarget());
-        telemetry.addData("Error", mySystem.getError());
-        telemetry.addData("motorPower", mySystem.getPower());
-        telemetry.addData("velocity", mySystem.getVelocity());
-        telemetry.addData("PIDoutput", mySystem.getPIDOutput());
+        //telemetry.addData("setPoint", mySystem.getTarget());
+        //telemetry.addData("Error", mySystem.getError());
+        //telemetry.addData("motorPower", mySystem.getPower());
+        //telemetry.addData("velocity", mySystem.getVelocity());
+        //telemetry.addData("PIDoutput", mySystem.getPIDOutput());
 
 
     }
