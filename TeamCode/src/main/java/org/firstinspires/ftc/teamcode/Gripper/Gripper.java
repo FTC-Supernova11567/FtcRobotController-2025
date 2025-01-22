@@ -17,7 +17,7 @@ public class Gripper {
 
     public Gripper(HardwareMap constHardwareMap, Gamepad constGamepad) {
         gripperCatcherServo = new CRServo(constHardwareMap, "catcher");
-        gripperAngleServo = new SimpleServo(constHardwareMap, "angle", 222, 225, AngleUnit.DEGREES);
+        gripperAngleServo = new SimpleServo(constHardwareMap, "angle", 200, 225, AngleUnit.DEGREES);
 
         gripperGamepad = constGamepad;
     }
@@ -44,6 +44,7 @@ public class Gripper {
 
     public void stopCatcher(){
         if (gripperGamepad.x){
+
             gripperCatcherServo.set(0);
         }
     }

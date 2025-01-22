@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.Arm;
 
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
+
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -64,7 +66,22 @@ public class Arm {
     }
 
     public void extend() {
-        extensionMotor.setPower(0.8);
+        if (Math.cos(getAngle()) * extensionMotor.getCurrentPosition() < 1676) {
+            extensionMotor.setPower(0.8);
+        } else if (Math.cos(getAngle()) * extensionMotor.getCurrentPosition()  > 1676) {
+            stopExtension();
+        }
+         else if (extensionMotor.getCurrentPosition() < -3400){
+            stopExtension();
+        }
+
+
+    }
+
+    public void reset(){
+        if(gamepad2.left_trigger!=0){
+            extensionMotor.setPositionPIDFCoefficients(0.0);
+        }
     }
 
     public void retract() {
@@ -116,6 +133,9 @@ public class Arm {
 
     public double getAngle () {
         return (((double) angleMotor.getCurrentPosition()) / 8192 * 360);
+    }
+    public int getExtend(){
+        return extensionMotor.getCurrentPosition();
     }
 }
 
