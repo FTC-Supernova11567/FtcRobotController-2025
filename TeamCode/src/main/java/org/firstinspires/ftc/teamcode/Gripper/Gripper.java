@@ -13,17 +13,20 @@ public class Gripper {
     //    private final ServoEx gripperCatcherServo;
     private final CRServo gripperCatcherServo;
     private final ServoEx gripperAngleServo;
-    private Gamepad gripperGamepad;
+    private Gamepad catcherGamepad;
+    private Gamepad angleGamepad;
 
-    public Gripper(HardwareMap constHardwareMap, Gamepad constGamepad) {
+    public Gripper(HardwareMap constHardwareMap, Gamepad constCatcherGamepad, Gamepad constAngleGamepad) {
         gripperCatcherServo = new CRServo(constHardwareMap, "catcher");
-        gripperAngleServo = new SimpleServo(constHardwareMap, "angle", 200, 225, AngleUnit.DEGREES);
+        gripperAngleServo = new SimpleServo(constHardwareMap, "angle", 180 , 225, AngleUnit.DEGREES);
 
-        gripperGamepad = constGamepad;
+        catcherGamepad = constCatcherGamepad;
+        angleGamepad = constAngleGamepad;
+
     }
 
     public void turnToCollect() {
-        gripperAngleServo.turnToAngle(223.3);
+        gripperAngleServo.turnToAngle(215);
     }
 
     public void turnToOuttake() {
@@ -43,7 +46,7 @@ public class Gripper {
     }
 
     public void stopCatcher(){
-        if (gripperGamepad.x){
+        if (catcherGamepad.x){
 
             gripperCatcherServo.set(0);
         }
@@ -62,7 +65,7 @@ public class Gripper {
 //    }
 
     public void turnAForward() {
-        if (gripperGamepad.a) {
+        if (catcherGamepad.a) {
             spinForward();
         }
         else{
@@ -71,7 +74,7 @@ public class Gripper {
     }
 
     public void turnBBackwards() {
-        if (gripperGamepad.b) {
+        if (catcherGamepad.b) {
             spinBackward();
         }
         else {
@@ -80,9 +83,9 @@ public class Gripper {
     }
 
     public void angleJoystick() {
-        if (gripperGamepad.right_stick_y < 0){
+        if (angleGamepad.right_stick_y < 0){
             gripperAngleServo.setPosition(gripperAngleServo.getPosition() - 0.001);
-        }else if(gripperGamepad.right_stick_y > 0){
+        }else if(angleGamepad.right_stick_y > 0){
             gripperAngleServo.setPosition(gripperAngleServo.getPosition() + 0.001);
         }
         else{
