@@ -19,8 +19,7 @@ public class TeleOpMode extends OpMode {
     @Override
     public void init() {
         arm = new Arm(hardwareMap, gamepad2);
-
-        gripper = new Gripper(hardwareMap, gamepad2);
+        gripper = new Gripper(hardwareMap, gamepad1, gamepad2);
 
         mecanum = new MecanumDrive(hardwareMap, gamepad1);
 
@@ -39,11 +38,15 @@ public class TeleOpMode extends OpMode {
 
         telemetry.addData("Status", "Run Time: " + getRuntime());
         telemetry.addData("gripper angle", gripper.getAngle());
-        telemetry.addData("arm angle", arm.getAngle());
-        telemetry.addData("left stick y", gamepad2.left_stick_y);
+        telemetry.addData("arm angle", -arm.getAngle() - 66.8466);
+//        telemetry.addData("left stick y", gamepad2.left_stick_y);
 //        telemetry.addData("gripper direction", myGripper.getDirection() );
-        telemetry.addData("Pose", arm.getAngle());
-        telemetry.addData("Extension", arm.getExtend());
+        telemetry.addData("Pose", -arm.getAngle());
+        telemetry.addData("Extension", Math.abs(arm.getExtend()));
+        telemetry.addData("Check Cos", Math.cos(0));
+        telemetry.addData("CosAngle", Math.cos(-arm.getAngle()));
+        telemetry.addData("ArcCosAngle", Math.acos(Math.cos(-arm.getAngle())));
+        telemetry.addData("ExCalc", Math.abs(Math.cos(-arm.getAngle())) * arm.getExtensionMotor().encoder.getPosition());
 
     }
 }
