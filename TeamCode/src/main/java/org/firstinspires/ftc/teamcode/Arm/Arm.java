@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gam
 
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -14,7 +15,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Arm {
-    private final Motor extensionMotor;
+    private final DcMotorEx extensionMotor;
     private final DcMotorEx angleMotor;
     private Gamepad gamepad;
 
@@ -26,12 +27,11 @@ public class Arm {
     //TODO: PID management
 
     public Arm(HardwareMap hardwareMap, Gamepad constGamepad) {
-        extensionMotor = new Motor(hardwareMap, "extension");
-        // extensionMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        extensionMotor.setRunMode(Motor.RunMode.RawPower);
+        extensionMotor = hardwareMap.get(DcMotorEx.class, "extension");
+        extensionMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        //extensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        extensionMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
 
-//        extensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-//        extensionMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //TODO: PID management
 
         angleMotor = hardwareMap.get(DcMotorEx.class, "angleControl");
@@ -55,7 +55,7 @@ public class Arm {
     }
 
     public void stopExtension() {
-        extensionMotor.set(0);
+        extensionMotor.setPower(0);
     }
     public void stopTeleop(){
         if (gamepad.right_bumper==false && gamepad.right_trigger==0){
@@ -68,16 +68,21 @@ public class Arm {
     }
 
     public void extend() {
-        if (Math.abs(Math.cos(-getAngle()) * extensionMotor.encoder.getPosition()) < 1100) {
-            extensionMotor.set(-0.8);
+     //   if (Math.abs(Math.cos(Math.PI / 180 / getAngle()) *  extensionMotor.encoder.getPosition()) < 1100) {
+     //       extensionMotor.set(-0.8);
+     //   }
+     //   else{
+     //       stopExtension();
+     //   }
+     //   // if (Math.abs(Math.cos(-getAngle() - 64.8466) * extensionMotor.getCurrentPosition())  > 1676)
+
+
+
+        if(Math.abs(extensionMotor.getCurrentPosition()) > 3000){
+            stopExtension();
         }
         else{
-            stopExtension();
-        }
-        // if (Math.abs(Math.cos(-getAngle() - 64.8466) * extensionMotor.getCurrentPosition())  > 1676)
-
-        if(Math.abs(extensionMotor.getCurrentPosition()) > 2000){
-            stopExtension();
+            extensionMotor.setPower(0.8);
         }
 
 
@@ -90,8 +95,8 @@ public class Arm {
     // }
 
     public void retract() {
-        if (Math.abs(extensionMotor.getCurrentPosition()) >= 0) {
-            extensionMotor.set(0.8);
+        if (extensionMotor.getCurrentPosition() >= 0) {
+            extensionMotor.setPower(-0.8);
         }
     }
 
@@ -124,7 +129,8 @@ public class Arm {
     }
 
     public void resetEncoder(){
-        extensionMotor.encoder.reset();
+        extensionMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        extensionMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);;
     }
 
     public void resetEncoderTeleOp(){
@@ -140,7 +146,7 @@ public class Arm {
         resetEncoderTeleOp();
     }
 
-    public Motor getExtensionMotor(){
+    public DcMotorEx getExtensionMotor(){
         return extensionMotor;
     }
 //    public void setArmAngle(int position) {
