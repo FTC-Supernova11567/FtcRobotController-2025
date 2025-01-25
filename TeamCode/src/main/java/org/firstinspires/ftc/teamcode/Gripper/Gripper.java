@@ -37,49 +37,43 @@ public class Gripper {
         return gripperAngleServo.getAngle();
     }
 
-    public void spinForward() {
-        gripperCatcherServo.set(1);
+    public void catcher() {
+       if (catcherGamepad.right_trigger!=0) {
+           gripperCatcherServo.set(1);
+       } else if (catcherGamepad.left_trigger!=0) {
+           gripperCatcherServo.set(-1);
+       }
+    else {
+        gripperCatcherServo.set(0);
+       }
     }
 
-    public void spinBackward() {
-        gripperCatcherServo.set(-1);
-    }
+
+    //public void collectAngleRightstickY() {
+    //    if (gripperGamepad.right_stick_y < 0) {
+    //        turnToCollect();
+    //    }
+    //}
+
+   // public void outtakeAngleRightstickY() {
+   //     if (gripperGamepad.right_stick_y > 0) {
+   //         turnToOuttake();
+   //     }
+   //}
+
+    //public void turnAForward() {
+    //    if (catcherGamepad.right_trigger != 0) {
+    //        catcher();
+    //    }
+    //    if(catcherGamepad.right_trigger == 0){
+    //        stopCatcher();
+    //    }
+    //}
+
+    //public void turnBBackwards() {
 
     public void stopCatcher(){
-        if (catcherGamepad.x){
 
-            gripperCatcherServo.set(0);
-        }
-    }
-
-//    public void collectAngleRightstickY() {
-//        if (gripperGamepad.right_stick_y < 0) {
-//            turnToCollect();
-//        }
-//    }
-
-//    public void outtakeAngleRightstickY() {
-//        if (gripperGamepad.right_stick_y > 0) {
-//            turnToOuttake();
-//        }
-//    }
-
-    public void turnAForward() {
-        if (catcherGamepad.a) {
-            spinForward();
-        }
-        else{
-            stopCatcher();
-        }
-    }
-
-    public void turnBBackwards() {
-        if (catcherGamepad.b) {
-            spinBackward();
-        }
-        else {
-            stopCatcher();
-        }
     }
 
     public void angleJoystick() {
@@ -97,14 +91,14 @@ public class Gripper {
 
 
 
-    public void buttonControl() {
-        turnAForward();
-        turnBBackwards();
-    }
+    //public void buttonControl() {
+    //    turnAForward();
+    //    turnBBackwards();
+    //}
 
     public void gripperControl() {
-        angleJoystick();
-        buttonControl();
+       angleJoystick();
+        catcher();
     }
 
 
