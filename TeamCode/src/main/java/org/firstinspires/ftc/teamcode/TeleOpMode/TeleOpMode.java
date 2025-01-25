@@ -4,6 +4,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.Arm.Arm;
 import org.firstinspires.ftc.teamcode.DriveTrain.MecanumDrive;
@@ -42,11 +43,11 @@ public class TeleOpMode extends OpMode {
 //        telemetry.addData("left stick y", gamepad2.left_stick_y);
 //        telemetry.addData("gripper direction", myGripper.getDirection() );
         telemetry.addData("Pose", -arm.getAngle());
-        telemetry.addData("Extension", Math.abs(arm.getExtend()));
+        telemetry.addData("Extension", arm.getExtend());
         telemetry.addData("Check Cos", Math.cos(0));
-        telemetry.addData("CosAngle", Math.cos(-arm.getAngle()));
-        telemetry.addData("ArcCosAngle", Math.acos(Math.cos(-arm.getAngle())));
-        telemetry.addData("ExCalc", Math.abs(Math.cos(-arm.getAngle())) * arm.getExtensionMotor().encoder.getPosition());
+        telemetry.addData("CosAngle", Math.cos(Math.toRadians(-arm.getAngle())));
+        telemetry.addData("ArcCosAngle", Math.acos(Math.cos(Math.toRadians(-arm.getAngle()))));
+       // telemetry.addData("ExCalc", Math.abs(Math.cos(-arm.getAngle())) * arm.getExtensionMotor().encoder.getPosition());
 
     }
 }
