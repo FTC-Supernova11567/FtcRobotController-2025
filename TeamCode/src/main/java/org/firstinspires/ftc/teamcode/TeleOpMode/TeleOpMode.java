@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Arm.Arm;
 import org.firstinspires.ftc.teamcode.DriveTrain.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Gripper.Gripper;
@@ -48,6 +49,7 @@ public class TeleOpMode extends OpMode {
         telemetry.addData("CosAngle", Math.cos(Math.toRadians(-arm.getAngle())));
         telemetry.addData("ArcCosAngle", Math.acos(Math.cos(Math.toRadians(-arm.getAngle()))));
        // telemetry.addData("ExCalc", Math.abs(Math.cos(-arm.getAngle())) * arm.getExtensionMotor().encoder.getPosition());
-
+        telemetry.addData("extension current", arm.getExtensionMotor().getCurrent(CurrentUnit.MILLIAMPS));
+        telemetry.addData("average extension", arm.getAverage(300));
     }
 }

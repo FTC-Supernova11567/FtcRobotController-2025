@@ -13,6 +13,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 public class Arm {
     private final DcMotorEx extensionMotor;
@@ -116,6 +117,7 @@ public class Arm {
         rightTriggerExtend();
         rightBumperRetract();
         stopTeleop();
+        AutoResetEncoder();
     }
 
     public void dpadAngle() {
@@ -131,6 +133,12 @@ public class Arm {
     public void resetEncoder(){
         extensionMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         extensionMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);;
+    }
+
+    public void AutoResetEncoder(){
+        if(extensionMotor.getCurrent(CurrentUnit.MILLIAMPS) > 20){
+            resetEncoder();
+        }
     }
 
     public void resetEncoderTeleOp(){
@@ -164,6 +172,16 @@ public class Arm {
     }
     public int getExtend(){
         return extensionMotor.getCurrentPosition();
+    }
+
+    public double getAverage(int count){
+        double average = extensionMotor.getCurrent(CurrentUnit.MILLIAMPS);
+        if(count >= 0){
+            average += extensionMotor.getCurrent(CurrentUnit.MILLIAMPS);
+            count --;
+        }
+        average /= count;
+        return average;
     }
 }
 
