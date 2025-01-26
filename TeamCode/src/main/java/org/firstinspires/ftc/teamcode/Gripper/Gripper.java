@@ -38,12 +38,13 @@ public class Gripper {
     }
 
     public void catcher() {
-       if (catcherGamepad.right_trigger!=0) {
+       if (catcherGamepad.right_trigger != 0) {
            gripperCatcherServo.set(1);
-       } else if (catcherGamepad.left_trigger!=0) {
+       }
+       if (catcherGamepad.left_trigger != 0) {
            gripperCatcherServo.set(-1);
        }
-    else {
+       if (catcherGamepad.left_trigger == 0 && catcherGamepad.right_trigger == 0){
         gripperCatcherServo.set(0);
        }
     }
