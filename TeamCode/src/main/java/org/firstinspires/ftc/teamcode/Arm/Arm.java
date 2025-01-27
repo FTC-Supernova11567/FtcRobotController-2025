@@ -32,7 +32,7 @@ public class Arm {
         extensionMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         //extensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         extensionMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-
+        extensionMotor.setCurrentAlert(2500, CurrentUnit.MILLIAMPS);
         //TODO: PID management
 
         angleMotor = hardwareMap.get(DcMotorEx.class, "angleControl");
@@ -58,6 +58,7 @@ public class Arm {
     public void stopExtension() {
         extensionMotor.setPower(0);
     }
+
     public void stopTeleop(){
         if (gamepad.right_bumper==false && gamepad.right_trigger==0){
             stopExtension();
@@ -69,21 +70,27 @@ public class Arm {
     }
 
     public void extend() {
-     //   if (Math.abs(Math.cos(Math.PI / 180 / getAngle()) *  extensionMotor.encoder.getPosition()) < 1100) {
-     //       extensionMotor.set(-0.8);
-     //   }
-     //   else{
-     //       stopExtension();
-     //   }
-     //   // if (Math.abs(Math.cos(-getAngle() - 64.8466) * extensionMotor.getCurrentPosition())  > 1676)
+//        if (Math.abs(Math.cos(Math.PI / 180 / getAngle()) *  extensionMotor.getCurrentPosition()) < 1100) {
+//            extensionMotor.setPower(-0.8);
+//        }
+//        else{
+//            stopExtension();
+//        }
+//      if (Math.abs(Math.cos(-getAngle() - 64.8466) * extensionMotor.getCurrentPosition())  > 1676)
 
-
-
-        if(Math.abs(extensionMotor.getCurrentPosition()) > 3000){
+        if(Math.cos(Math.toRadians(getAngle())) * extensionMotor.getCurrentPosition() < 1676) {
+            extensionMotor.setPower(0.8);
+        } else{
             stopExtension();
         }
-        else{
-            extensionMotor.setPower(0.8);
+
+
+
+        if(Math.cos(getAngle()*extensionMotor.getCurrentPosition())<1676){
+          extensionMotor.setPower(0.8);
+        } else if (Math.cos(getAngle()*extensionMotor.getCurrentPosition())>1676) {
+            stopExtension();
+
         }
 
 
@@ -96,28 +103,30 @@ public class Arm {
     // }
 
     public void retract() {
-        if (extensionMotor.getCurrentPosition() >= 0) {
-            extensionMotor.setPower(-0.8);
-        }
+        extensionMotor.setPower(-0.8);
     }
 
     public void rightBumperRetract() {
         if (gamepad.right_bumper) {
             retract();
+        }else if(gamepad.right_trigger == 0){
+            stopExtension();
         }
     }
 
     public void rightTriggerExtend() {
         if (gamepad.right_trigger != 0) {
             extend();
+        }else if(!gamepad.right_bumper){
+            stopExtension();
         }
     }
 
     public void extensionButtonControl() {
         rightTriggerExtend();
         rightBumperRetract();
-        stopTeleop();
-        AutoResetEncoder();
+        //stopTeleop();
+        //AutoResetEncoder();
     }
 
     public void dpadAngle() {
@@ -134,12 +143,12 @@ public class Arm {
         extensionMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         extensionMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);;
     }
-
-    public void AutoResetEncoder(){
-        if(extensionMotor.getCurrent(CurrentUnit.MILLIAMPS) > 20){
-            resetEncoder();
-        }
-    }
+//
+//    public void AutoResetEncoder(){
+//        if(extensionMotor.isOverCurrent()){
+//            resetEncoder();
+//        }
+//    }
 
     public void resetEncoderTeleOp(){
         if (gamepad.y){
@@ -152,6 +161,7 @@ public class Arm {
         extensionButtonControl();
         dpadAngle();
         resetEncoderTeleOp();
+        //AutoResetEncoder();
     }
 
     public DcMotorEx getExtensionMotor(){
@@ -172,6 +182,14 @@ public class Arm {
     }
     public int getExtend(){
         return extensionMotor.getCurrentPosition();
+    }
+
+    public double getExtensionCurrent(double average, int count){
+        double sum = average * count;
+        sum += extensionMotor.getCurrent(CurrentUnit.MILLIAMPS);
+        count++;
+        average = sum/count;
+        return average;
     }
 
     public double getAverage(int count){
