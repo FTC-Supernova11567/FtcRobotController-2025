@@ -78,22 +78,21 @@ public class Arm {
 //        }
 //      if (Math.abs(Math.cos(-getAngle() - 64.8466) * extensionMotor.getCurrentPosition())  > 1676)
 
-        if(Math.cos(Math.toRadians(getAngle())) * extensionMotor.getCurrentPosition() < 1676) {
-            extensionMotor.setPower(0.8);
-        } else{
-            stopExtension();
-        }
+//        if(Math.cos(Math.toRadians(getAngle())) * extensionMotor.getCurrentPosition() < 1676) {
+//            extensionMotor.setPower(0.8);
+//        } else if (Math.cos(Math.toRadians(getAngle()))* extensionMotor.getCurrentPosition() > 1676){
+//            stopExtension();
+//        }
+
+        extensionMotor.setPower(0.8);
 
 
-
-        if(Math.cos(getAngle()*extensionMotor.getCurrentPosition())<1676){
-          extensionMotor.setPower(0.8);
-        } else if (Math.cos(getAngle()*extensionMotor.getCurrentPosition())>1676) {
-            stopExtension();
-
-        }
-
-
+//        if(Math.cos(getAngle()*extensionMotor.getCurrentPosition())<1676){
+//          extensionMotor.setPower(0.8);
+//        } else if (Math.cos(getAngle()*extensionMotor.getCurrentPosition())>1676) {
+//            stopExtension();
+//
+//        }
     }
 
     // public void reset(){
