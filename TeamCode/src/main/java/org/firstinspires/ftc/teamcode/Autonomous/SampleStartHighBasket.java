@@ -65,11 +65,28 @@ public class SampleStartHighBasket extends LinearOpMode {
        }
 
        while(getRuntime()>9.8 && getRuntime()<10.6){
-           mecanum.rotateLeft();
+           gripper.spinBackward();
        }
 
        while (getRuntime()>10.6 && getRuntime()<11){
            mecanum.rotateRight();
+       }
+
+       while (getRuntime()>11 &&getRuntime()<12){
+          mecanum.forward();
+          arm.extend();
+       }
+
+       while(getRuntime()>12&& getRuntime()<13){
+           arm.extend();
+       }
+
+       while (getRuntime()>13 && getRuntime()<14){
+           gripper.spinForward();
+       }
+
+       while (getRuntime()>14 &&getRuntime()<15){
+           mecanum.forward();
        }
 
 
