@@ -70,13 +70,13 @@ public class Arm {
     }
 
     public void extend() {
-//        if (Math.abs(Math.cos(Math.PI / 180 / getAngle()) *  extensionMotor.getCurrentPosition()) < 1100) {
-//            extensionMotor.setPower(-0.8);
-//        }
-//        else{
-//            stopExtension();
-//        }
-//      if (Math.abs(Math.cos(-getAngle() - 64.8466) * extensionMotor.getCurrentPosition())  > 1676)
+        if (Math.abs(Math.cos(Math.toRadians(-getAngle() - 66 )) *  extensionMotor.getCurrentPosition()) < 1100) {
+            extensionMotor.setPower(0.8);
+        }
+        else if (Math.abs(Math.cos(Math.toRadians(-getAngle() - 66)) *  extensionMotor.getCurrentPosition()) >= 1100){
+            stopExtension();
+        }
+        // if (Math.abs(Math.cos(-getAngle() - 64.8466) * extensionMotor.getCurrentPosition())  > 1676)
 
 //        if(Math.cos(Math.toRadians(getAngle())) * extensionMotor.getCurrentPosition() < 1676) {
 //            extensionMotor.setPower(0.8);
@@ -84,7 +84,7 @@ public class Arm {
 //            stopExtension();
 //        }
 
-        extensionMotor.setPower(0.8);
+        // extensionMotor.setPower(0.8);
 
 
 //        if(Math.cos(getAngle()*extensionMotor.getCurrentPosition())<1676){
