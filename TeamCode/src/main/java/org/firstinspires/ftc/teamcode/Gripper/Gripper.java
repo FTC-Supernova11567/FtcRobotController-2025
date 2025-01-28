@@ -18,20 +18,20 @@ public class Gripper {
 
     public Gripper(HardwareMap constHardwareMap, Gamepad constCatcherGamepad, Gamepad constAngleGamepad) {
         gripperCatcherServo = new CRServo(constHardwareMap, "catcher");
-        gripperAngleServo = new SimpleServo(constHardwareMap, "angle", 180 , 225, AngleUnit.DEGREES);
+        gripperAngleServo = new SimpleServo(constHardwareMap, "angle", 180 , 220, AngleUnit.DEGREES);
 
         catcherGamepad = constCatcherGamepad;
         angleGamepad = constAngleGamepad;
 
     }
 
-    public void turnToCollect() {
-        gripperAngleServo.turnToAngle(215);
-    }
-
-    public void turnToOuttake() {
-        gripperAngleServo.turnToAngle(225);
-    }
+//    public void turnToCollect() {
+//        gripperAngleServo.turnToAngle(215);
+//    }
+//
+//    public void turnToOuttake() {
+//        gripperAngleServo.turnToAngle(225);
+//    }
 
     public double getAngle() {
         return gripperAngleServo.getAngle();
@@ -73,17 +73,13 @@ public class Gripper {
 
     //public void turnBBackwards() {
 
-    public void stopCatcher(){
-
-    }
-
     public void angleJoystick() {
         if (angleGamepad.right_stick_y < 0){
-            gripperAngleServo.setPosition(gripperAngleServo.getPosition() - 0.001);
+            gripperAngleServo.setPosition(gripperAngleServo.getPosition() - 0.0025);
         }else if(angleGamepad.right_stick_y > 0){
-            gripperAngleServo.setPosition(gripperAngleServo.getPosition() + 0.001);
+            gripperAngleServo.setPosition(gripperAngleServo.getPosition() + 0.0025);
         }
-        else{
+        else if (angleGamepad.right_stick_y == 0){
             gripperAngleServo.rotateBy(0);
         }
 
@@ -99,7 +95,7 @@ public class Gripper {
 
     public void gripperControl() {
        angleJoystick();
-        catcher();
+       catcher();
     }
 
 
