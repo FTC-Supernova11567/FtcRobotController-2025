@@ -20,7 +20,8 @@ public class SystemBasedOpMode extends OpMode {
     public void loop() {
         telemetry.update();
         mySystem.resetEncoder();
-        mySystem.changeAngle();
+        // mySystem.changeAngle();
+        mySystem.changeLength();
 //        mySystem.setPositionWithXbutton(-2000);
 //        mySystem.setPositionWithBbutton(0);
         mySystem.correctByPID();
