@@ -49,7 +49,7 @@ public class TeleOpMode extends OpMode {
         telemetry.update();
 
         telemetry.addData("Status", "Run Time: " + getRuntime());
-        telemetry.addData("gripper angle", gripper.getAngle());
+        telemetry.addData("gripper angle", gripper.getPosition());
         telemetry.addData("arm angle", -arm.getAngle() - 64);
 //        telemetry.addData("left stick y", gamepad2.left_stick_y);
 //        telemetry.addData("gripper direction", myGripper.getDirection() );
