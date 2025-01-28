@@ -1,39 +1,36 @@
 package org.firstinspires.ftc.teamcode.Examples;
 
-import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class ExampleSystemClass {
-    //Here goes the components of the system.
-//    private final DcMotor myMotor;
+
     private final DcMotorEx PIDMotor;
     private Gamepad gamepad;
 
     // private PIDFController pidfController = new PIDFController(0.5, 0, 0, 0);
 
-    private PIDControl rotationPID = new PIDControl(0.015,0,0.00);
-    private double wnatedPosition = 0;
+    private final PIDControl rotationPID = new PIDControl(0.2, 0.000,0.0015);
+    private double wantedPosition = 0;
 
     //At the default constructor you initialize the motor .
     public ExampleSystemClass(HardwareMap constHardwareMap, Gamepad constGamepad) {
 //        myMotor = constHardwareMap.get(DcMotor.class, "myMotor");
         PIDMotor = constHardwareMap.get(DcMotorEx.class, "PIDMotor");
 
-        PIDMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        PIDMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         PIDMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         gamepad = constGamepad;
     }
 
     public void changeAngle(){
-        PIDMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         if (gamepad.left_stick_y < 0){
-            PIDMotor.setPower(-0.6);
+            PIDMotor.setPower(-0.8);
         }
         else if(gamepad.left_stick_y > 0){
-            PIDMotor.setPower(0.6);
+            PIDMotor.setPower(0.8);
         }
         else if(gamepad.left_stick_y == 0){
             PIDMotor.setPower(0);
@@ -92,33 +89,36 @@ public class ExampleSystemClass {
     void correctByPID(){
 
         if (gamepad.x){
-            wnatedPosition = -2000;
-            double power = rotationPID.calculatePID(-2000, PIDMotor.getCurrentPosition());
-            PIDMotor.setPower(power);
+            wantedPosition = -2500;
+            double power = rotationPID.calculatePID(-2500, PIDMotor.getCurrentPosition());
+            PIDMotor.setPower(Math.max(-0.8, (power / 10)));
         }
         else if (gamepad.b){
-            wnatedPosition = 0;
+            wantedPosition = 0;
             double power = rotationPID.calculatePID(0, PIDMotor.getCurrentPosition());
-            PIDMotor.setPower(power);
+            PIDMotor.setPower(Math.min(0.8, (power / 10)));
         }
     }
 
 
-    void resetEncoder(){
+    public void resetEncoder(){
         if(gamepad.y){
             PIDMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            PIDMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            PIDMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
     }
 
-    double getPose() {
+    public double getPose() {
         return PIDMotor.getCurrentPosition();
     }
 
-    DcMotorEx getMotor(){
+    public DcMotorEx getMotor(){
         return PIDMotor;
     }
-    double getCorrection(){
-        return rotationPID.calculatePID(wnatedPosition, PIDMotor.getCurrentPosition());
+    public double getCorrection(){
+        return rotationPID.calculatePID(wantedPosition, PIDMotor.getCurrentPosition());
+    }
+    public double getWantedPosition(){
+        return wantedPosition;
     }
 }
