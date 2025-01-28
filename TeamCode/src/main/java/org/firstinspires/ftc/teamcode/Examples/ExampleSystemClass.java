@@ -12,7 +12,11 @@ public class ExampleSystemClass {
 
     // private PIDFController pidfController = new PIDFController(0.5, 0, 0, 0);
 
-    private final PIDControl rotationPID = new PIDControl(0.2, 0.000,0.0015);
+    // PID stats for wrist
+    //private final PIDControl rotationPID = new PIDControl(0.2, 0.000,0.0015);
+
+    //PID stats for extension
+    private final PIDControl extensionPID = new PIDControl(0.2, 0.000,0);
     private double wantedPosition = 0;
 
     //At the default constructor you initialize the motor .
@@ -25,12 +29,24 @@ public class ExampleSystemClass {
         gamepad = constGamepad;
     }
 
-    public void changeAngle(){
+//    public void changeAngle(){
+//        if (gamepad.left_stick_y < 0){
+//            PIDMotor.setPower(-0.8);
+//        }
+//        else if(gamepad.left_stick_y > 0){
+//            PIDMotor.setPower(0.8);
+//        }
+//        else if(gamepad.left_stick_y == 0){
+//            PIDMotor.setPower(0);
+//        }
+//    }
+
+    public void changeLength(){
         if (gamepad.left_stick_y < 0){
-            PIDMotor.setPower(-0.8);
+            PIDMotor.setPower(0.8);
         }
         else if(gamepad.left_stick_y > 0){
-            PIDMotor.setPower(0.8);
+            PIDMotor.setPower(-0.8);
         }
         else if(gamepad.left_stick_y == 0){
             PIDMotor.setPower(0);
@@ -89,13 +105,13 @@ public class ExampleSystemClass {
     void correctByPID(){
 
         if (gamepad.x){
-            wantedPosition = -2500;
-            double power = rotationPID.calculatePID(-2500, PIDMotor.getCurrentPosition());
+            wantedPosition = 2500;
+            double power = extensionPID.calculatePID(wantedPosition, PIDMotor.getCurrentPosition());
             PIDMotor.setPower(Math.max(-0.8, (power / 10)));
         }
         else if (gamepad.b){
-            wantedPosition = 0;
-            double power = rotationPID.calculatePID(0, PIDMotor.getCurrentPosition());
+            wantedPosition = 20;
+            double power = extensionPID.calculatePID(wantedPosition, PIDMotor.getCurrentPosition());
             PIDMotor.setPower(Math.min(0.8, (power / 10)));
         }
     }
@@ -116,7 +132,7 @@ public class ExampleSystemClass {
         return PIDMotor;
     }
     public double getCorrection(){
-        return rotationPID.calculatePID(wantedPosition, PIDMotor.getCurrentPosition());
+        return extensionPID.calculatePID(wantedPosition, PIDMotor.getCurrentPosition());
     }
     public double getWantedPosition(){
         return wantedPosition;
