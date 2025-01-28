@@ -13,7 +13,7 @@ public class PickUpSample extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Arm myArm= new Arm(hardwareMap, gamepad2);
-        Gripper myGripper = new Gripper(hardwareMap, gamepad2);
+        Gripper myGripper = new Gripper(hardwareMap, gamepad2, gamepad1);
         MecanumDrive mecanum = new MecanumDrive(hardwareMap, gamepad1);
 
         while (getRuntime()>0&&getRuntime()<5){

@@ -14,7 +14,7 @@ public class SampleStartHighBasket extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Arm arm = new Arm(hardwareMap, gamepad2);
         MecanumDrive mecanum = new MecanumDrive(hardwareMap, gamepad2);
-        Gripper gripper = new Gripper(hardwareMap, gamepad2);
+        Gripper gripper = new Gripper(hardwareMap, gamepad2, gamepad1);
 
         while (getRuntime() > 0 && getRuntime() < 0.9) {
             mecanum.forward();
