@@ -37,15 +37,27 @@ public class Gripper {
         return gripperAngleServo.getAngle();
     }
 
+    public void spinForward(){
+        gripperCatcherServo.set(1);
+    }
+
+    public void spinBackward(){
+        gripperCatcherServo.set(-1);
+    }
+
+    public void stopSpinning(){
+        gripperCatcherServo.set(0);
+    }
+
     public void catcher() {
        if (catcherGamepad.right_trigger != 0) {
-           gripperCatcherServo.set(1);
+           spinForward();
        }
        if (catcherGamepad.left_trigger != 0) {
-           gripperCatcherServo.set(-1);
+           spinBackward();
        }
        if (catcherGamepad.left_trigger == 0 && catcherGamepad.right_trigger == 0){
-        gripperCatcherServo.set(0);
+           stopSpinning();
        }
     }
 
