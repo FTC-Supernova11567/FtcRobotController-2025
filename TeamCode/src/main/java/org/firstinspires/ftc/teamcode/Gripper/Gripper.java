@@ -13,7 +13,6 @@ public class Gripper {
     //    private final ServoEx gripperCatcherServo;
     private final CRServo gripperCatcherServo;
     private final ServoEx gripperAngleServo;
-    private final ServoEx gniyg;
     private Gamepad catcherGamepad;
     private Gamepad angleGamepad;
 
