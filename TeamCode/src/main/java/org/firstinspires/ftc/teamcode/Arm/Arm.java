@@ -20,6 +20,8 @@ public class Arm {
     private final DcMotorEx angleMotor;
     private Gamepad gamepad;
 
+    private double wantedBusketAngle;
+
     //private int wristSetpoint = 0;
     //TODO: PID management
 
@@ -70,10 +72,10 @@ public class Arm {
     }
 
     public void extend() {
-        if (Math.abs(Math.cos(Math.toRadians(-getAngle() - 66 )) *  extensionMotor.getCurrentPosition()) < 1100) {
+        if (Math.abs(Math.cos(Math.toRadians(-getAngle() - 64 )) *  extensionMotor.getCurrentPosition()) < 2500) {
             extensionMotor.setPower(0.8);
         }
-        else if (Math.abs(Math.cos(Math.toRadians(-getAngle() - 66)) *  extensionMotor.getCurrentPosition()) >= 1100){
+        else if (Math.abs(Math.cos(Math.toRadians(-getAngle() - 64)) *  extensionMotor.getCurrentPosition()) >= 2500){
             stopExtension();
         }
         // if (Math.abs(Math.cos(-getAngle() - 64.8466) * extensionMotor.getCurrentPosition())  > 1676)
@@ -138,6 +140,18 @@ public class Arm {
         rightBumperRetract();
         //stopTeleop();
         //AutoResetEncoder();
+    }
+
+    public void setPoints(){
+        if (gamepad.a){
+            wantedBusketAngle = 0;
+        }
+        else if(gamepad.b){
+            wantedBusketAngle = 2000;
+        }
+        else if(gamepad.y){
+            wantedBusketAngle = 2500;
+        }
     }
 
     public void dpadAngle() {
