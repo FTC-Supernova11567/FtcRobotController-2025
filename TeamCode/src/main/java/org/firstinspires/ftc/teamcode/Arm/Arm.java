@@ -102,7 +102,14 @@ public class Arm {
     // }
 
     public void retract() {
-        extensionMotor.setPower(-0.8);
+        if (Math.cos(extensionMotor.getCurrentPosition()) > 50){
+            extensionMotor.setPower(-0.8);
+        }
+        else if (Math.cos(extensionMotor.getCurrentPosition()) < 50) {
+            stopExtension();
+        }
+        // extensionMotor.setPower(-0.8);
+
     }
 
     public void rightBumperRetract() {
