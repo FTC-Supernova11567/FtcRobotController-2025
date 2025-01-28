@@ -102,7 +102,19 @@ public class Arm {
     // }
 
     public void retract() {
-        extensionMotor.setPower(-0.8);
+        if(Math.abs(Math.cos(Math.toRadians(-getAngle()-66))* extensionMotor.getCurrentPosition())>2500){
+            extensionMotor.setPower(-0.8);
+            return;
+        } else if (Math.abs(Math.cos(Math.toRadians(-getAngle()-66))* extensionMotor.getCurrentPosition())<=2500) {
+            extensionMotor.setPower(extensionMotor.getPower());
+        }
+        if (Math.cos(extensionMotor.getCurrentPosition()) >= 50){
+            extensionMotor.setPower(-0.8);
+        }
+        else if (Math.cos(extensionMotor.getCurrentPosition()) < 50) {
+            stopExtension();
+        }
+        // extensionMotor.setPower(-0.8);
     }
 
     public void rightBumperRetract() {
