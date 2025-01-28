@@ -13,12 +13,13 @@ public class Gripper {
     //    private final ServoEx gripperCatcherServo;
     private final CRServo gripperCatcherServo;
     private final ServoEx gripperAngleServo;
+    private final ServoEx gniyg;
     private Gamepad catcherGamepad;
     private Gamepad angleGamepad;
 
     public Gripper(HardwareMap constHardwareMap, Gamepad constCatcherGamepad, Gamepad constAngleGamepad) {
         gripperCatcherServo = new CRServo(constHardwareMap, "catcher");
-        gripperAngleServo = new SimpleServo(constHardwareMap, "angle", 180 , 220, AngleUnit.DEGREES);
+        gripperAngleServo = new SimpleServo(constHardwareMap, "angle", 222 , 223, AngleUnit.DEGREES);
 
         catcherGamepad = constCatcherGamepad;
         angleGamepad = constAngleGamepad;
