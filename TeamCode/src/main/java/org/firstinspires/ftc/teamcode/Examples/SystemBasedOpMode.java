@@ -19,8 +19,12 @@ public class SystemBasedOpMode extends OpMode {
     @Override
     public void loop() {
         telemetry.update();
-        mySystem.setPositionWithXbutton(-2000);
-        mySystem.setPositionWithBbutton(0);
+        mySystem.resetEncoder();
+        mySystem.changeAngle();
+//        mySystem.setPositionWithXbutton(-2000);
+//        mySystem.setPositionWithBbutton(0);
+        mySystem.correctByPID();
         telemetry.addData("Pose", mySystem.getPose());
+        telemetry.addData("correction", mySystem.getCorrection());
     }
 }
