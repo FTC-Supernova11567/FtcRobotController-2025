@@ -104,19 +104,25 @@ public class Arm {
     // }
 
     public void retract() {
-        if(Math.abs(Math.cos(Math.toRadians(-getAngle()-66))* extensionMotor.getCurrentPosition())>2500){
+
+//        if (Math.cos(extensionMotor.getCurrentPosition()) >= 50){
+//            extensionMotor.setPower(-0.8);
+//        }
+//        else if (Math.cos(extensionMotor.getCurrentPosition()) < 50) {
+//            stopExtension();
+//        }
+
             extensionMotor.setPower(-0.8);
-            return;
-        } else if (Math.abs(Math.cos(Math.toRadians(-getAngle()-66))* extensionMotor.getCurrentPosition())<=2500) {
+    }
+
+    public void autoRetract(){
+        if(Math.abs(Math.cos(Math.toRadians(-getAngle()-66)) * extensionMotor.getCurrentPosition()) > 2500){
+            extensionMotor.setPower(-0.8);
+        }
+        else if (Math.abs(Math.cos(Math.toRadians(-getAngle()-66))* extensionMotor.getCurrentPosition())<=2500) {
             extensionMotor.setPower(extensionMotor.getPower());
         }
-        if (Math.cos(extensionMotor.getCurrentPosition()) >= 50){
-            extensionMotor.setPower(-0.8);
-        }
-        else if (Math.cos(extensionMotor.getCurrentPosition()) < 50) {
-            stopExtension();
-        }
-        // extensionMotor.setPower(-0.8);
+
     }
 
     public void rightBumperRetract() {
@@ -136,6 +142,7 @@ public class Arm {
     }
 
     public void extensionButtonControl() {
+        autoRetract();
         rightTriggerExtend();
         rightBumperRetract();
         //stopTeleop();
@@ -181,11 +188,23 @@ public class Arm {
         }
     }
 
+    public void resetAngleEncoder(){
+        angleMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        angleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void resetAngleEncoderTeleop(){
+        if(gamepad.right_stick_button){
+            resetAngleEncoder();
+        }
+    }
+
 
     public void armControl() {
         extensionButtonControl();
         dpadAngle();
         resetEncoderTeleOp();
+        resetAngleEncoderTeleop();
         //AutoResetEncoder();
     }
 
