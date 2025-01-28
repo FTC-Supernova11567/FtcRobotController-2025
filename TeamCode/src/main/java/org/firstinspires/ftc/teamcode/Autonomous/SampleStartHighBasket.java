@@ -52,17 +52,16 @@ public class SampleStartHighBasket extends LinearOpMode {
             //gripper.spinBackward();
 
         }
+//todo: first part of autonomus ends here.
+        //todo: dont use the gripper and the arm darg the parts from now!
 
         while (getRuntime() > 8 && getRuntime() < 9.4) {
             mecanum.backward();
-            //arm.retract();
-            //arm.angleDown();
-            //gripper.spinBackward();
             mecanum.stop();
         }
 
         while (getRuntime() > 9.4 && getRuntime() < 9.7) {
-            //  arm.angleDown();
+
             mecanum.rotateRight();
             mecanum.stop();
 
