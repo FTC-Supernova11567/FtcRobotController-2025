@@ -24,7 +24,10 @@ public class SystemBasedOpMode extends OpMode {
 //        mySystem.setPositionWithXbutton(-2000);
 //        mySystem.setPositionWithBbutton(0);
         mySystem.correctByPID();
-        telemetry.addData("Pose", mySystem.getPose());
-        telemetry.addData("correction", mySystem.getCorrection());
+        telemetry.addData("Current pose", mySystem.getPose());
+        telemetry.addData("Wanted position", mySystem.getWantedPosition());
+        telemetry.addData("Motor power", mySystem.getMotor().getPower());
+        telemetry.addData("Correction", mySystem.getCorrection());
+        telemetry.addData("Actual value into motor", mySystem.getCorrection() / 10);
     }
 }
