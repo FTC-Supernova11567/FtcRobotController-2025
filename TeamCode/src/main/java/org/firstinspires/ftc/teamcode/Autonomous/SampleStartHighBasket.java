@@ -33,23 +33,23 @@ public class SampleStartHighBasket extends LinearOpMode {
 
         while (getRuntime() > 2.2 && getRuntime() < 3.3) {
             mecanum.forward();
-            //  arm.angleUp();
+            arm.angleUp();
         }
 
         while (getRuntime() > 3.3 && getRuntime() < 4) {
             mecanum.stop();
-            //   arm.angleUp();
+            arm.angleUp();
         }
 
         while (getRuntime() > 4 && getRuntime() < 6.1) {
-            //arm.stopAngle();
-            // arm.extend();
+             arm.stopAngle();
+             arm.extend();
         }
 
         while (getRuntime() > 6.1 && getRuntime() < 8) {
-            // arm.stopExtension();
-            //gripper.turnAForward();
-            //gripper.spinBackward();
+            arm.stopExtension();
+            gripper.spinForward();
+            gripper.spinBackward();
 
         }
 //todo: first part of autonomus ends here.
@@ -57,12 +57,15 @@ public class SampleStartHighBasket extends LinearOpMode {
 
         while (getRuntime() > 8 && getRuntime() < 9.4) {
             mecanum.backward();
+            arm.angleDown();
+            arm.retract();
             mecanum.stop();
         }
 
         while (getRuntime() > 9.4 && getRuntime() < 9.7) {
-
             mecanum.rotateRight();
+            arm.stopAngle();
+            arm.stopExtension();
             mecanum.stop();
 
         }
@@ -72,51 +75,60 @@ public class SampleStartHighBasket extends LinearOpMode {
             mecanum.stop();
         }
 
-        while (getRuntime() > 11.2 && getRuntime() < 12) {
-
+        while (getRuntime() > 11.2 && getRuntime() < 11.5) {
+        mecanum.backward();
         }
 
-        while (getRuntime() > 12 && getRuntime() < 14) {
-            mecanum.left();
-            //arm.extend();
+        while (getRuntime() > 12 && getRuntime() < 13) {
+            mecanum.rotateRight();
             mecanum.stop();
         }
 
-        while (getRuntime() > 13.6 && getRuntime() < 15) {
+        while (getRuntime() > 13 && getRuntime() < 13.5) {
             mecanum.forward();
             mecanum.stop();
         }
 
-        while (getRuntime() > 15 && getRuntime() < 15.5) {
+        while (getRuntime() > 13.5 && getRuntime() < 14) {
             mecanum.rotateLeft();
-            mecanum.forward();
             mecanum.stop();
        }
-            while (getRuntime() > 15.5 && getRuntime() < 17) {
-////           arm.angleUp();
-////           arm.extend();
-////           gripper.spinForward();
+            while (getRuntime() > 14 && getRuntime() < 15.5) {
+            mecanum.forward();
             }
 
             while (getRuntime() > 17 && getRuntime() < 18.5) {
                 mecanum.backward();
                 mecanum.stop();
             }
-            while (getRuntime() > 18.5 && getRuntime() < 19) {
-                mecanum.rotateRight();
-                //arm.angleDown();
+            while (getRuntime() > 18.5 && getRuntime() < 19.5) {
+                mecanum.backward();
                 mecanum.stop();
             }
 
-            while (getRuntime() > 19 && getRuntime() < 19.8) {
-                // arm.extend();
-                //   gripper.spinBackward();
+            while (getRuntime() > 19.5 && getRuntime() < 19.8) {
+                mecanum.rotateRight();
+                mecanum.stop();
+            }
+
+            while (getRuntime()>19.5&&getRuntime()<20.5){
                 mecanum.forward();
                 mecanum.stop();
             }
 
-            while (getRuntime()>19.8&&getRuntime()<21){
-                //gripper.spinBackward();
+            while(getRuntime()>20.5 && getRuntime()<21){
+                mecanum.rotateRight();
+            }
+            while(getRuntime()>21 && getRuntime()<21.3){
+                mecanum.right();
+            }
+
+            while(getRuntime()>21.3 && getRuntime()<22){
+                mecanum.forward();
+            }
+
+            while(getRuntime()>22 && getRuntime()<22.5){
+                mecanum.backward();
             }
 
 
