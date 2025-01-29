@@ -119,16 +119,20 @@ public class Arm {
         if(Math.abs(Math.cos(Math.toRadians(-getAngle()-66)) * extensionMotor.getCurrentPosition()) > 2500){
             extensionMotor.setPower(-0.8);
         }
-        else if (Math.abs(Math.cos(Math.toRadians(-getAngle()-66))* extensionMotor.getCurrentPosition())<=2500) {
-            extensionMotor.setPower(extensionMotor.getPower());
-        }
+//        else if (Math.abs(Math.cos(Math.toRadians(-getAngle()-66))* extensionMotor.getCurrentPosition())<=2500) {
+//            extensionMotor.setPower(extensionMotor.getPower());
+//        }
 
     }
 
     public void rightBumperRetract() {
-        if (gamepad.right_bumper) {
+        if(Math.abs(Math.cos(Math.toRadians(-getAngle()-66)) * extensionMotor.getCurrentPosition()) > 2500){
+            extensionMotor.setPower(-0.8);
+        }
+        else if (gamepad.right_bumper) {
             retract();
-        }else if(gamepad.right_trigger == 0){
+        }
+        else if(!gamepad.right_bumper && gamepad.right_trigger == 0){
             stopExtension();
         }
     }
@@ -136,13 +140,13 @@ public class Arm {
     public void rightTriggerExtend() {
         if (gamepad.right_trigger != 0) {
             extend();
-        }else if(!gamepad.right_bumper){
+        }else if(gamepad.right_trigger == 0 && gamepad.right_bumper){
             stopExtension();
         }
     }
 
     public void extensionButtonControl() {
-        autoRetract();
+        // autoRetract();
         rightTriggerExtend();
         rightBumperRetract();
         //stopTeleop();
