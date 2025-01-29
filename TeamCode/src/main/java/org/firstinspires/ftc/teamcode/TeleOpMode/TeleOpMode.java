@@ -61,6 +61,7 @@ public class TeleOpMode extends OpMode {
         telemetry.addData("CosAngle", Math.cos(Math.toRadians(-arm.getAngle() - 64)));
         telemetry.addData("ArcCosAngle", Math.acos(Math.toRadians(-arm.getAngle() - 64)) *  arm.getExtensionMotor().getCurrentPosition());
         telemetry.addData("ExCalc", Math.cos(Math.toRadians(-arm.getAngle() - 64)) *  arm.getExtensionMotor().getCurrentPosition());
+        telemetry.addData("extension busy?", arm.getExtensionMotor().isMotorEnabled());
         // telemetry.addData("extension current", arm.getExtensionMotor().getCurrent(CurrentUnit.MILLIAMPS));
         // telemetry.addData("average extension", arm.getAverage(300));
         // telemetry.addData("Extension avg current", arm.getExtensionMotor().isOverCurrent());
