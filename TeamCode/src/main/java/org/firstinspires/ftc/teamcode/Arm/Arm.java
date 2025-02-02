@@ -191,7 +191,7 @@ public class Arm {
 
 
     public void stopArmMovment(){
-        if(extensionMotor.getCurrentPosition()<2000){
+        if(extensionMotor.getCurrentPosition()<4000){
             stopExtension();    
         }
     }
