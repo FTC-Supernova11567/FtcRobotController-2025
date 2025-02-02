@@ -31,10 +31,10 @@ public class MecanumDrive {
     }
 
     public void rotateLeft() {
-        frontRight.setPower(0.8);
-        backRight.setPower(0.8);
-        frontLeft.setPower(-0.8);
-        backLeft.setPower(-0.8);
+        frontRight.setPower(0.6);
+        backRight.setPower(0.6);
+        frontLeft.setPower(-0.6);
+        backLeft.setPower(-0.6);
     }
 
 
@@ -45,10 +45,10 @@ public class MecanumDrive {
     }
 
     public void rotateRight() {
-        frontRight.setPower(-0.8);
-        backRight.setPower(-0.8);
-        frontLeft.setPower(0.8);
-        backLeft.setPower(0.8);
+        frontRight.setPower(-6);
+        backRight.setPower(-0.6);
+        frontLeft.setPower(0.6);
+        backLeft.setPower(0.6);
     }
 
 
@@ -59,10 +59,10 @@ public class MecanumDrive {
     }
 
     public void diagonalFrontLeft() {
-        frontRight.setPower(0.8);
+        frontRight.setPower(6);
         backRight.setPower(0);
         frontLeft.setPower(0);
-        backLeft.setPower(0.8);
+        backLeft.setPower(0.6);
     }
 
 
@@ -73,10 +73,10 @@ public class MecanumDrive {
     }
 
     public void forward() {
-        frontRight.setPower(0.8);
-        backRight.setPower(0.8);
-        frontLeft.setPower(0.8);
-        backLeft.setPower(0.8);
+        frontRight.setPower(0.6);
+        backRight.setPower(0.6);
+        frontLeft.setPower(0.6);
+        backLeft.setPower(0.6);
     }
 
 
@@ -88,8 +88,8 @@ public class MecanumDrive {
 
     public void diagonalFrontRight() {
         frontRight.setPower(0);
-        backRight.setPower(0.8);
-        frontLeft.setPower(0.8);
+        backRight.setPower(0.6);
+        frontLeft.setPower(0.6);
         backLeft.setPower(0);
     }
 
@@ -101,10 +101,10 @@ public class MecanumDrive {
     }
 
     public void right() {
-        frontRight.setPower(-0.8);
-        backRight.setPower(0.8);
-        frontLeft.setPower(0.8);
-        backLeft.setPower(-0.8);
+        frontRight.setPower(-0.45);
+        backRight.setPower(0.45);
+        frontLeft.setPower(0.6);
+        backLeft.setPower(-0.6);
     }
 
 
@@ -115,10 +115,10 @@ public class MecanumDrive {
     }
 
     public void diagonalBackRight() {
-        frontRight.setPower(-0.8);
+        frontRight.setPower(-0.6);
         backRight.setPower(0);
         frontLeft.setPower(0);
-        backLeft.setPower(-0.8);
+        backLeft.setPower(-0.6);
     }
 
 
@@ -129,10 +129,10 @@ public class MecanumDrive {
     }
 
     public void backward() {
-        frontRight.setPower(-0.8);
-        backRight.setPower(-0.8);
-        frontLeft.setPower(-0.8);
-        backLeft.setPower(-0.8);
+        frontRight.setPower(-6);
+        backRight.setPower(-0.6);
+        frontLeft.setPower(-0.6);
+        backLeft.setPower(-0.6);
     }
 
 
@@ -144,8 +144,8 @@ public class MecanumDrive {
 
     public void diagonalBackLeft() {
         frontRight.setPower(0);
-        backRight.setPower(-0.8);
-        frontLeft.setPower(-0.8);
+        backRight.setPower(-0.6);
+        frontLeft.setPower(-0.6);
         backLeft.setPower(0);
     }
 
@@ -158,10 +158,10 @@ public class MecanumDrive {
     }
 
     public void left() {
-        frontRight.setPower(0.8);
-        backRight.setPower(-0.8);
-        frontLeft.setPower(-0.8);
-        backLeft.setPower(0.8);
+        frontRight.setPower(0.6);
+        backRight.setPower(-0.6);
+        frontLeft.setPower(-0.6);
+        backLeft.setPower(0.6);
     }
 
 
@@ -196,5 +196,6 @@ public class MecanumDrive {
         rotateRightTeleOp();
 
         stopTeleOp();
+
     }
 }
