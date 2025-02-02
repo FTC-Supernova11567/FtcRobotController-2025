@@ -18,8 +18,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 public class Arm {
     private final DcMotorEx extensionMotor;
     private final DcMotorEx angleMotor;
-    private Gamepad gamepad;
 
+    private Gamepad gamepad;
     private double wantedBusketAngle;
 
     //private int wristSetpoint = 0;
@@ -50,10 +50,13 @@ public class Arm {
     }
 
     public void angleDown() {
-        angleMotor.setPower(0.6);
+        angleMotor.setPower(0.7);
     }
 
     public void angleUp() {
+        if (-angleMotor.getCurrentPosition() >= 3600){
+            return;
+        }
         angleMotor.setPower(-0.6);
     }
 
@@ -61,17 +64,22 @@ public class Arm {
         extensionMotor.setPower(0);
     }
 
+
     public void stopTeleop(){
         if (gamepad.right_bumper==false && gamepad.right_trigger==0){
             stopExtension();
         }
     }
 
+
     public void stopAngle() {
         angleMotor.setPower(0);
     }
 
     public void extend() {
+        if (-angleMotor.getCurrentPosition() >= 3600){
+            return;
+        }
         if (Math.abs(Math.cos(Math.toRadians(-getAngle() - 64 )) *  extensionMotor.getCurrentPosition()) < 2500) {
             extensionMotor.setPower(0.8);
         }
@@ -85,6 +93,7 @@ public class Arm {
 //        } else if (Math.cos(Math.toRadians(getAngle()))* extensionMotor.getCurrentPosition() > 1676){
 //            stopExtension();
 //        }
+
 
         // extensionMotor.setPower(0.8);
 
@@ -215,7 +224,8 @@ public class Arm {
     public DcMotorEx getExtensionMotor(){
         return extensionMotor;
     }
-//    public void setArmAngle(int position) {
+//    public void setArmAngle(int position) {]
+
 //        wristSetpoint = position;
 //    }
 //
@@ -230,6 +240,9 @@ public class Arm {
     }
     public int getExtend(){
         return extensionMotor.getCurrentPosition();
+    }
+    public DcMotorEx getAngleMotor(){
+        return angleMotor;
     }
 
     public double getExtensionCurrent(double average, int count){
