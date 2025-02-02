@@ -45,7 +45,7 @@ public class MecanumDrive {
     }
 
     public void rotateRight() {
-        frontRight.setPower(-6);
+        frontRight.setPower(-0.6);
         backRight.setPower(-0.6);
         frontLeft.setPower(0.6);
         backLeft.setPower(0.6);
