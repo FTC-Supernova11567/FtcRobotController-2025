@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Gripper.Gripper;
 public class AutonomousMecanum extends LinearOpMode {
     MecanumDrive mecanum = new MecanumDrive(hardwareMap, gamepad1);
     Arm arm = new Arm(hardwareMap, gamepad1);
-    Gripper gripper = new Gripper(hardwareMap, gamepad1);
+    Gripper gripper = new Gripper(hardwareMap, gamepad1, gamepad2);
 
 
     @Override
@@ -23,9 +23,6 @@ public class AutonomousMecanum extends LinearOpMode {
         while(getRuntime() <= 1.5 && getRuntime() >= 0.5){
             mecanum.rotateLeft();
         }
-        while(getRuntime() <= 4.5 && ){
-            mecanum.forward();
-        }
         while(getRuntime() <= 0.5){
             mecanum.forward();
         }
@@ -35,26 +32,17 @@ public class AutonomousMecanum extends LinearOpMode {
         while(getRuntime() <= 4.5){
             mecanum.forward();
         }
-        while(getRuntime() <= 4.5){
-            arm.stopExtension();
-        }
         while(getRuntime() <= 5.5){
-            arm.extension();
+            arm.extend();
         }
         while(getRuntime() <= 7){
             arm.stopExtension();
         }
         while(getRuntime() <= 7.5){
-            gripper.
-        }
-        while(getRuntime() <= 8.5){
-            arm.extension();
+            gripper.spinBackward();
         }
         while(getRuntime() <= 10){
             mecanum.forward();
-        }
-        while(getRuntime() <= 11){
-            mecanum.right();
         }
 
     }
