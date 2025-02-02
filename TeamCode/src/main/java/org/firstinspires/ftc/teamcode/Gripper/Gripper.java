@@ -5,7 +5,6 @@ import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 
@@ -19,7 +18,7 @@ public class Gripper {
 
     public Gripper(HardwareMap constHardwareMap, Gamepad constCatcherGamepad, Gamepad constAngleGamepad) {
         gripperCatcherServo = new CRServo(constHardwareMap, "catcher");
-        gripperAngleServo = new SimpleServo(constHardwareMap, "angle", -30 , 50, AngleUnit.DEGREES);
+        gripperAngleServo = new SimpleServo(constHardwareMap, "angle", 30 , 50, AngleUnit.DEGREES);
 
         catcherGamepad = constCatcherGamepad;
         angleGamepad = constAngleGamepad;
@@ -88,14 +87,25 @@ public class Gripper {
 
     public void angleJoystick() {
         if (angleGamepad.right_stick_y < 0){
-            gripperAngleServo.rotateBy(0.1);
+            gripperAngleServo.rotateBy(-0.03);
         }else if(angleGamepad.right_stick_y > 0){
-            gripperAngleServo.rotateBy(-0.1);
+            gripperAngleServo.rotateBy(0.03);
         }
         else if (angleGamepad.right_stick_y == 0){
             gripperAngleServo.rotateBy(0);
         }
 
+    }
+    public void angleRoatateUp(){
+        gripperAngleServo.rotateBy(0.03);
+    }
+
+    public void angleRoataeDown(){
+        gripperAngleServo.rotateBy(-0.03);
+    }
+
+    public void angleRoatateStop(){
+        gripperAngleServo.rotateBy(0.0);
     }
 
 
