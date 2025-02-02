@@ -56,7 +56,7 @@ public class Gripper {
        if (catcherGamepad.left_trigger != 0) {
            spinBackward();
        }
-       if (catcherGamepad.left_trigger == 0 && catcherGamepad.right_trigger == 0){
+       if (catcherGamepad.left_trigger == 0 && catcherGamepad.right_trigger == 0) {
            stopSpinning();
        }
     }
@@ -93,6 +93,9 @@ public class Gripper {
         }
         else if (angleGamepad.right_stick_y == 0){
             gripperAngleServo.rotateBy(0);
+        }
+        if (angleGamepad.x){
+            gripperAngleServo.turnToAngle(40);
         }
 
     }
