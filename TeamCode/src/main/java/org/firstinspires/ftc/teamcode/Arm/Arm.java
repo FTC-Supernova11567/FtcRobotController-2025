@@ -188,6 +188,13 @@ public class Arm {
         extensionMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         extensionMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);;
     }
+
+
+    public void stopArmMovment(){
+        if(extensionMotor.getCurrentPosition()<2000){
+            stopExtension();    
+        }
+    }
 //
 //    public void AutoResetEncoder(){
 //        if(extensionMotor.isOverCurrent()){
