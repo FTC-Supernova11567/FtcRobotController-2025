@@ -48,20 +48,22 @@ public class TeleOpMode extends OpMode {
         mecanum.mecanumAlL();
         telemetry.update();
 
+
         telemetry.addData("Status", "Run Time: " + getRuntime());
         telemetry.addData("gripper angle", gripper.getPosition());
-        telemetry.addData("arm angle", -arm.getAngle() - 64);
+        // telemetry.addData("arm angle", -arm.getAngle() - 64);
 //        telemetry.addData("left stick y", gamepad2.left_stick_y);
 //        telemetry.addData("gripper direction", myGripper.getDirection() );
         telemetry.addData("Pose", -arm.getAngle() - 64);
-        telemetry.addData("Pose radians", Math.cos(Math.toRadians(-arm.getAngle() - 64)));
+        // telemetry.addData("Pose radians", Math.cos(Math.toRadians(-arm.getAngle() - 64)));
         telemetry.addData("Extension", arm.getExtend());
+        telemetry.addData("Current position ticks", -arm.getAngleMotor().getCurrentPosition());
         // telemetry.addData("Check Cos radians", Math.cos(Math.toRadians(60)));
         // telemetry.addData("Check Cos", Math.cos(60));
-        telemetry.addData("CosAngle", Math.cos(Math.toRadians(-arm.getAngle() - 64)));
-        telemetry.addData("ArcCosAngle", Math.acos(Math.toRadians(-arm.getAngle() - 64)) *  arm.getExtensionMotor().getCurrentPosition());
+//        telemetry.addData("CosAngle", Math.cos(Math.toRadians(-arm.getAngle() - 64)));
+//        telemetry.addData("ArcCosAngle", Math.acos(Math.toRadians(-arm.getAngle() - 64)) *  arm.getExtensionMotor().getCurrentPosition());
         telemetry.addData("ExCalc", Math.cos(Math.toRadians(-arm.getAngle() - 64)) *  arm.getExtensionMotor().getCurrentPosition());
-        telemetry.addData("extension busy?", arm.getExtensionMotor().isMotorEnabled());
+//        telemetry.addData("extension busy?", arm.getExtensionMotor().isMotorEnabled());
         // telemetry.addData("extension current", arm.getExtensionMotor().getCurrent(CurrentUnit.MILLIAMPS));
         // telemetry.addData("average extension", arm.getAverage(300));
         // telemetry.addData("Extension avg current", arm.getExtensionMotor().isOverCurrent());
