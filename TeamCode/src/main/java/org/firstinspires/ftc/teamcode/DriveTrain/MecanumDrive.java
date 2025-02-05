@@ -20,8 +20,13 @@ public class MecanumDrive {
 
         mecanumGamepad = constmecanumGamepad;
 
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
+
+    public double parameter(){
+        backLeft.setPower(-0.6);
+        backRight.setPower(0.6);
+        frontLeft.setPower(-0.6);
+        frontRight.setPower(0.6);
     }
 
     public void rotateLeftTeleOp() {
@@ -30,8 +35,10 @@ public class MecanumDrive {
         }
     }
 
+
+
     public void rotateLeft() {
-        frontRight.setPower(0.6);
+        frontRight.setPower();
         backRight.setPower(0.6);
         frontLeft.setPower(-0.6);
         backLeft.setPower(-0.6);
@@ -69,6 +76,14 @@ public class MecanumDrive {
     public void forwardTeleOp() {
         if (-mecanumGamepad.right_stick_y > 0 && mecanumGamepad.right_stick_x == 0) {
             forward();
+        }
+    }
+
+    public void forwardY(){
+        if (mecanumGamepad.y){
+            forward();
+        }else {
+            stop();
         }
     }
 
@@ -129,7 +144,7 @@ public class MecanumDrive {
     }
 
     public void backward() {
-        frontRight.setPower(-6);
+        frontRight.setPower(-0.6);
         backRight.setPower(-0.6);
         frontLeft.setPower(-0.6);
         backLeft.setPower(-0.6);
