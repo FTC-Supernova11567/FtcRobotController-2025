@@ -1,18 +1,11 @@
 package org.firstinspires.ftc.teamcode.Arm;
 
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
-
-import com.arcrobotics.ftclib.controller.PIDFController;
-import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 
 public class Arm {
@@ -21,6 +14,8 @@ public class Arm {
 
     private Gamepad gamepad;
     private double wantedBusketAngle;
+
+    boolean isAngleOverCurrent = false;
 
     //private int wristSetpoint = 0;
     //TODO: PID management
@@ -34,14 +29,14 @@ public class Arm {
         extensionMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         //extensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         extensionMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        extensionMotor.setCurrentAlert(2500, CurrentUnit.MILLIAMPS);
         //TODO: PID management
 
         angleMotor = hardwareMap.get(DcMotorEx.class, "angleControl");
         angleMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        angleMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        angleMotor.setCurrentAlert(1200, CurrentUnit.MILLIAMPS);
+        //resetEncoder(angleMotor);
 
-//        angleMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-//        angleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //TODO: PID management
 
 //        wristController.setTolerance(2000);
@@ -49,7 +44,22 @@ public class Arm {
         gamepad = constGamepad;
     }
 
+    public void resetEncoder(DcMotorEx currentMotor){
+        currentMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        currentMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);;
+    }
+
+    public void autoResetAngleEncoder(){
+        if (angleMotor.isOverCurrent() && -getAngle() < 4){
+            isAngleOverCurrent = true;
+            resetEncoder(angleMotor);
+        }
+    }
+
     public void angleDown() {
+        if (isAngleOverCurrent){
+            return;
+        }
         angleMotor.setPower(0.7);
     }
 
@@ -58,121 +68,16 @@ public class Arm {
         if (-angleMotor.getCurrentPosition() >= 3600){
             return;
         }
+        isAngleOverCurrent = false;
         angleMotor.setPower(-0.6);
     }
-
-    public void stopExtension() {
-        extensionMotor.setPower(0);
-    }
-
-
-    public void stopTeleop(){
-        if (gamepad.right_bumper==false && gamepad.right_trigger==0){
-            stopExtension();
-        }
-    }
-
 
     public void stopAngle() {
         angleMotor.setPower(0);
     }
 
-    public void extend() {
-        if (-angleMotor.getCurrentPosition() >= 3600){
-            return;
-        }
-        if (Math.abs(Math.cos(Math.toRadians(-getAngle() - 64 )) *  extensionMotor.getCurrentPosition()) < 2500) {
-            extensionMotor.setPower(0.8);
-        }
-        else if (Math.abs(Math.cos(Math.toRadians(-getAngle() - 64)) *  extensionMotor.getCurrentPosition()) >= 2500){
-            stopExtension();
-        }
-        // if (Math.abs(Math.cos(-getAngle() - 64.8466) * extensionMotor.getCurrentPosition())  > 1676)
-
-//        if(Math.cos(Math.toRadians(getAngle())) * extensionMotor.getCurrentPosition() < 1676) {
-//            extensionMotor.setPower(0.8);
-//        } else if (Math.cos(Math.toRadians(getAngle()))* extensionMotor.getCurrentPosition() > 1676){
-//            stopExtension();
-//        }
-
-
-        // extensionMotor.setPower(0.8);
-
-
-//        if(Math.cos(getAngle()*extensionMotor.getCurrentPosition())<1676){
-//          extensionMotor.setPower(0.8);
-//        } else if (Math.cos(getAngle()*extensionMotor.getCurrentPosition())>1676) {
-//            stopExtension();
-//
-//        }
-    }
-
-    // public void reset(){
-    //     if(gamepad2.left_trigger!=0){
-    //         extensionMotor.setPositionPIDFCoefficients(0.0);
-    //     }
-    // }
-
-    public void retract() {
-
-//        if (Math.cos(extensionMotor.getCurrentPosition()) >= 50){
-//            extensionMotor.setPower(-0.8);
-//        }
-//        else if (Math.cos(extensionMotor.getCurrentPosition()) < 50) {
-//            stopExtension();
-//        }
-
-            extensionMotor.setPower(-0.8);
-    }
-
-    public void autoRetract(){
-        if(Math.abs(Math.cos(Math.toRadians(-getAngle()-66)) * extensionMotor.getCurrentPosition()) > 2500){
-            extensionMotor.setPower(-0.8);
-        }
-//        else if (Math.abs(Math.cos(Math.toRadians(-getAngle()-66))* extensionMotor.getCurrentPosition())<=2500) {
-//            extensionMotor.setPower(extensionMotor.getPower());
-//        }
-
-    }
-
-    public void rightBumperRetract() {
-        if(Math.abs(Math.cos(Math.toRadians(-getAngle()-66)) * extensionMotor.getCurrentPosition()) > 2500){
-            extensionMotor.setPower(-0.8);
-        }
-        else if (gamepad.right_bumper) {
-            retract();
-        }
-        else if(!gamepad.right_bumper && gamepad.right_trigger == 0){
-            stopExtension();
-        }
-    }
-
-    public void rightTriggerExtend() {
-        if (gamepad.right_trigger != 0) {
-            extend();
-        }else if(gamepad.right_trigger == 0 && gamepad.right_bumper){
-            stopExtension();
-        }
-    }
-
-    public void extensionButtonControl() {
-        // autoRetract();
-        rightTriggerExtend();
-        rightBumperRetract();
-        //stopTeleop();
-        //AutoResetEncoder();
-    }
-
-    public void setPoints(){
-        if (gamepad.a){
-            wantedBusketAngle = 0;
-        }
-        else if(gamepad.b){
-            wantedBusketAngle = 2000;
-        }
-        else if(gamepad.y){
-            wantedBusketAngle = 2500;
-        }
+    public void stopExtension() {
+        extensionMotor.setPower(0);
     }
 
     public void dpadAngle() {
@@ -185,39 +90,109 @@ public class Arm {
         }
     }
 
-    public void resetEncoder(){
-        extensionMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        extensionMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);;
-    }
-
-
-    public void stopArmMovment(){
-        if(extensionMotor.getCurrentPosition()<4000){
-            stopExtension();    
+    public void extend() {
+        if (-angleMotor.getCurrentPosition() >= 3600){
+            return;
+        }
+        if (Math.abs(Math.cos(Math.toRadians(-getAngle() - 64 )) *  extensionMotor.getCurrentPosition()) < 2500) {
+            extensionMotor.setPower(0.8);
+        }
+        else if (Math.abs(Math.cos(Math.toRadians(-getAngle() - 64)) *  extensionMotor.getCurrentPosition()) >= 2500){
+            stopExtension();
         }
     }
 
+    // public void reset(){
+    //     if(gamepad2.left_trigger!=0){
+    //         extensionMotor.setPositionPIDFCoefficients(0.0);
+    //     }
+    // }
+
+    public void retract() {
+
+        if (Math.cos(extensionMotor.getCurrentPosition()) >= 50){
+            extensionMotor.setPower(-0.8);
+        }
+        else if (Math.cos(extensionMotor.getCurrentPosition()) < 50) {
+            stopExtension();
+        }
+
+            extensionMotor.setPower(-0.8);
+    }
+
+    public void rightBumperRetract() {
+        if(Math.abs(Math.cos(Math.toRadians(-getAngle()-66)) * extensionMotor.getCurrentPosition()) > 2500){
+            retract();
+        }
+        else if (gamepad.right_bumper) {
+            retract();
+        }
+        else if(!gamepad.right_bumper && gamepad.right_trigger == 0){
+            stopExtension();
+        }
+    }
+
+    public void rightTriggerExtend() {
+        if (gamepad.right_trigger != 0) {
+            extend();
+        }else if(gamepad.right_trigger == 0 && !gamepad.right_bumper){
+            stopExtension();
+        }
+    }
+
+    public void extensionButtonControl() {
+        rightTriggerExtend();
+        rightBumperRetract();
+
+    }
+
+    public void setPoints(){
+        if (gamepad.a){
+            wantedBusketAngle = 0;
+        }
+        else if(gamepad.b){
+            wantedBusketAngle = 2300; // Best amount of ticks in encoder for lower basket
+        }
+        else if(gamepad.y){
+            wantedBusketAngle = 2500; // Best amount of ticks in encoder for high basket - front robot
+        }
+        else if(gamepad.back){
+            wantedBusketAngle = 3450; // Best amount of ticks in encoder for high basket - behind robot
+        }
+    }
+
+
+
+
+//    public void stopArmMovment(){
+//        if(extensionMotor.getCurrentPosition()<4000){
+//            stopExtension();
+//        }
+//    }
+
 //
 //    public void AutoResetEncoder(){
-//        if(extensionMotor.isOverCurrent()){
+//        if(extensionMotor.isAngleOverCurrent()){
 //            resetEncoder();
 //        }
 //    }
 
+    //    public void resetAngleEncoder(){
+//        angleMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        angleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//    }
+
+
     public void resetEncoderTeleOp(){
         if (gamepad.y){
-            resetEncoder();
+            resetEncoder(extensionMotor);
         }
     }
 
-    public void resetAngleEncoder(){
-        angleMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        angleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
 
     public void resetAngleEncoderTeleop(){
         if(gamepad.right_stick_button){
-            resetAngleEncoder();
+            resetEncoder(angleMotor);
         }
     }
 
@@ -227,12 +202,10 @@ public class Arm {
         dpadAngle();
         resetEncoderTeleOp();
         resetAngleEncoderTeleop();
-        //AutoResetEncoder();
+        autoResetAngleEncoder();
     }
 
-    public DcMotorEx getExtensionMotor(){
-        return extensionMotor;
-    }
+
 //    public void setArmAngle(int position) {]
 
 //        wristSetpoint = position;
@@ -244,6 +217,7 @@ public class Arm {
 
     //TODO: PID management
 
+
     public double getAngle () {
         return (((double) angleMotor.getCurrentPosition()) / 8192 * 360);
     }
@@ -253,22 +227,18 @@ public class Arm {
     public DcMotorEx getAngleMotor(){
         return angleMotor;
     }
-
-    public double getExtensionCurrent(double average, int count){
-        double sum = average * count;
-        sum += extensionMotor.getCurrent(CurrentUnit.MILLIAMPS);
-        count++;
-        average = sum/count;
-        return average;
+    public DcMotorEx getExtensionMotor(){
+        return extensionMotor;
+    }
+    public boolean getIsOverCurrent(){
+        return isAngleOverCurrent;
     }
 
-    public double getAverage(int count){
-        double average = extensionMotor.getCurrent(CurrentUnit.MILLIAMPS);
-        if(count >= 0){
-            average += extensionMotor.getCurrent(CurrentUnit.MILLIAMPS);
-            count --;
-        }
-        average /= count;
+    public double getAngleMotorCurrent(double average, int count){
+        double sum = average * count;
+        sum += angleMotor.getCurrent(CurrentUnit.MILLIAMPS);
+        count++;
+        average = sum/count;
         return average;
     }
 }
