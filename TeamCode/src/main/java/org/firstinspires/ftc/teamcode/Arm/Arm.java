@@ -53,6 +53,7 @@ public class Arm {
         angleMotor.setPower(0.7);
     }
 
+
     public void angleUp() {
         if (-angleMotor.getCurrentPosition() >= 3600){
             return;
@@ -195,6 +196,7 @@ public class Arm {
             stopExtension();    
         }
     }
+
 //
 //    public void AutoResetEncoder(){
 //        if(extensionMotor.isOverCurrent()){

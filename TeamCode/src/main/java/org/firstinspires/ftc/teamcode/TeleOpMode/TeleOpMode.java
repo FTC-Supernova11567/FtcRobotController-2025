@@ -67,5 +67,6 @@ public class TeleOpMode extends OpMode {
         // telemetry.addData("extension current", arm.getExtensionMotor().getCurrent(CurrentUnit.MILLIAMPS));
         // telemetry.addData("average extension", arm.getAverage(300));
         // telemetry.addData("Extension avg current", arm.getExtensionMotor().isOverCurrent());
+        //telemetry.addData("angleCurrent", arm.getAngleMotor().getCurrent(CurrentUnit.MILLIAMPS));
     }
 }
