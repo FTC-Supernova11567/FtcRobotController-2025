@@ -20,6 +20,8 @@ public class TeleOpMode extends OpMode {
     Gripper gripper;
     MecanumDrive mecanum;
     private IMU imu;
+    int count = 1;
+    double avg = 0;
 
     @Override
     public void init() {
@@ -50,23 +52,20 @@ public class TeleOpMode extends OpMode {
 
 
         telemetry.addData("Status", "Run Time: " + getRuntime());
-        telemetry.addData("gripper angle", gripper.getPosition());
-        // telemetry.addData("arm angle", -arm.getAngle() - 64);
-//        telemetry.addData("left stick y", gamepad2.left_stick_y);
-//        telemetry.addData("gripper direction", myGripper.getDirection() );
-        telemetry.addData("Pose", -arm.getAngle() - 64);
-        // telemetry.addData("Pose radians", Math.cos(Math.toRadians(-arm.getAngle() - 64)));
-        telemetry.addData("Extension", arm.getExtend());
-        telemetry.addData("Current position ticks", -arm.getAngleMotor().getCurrentPosition());
-        // telemetry.addData("Check Cos radians", Math.cos(Math.toRadians(60)));
-        // telemetry.addData("Check Cos", Math.cos(60));
-//        telemetry.addData("CosAngle", Math.cos(Math.toRadians(-arm.getAngle() - 64)));
-//        telemetry.addData("ArcCosAngle", Math.acos(Math.toRadians(-arm.getAngle() - 64)) *  arm.getExtensionMotor().getCurrentPosition());
-        telemetry.addData("ExCalc", Math.cos(Math.toRadians(-arm.getAngle() - 64)) *  arm.getExtensionMotor().getCurrentPosition());
-//        telemetry.addData("extension busy?", arm.getExtensionMotor().isMotorEnabled());
-        // telemetry.addData("extension current", arm.getExtensionMotor().getCurrent(CurrentUnit.MILLIAMPS));
-        // telemetry.addData("average extension", arm.getAverage(300));
+        telemetry.addData("gripper angle", gripper.getAngle());
+        telemetry.addData("arm angle", -arm.getAngle());
+        telemetry.addData("Angle motor current limit", arm.getAngleMotor().getCurrentAlert(CurrentUnit.MILLIAMPS));
+        telemetry.addData("Angle motor over current", arm.getIsOverCurrent());
+        // telemetry.addData("Extension", arm.getExtend());
+        //telemetry.addData("Current angle ticks", -arm.getAngleMotor().getCurrentPosition());
+        telemetry.addData("Extension Calculation ouput", Math.cos(Math.toRadians(-arm.getAngle() - 64)) *  arm.getExtensionMotor().getCurrentPosition());
         // telemetry.addData("Extension avg current", arm.getExtensionMotor().isOverCurrent());
         //telemetry.addData("angleCurrent", arm.getAngleMotor().getCurrent(CurrentUnit.MILLIAMPS));
+
+        telemetry.addData("Angle motor current", arm.getAngleMotor().getCurrent(CurrentUnit.MILLIAMPS));
+
+//        avg = arm.getAngleMotorCurrent(avg, count);
+//        telemetry.addData("Angle motor current avg MiliAmps", avg);
+//        count ++;
     }
 }
