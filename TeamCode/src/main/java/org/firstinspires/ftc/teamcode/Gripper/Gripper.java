@@ -87,11 +87,12 @@ public class Gripper {
 
     public void angleJoystick() {
         if (angleGamepad.right_stick_y < 0){
-            gripperAngleServo.rotateBy(-0.03);
-        }else if(angleGamepad.right_stick_y > 0){
-            gripperAngleServo.rotateBy(0.03);
+            gripperAngleServo.rotateBy(-0.017);
         }
-        else if (angleGamepad.right_stick_y == 0){
+        if(angleGamepad.right_stick_y > 0){
+            gripperAngleServo.rotateBy(0.017);
+        }
+         if (angleGamepad.right_stick_y == 0){
             gripperAngleServo.rotateBy(0);
         }
         if (angleGamepad.x){
