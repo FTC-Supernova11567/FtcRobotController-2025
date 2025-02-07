@@ -42,18 +42,23 @@ public class Arm {
         gamepad = constGamepad;
     }
 
-    public void resetEncoder(DcMotorEx currentMotor){
-        currentMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        currentMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);;
+    public void resetAngleEncoder(){
+        angleMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        angleMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
     }
 
+    public void resetExtensionEncoder(){
+        extensionMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        extensionMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+    }
+
+
     public void  autoReset(){
-        if(gamepad.x){
             angleDown();
             if(angleMotor.isOverCurrent()){
-                resetEncoder(angleMotor);
+                resetAngleEncoder();
+                stopAngle();
             }
-        }
     }
 
     public void angleDown() {
@@ -79,16 +84,6 @@ public class Arm {
         extensionMotor.setPower(0);
     }
 
-    public void dpadAngle() {
-        if (gamepad.dpad_up) {
-            angleUp();
-        } else if (gamepad.dpad_down) {
-            angleDown();
-        } else {
-            stopAngle();
-        }
-    }
-
     public void extend() {
         if (-angleMotor.getCurrentPosition() >= 3600){
             return;
@@ -101,49 +96,40 @@ public class Arm {
         }
     }
 
-    // public void reset(){
-    //     if(gamepad2.left_trigger!=0){
-    //         extensionMotor.setPositionPIDFCoefficients(0.0);
-    //     }
-    // }
-
     public void retract() {
-
-        if (Math.cos(extensionMotor.getCurrentPosition()) >= 50){
+        if (extensionMotor.getCurrentPosition() >= 50){
             extensionMotor.setPower(-0.8);
         }
-        else if (Math.cos(extensionMotor.getCurrentPosition()) < 50) {
-            stopExtension();
-        }
-
-            extensionMotor.setPower(-0.8);
-    }
-
-    public void rightBumperRetract() {
-        if(Math.abs(Math.cos(Math.toRadians(-getAngle()-66)) * extensionMotor.getCurrentPosition()) > 2500){
-            retract();
-        }
-        else if (gamepad.right_bumper) {
-            retract();
-        }
-        else if(!gamepad.right_bumper && gamepad.right_trigger == 0){
+        else {
             stopExtension();
         }
     }
 
-    public void rightTriggerExtend() {
-        if (gamepad.right_trigger != 0) {
-            extend();
-        }else if(gamepad.right_trigger == 0 && !gamepad.right_bumper){
-            stopExtension();
-        }
-    }
-
-    public void extensionButtonControl() {
-        rightTriggerExtend();
-        rightBumperRetract();
-
-    }
+//    public void rightBumperRetract() {
+//        if(Math.abs(Math.cos(Math.toRadians(-getAngle()-66)) * extensionMotor.getCurrentPosition()) > 2500){
+//            retract();
+//        }
+//        else if (gamepad.right_bumper) {
+//            retract();
+//        }
+//        else if(!gamepad.right_bumper && gamepad.right_trigger == 0){
+//            stopExtension();
+//        }
+//    }
+//
+//    public void rightTriggerExtend() {
+//        if (gamepad.right_trigger != 0) {
+//            extend();
+//        }else if(gamepad.right_trigger == 0 && !gamepad.right_bumper){
+//            stopExtension();
+//        }
+//    }
+//
+//    public void extensionButtonControl() {
+//        rightTriggerExtend();
+//        rightBumperRetract();
+//
+//    }
 
     public void setPoints(){
         if (gamepad.a){
@@ -184,25 +170,25 @@ public class Arm {
 
     public void resetEncoderTeleOp(){
         if (gamepad.y){
-            resetEncoder(extensionMotor);
+            resetExtensionEncoder();
         }
     }
 
 
     public void resetAngleEncoderTeleop(){
         if(gamepad.right_stick_button){
-            resetEncoder(angleMotor);
+            resetAngleEncoder();
         }
     }
 
 
-    public void armControl() {
-        extensionButtonControl();
-        dpadAngle();
-        resetEncoderTeleOp();
-        resetAngleEncoderTeleop();
-        autoReset();
-    }
+//    public void armControl() {
+//        extensionButtonControl();
+//        dpadAngle();
+//        resetEncoderTeleOp();
+//        resetAngleEncoderTeleop();
+//        autoReset();
+//    }
 
 
 //    public void setArmAngle(int position) {]
