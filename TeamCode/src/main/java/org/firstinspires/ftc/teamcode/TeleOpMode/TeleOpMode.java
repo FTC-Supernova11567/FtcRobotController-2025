@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Arm.Arm;
 import org.firstinspires.ftc.teamcode.DriveTrain.MecanumDrive;
+import org.firstinspires.ftc.teamcode.DriveTrain.NewMecanumDrive;
 import org.firstinspires.ftc.teamcode.Gripper.Gripper;
 
 @Config
@@ -18,14 +19,14 @@ import org.firstinspires.ftc.teamcode.Gripper.Gripper;
 public class TeleOpMode extends OpMode {
     Arm arm;
     Gripper gripper;
-    MecanumDrive mecanum;
+    NewMecanumDrive mecanum;
     private IMU imu;
 
     @Override
     public void init() {
         arm = new Arm(hardwareMap, gamepad2);
         gripper = new Gripper(hardwareMap, gamepad1, gamepad2);
-        mecanum = new MecanumDrive(hardwareMap, gamepad1);
+        mecanum = new NewMecanumDrive(hardwareMap);
 
 //        RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection = RevHubOrientationOnRobot.LogoFacingDirection.FORWARD;
 //        RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection = RevHubOrientationOnRobot.UsbFacingDirection.UP;
@@ -45,8 +46,18 @@ public class TeleOpMode extends OpMode {
     public void loop() {
         arm.armControl();
         gripper.gripperControl();
-        mecanum.mecanumAlL();
         telemetry.update();
+
+        if (-gamepad1.right_stick_y > 0 && gamepad1.right_stick_x == 0) mecanum.forward();
+        if (-gamepad1.right_stick_y<0 && gamepad1.right_stick_x==0) mecanum.backwards();
+        if (-gamepad1.right_stick_y==0 && gamepad1.right_stick_x >0) mecanum.right();
+        if (-gamepad1.right_stick_y == 0 && gamepad1.right_stick_x < 0) mecanum.left();
+
+        if(-gamepad1.right_stick_y > 0 && gamepad1.right_stick_x > 0) mecanum.diagonalFrontRight();
+        if(-gamepad1.right_stick_y > 0 && gamepad1.right_stick_x < 0) mecanum.diagonalFrontLeft();
+        if (-gamepad1.right_stick_y < 0 && gamepad1.right_stick_x > 0) mecanum.diagonalBackRight();
+        if(-gamepad1.right_stick_y < 0 && gamepad1.right_stick_x < 0) mecanum.diagonalBackLeft();
+
 
 
         telemetry.addData("Status", "Run Time: " + getRuntime());
