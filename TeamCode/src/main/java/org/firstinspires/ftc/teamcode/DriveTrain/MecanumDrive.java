@@ -22,11 +22,13 @@ public class MecanumDrive {
 
     }
 
-    public double parameter(){
-        backLeft.setPower(-0.6);
-        backRight.setPower(0.6);
-        frontLeft.setPower(-0.6);
-        frontRight.setPower(0.6);
+    public double[] motorPowerParameter(){
+//        backLeft.setPower(-0.6);
+//        backRight.setPower(0.6);
+//        frontLeft.setPower(-0.6);
+//        frontRight.setPower(0.6);
+//
+        return new double[]{backLeft.getPower(), backRight.getPower(), frontLeft.getPower(), frontRight.getPower()};
     }
 
     public void rotateLeftTeleOp() {
@@ -38,7 +40,7 @@ public class MecanumDrive {
 
 
     public void rotateLeft() {
-        frontRight.setPower();
+        frontRight.setPower(0.6);
         backRight.setPower(0.6);
         frontLeft.setPower(-0.6);
         backLeft.setPower(-0.6);
