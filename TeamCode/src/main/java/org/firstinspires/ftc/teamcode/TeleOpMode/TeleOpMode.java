@@ -49,8 +49,8 @@ public class TeleOpMode extends OpMode {
         telemetry.update();
 
         if (-gamepad1.right_stick_y > 0 && gamepad1.right_stick_x == 0) mecanum.forward();
-        if (-gamepad1.right_stick_y<0 && gamepad1.right_stick_x==0) mecanum.backwards();
-        if (-gamepad1.right_stick_y==0 && gamepad1.right_stick_x >0) mecanum.right();
+        if (-gamepad1.right_stick_y < 0 && gamepad1.right_stick_x == 0) mecanum.backwards();
+        if (-gamepad1.right_stick_y == 0 && gamepad1.right_stick_x > 0) mecanum.right();
         if (-gamepad1.right_stick_y == 0 && gamepad1.right_stick_x < 0) mecanum.left();
 
         if(-gamepad1.right_stick_y > 0 && gamepad1.right_stick_x > 0) mecanum.diagonalFrontRight();
@@ -58,6 +58,10 @@ public class TeleOpMode extends OpMode {
         if (-gamepad1.right_stick_y < 0 && gamepad1.right_stick_x > 0) mecanum.diagonalBackRight();
         if(-gamepad1.right_stick_y < 0 && gamepad1.right_stick_x < 0) mecanum.diagonalBackLeft();
 
+        if(-gamepad1.left_stick_x > 0) mecanum.rotateRight();
+        if(-gamepad1.left_stick_x < 0) mecanum.rotateLeft();
+
+        if (gamepad1.right_stick_y == 0 && gamepad1.right_stick_x == 0) mecanum.stop();
 
 
         telemetry.addData("Status", "Run Time: " + getRuntime());
