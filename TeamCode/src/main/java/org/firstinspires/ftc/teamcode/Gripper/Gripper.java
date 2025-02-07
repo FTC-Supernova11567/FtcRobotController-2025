@@ -52,17 +52,17 @@ public class Gripper {
         gripperCatcherServo.set(0);
     }
 
-    public void catcher() {
-       if (catcherGamepad.right_trigger != 0) {
-           spinForward();
-       }
-       if (catcherGamepad.left_trigger != 0) {
-           spinBackward();
-       }
-       if (catcherGamepad.left_trigger == 0 && catcherGamepad.right_trigger == 0) {
-           stopSpinning();
-       }
-    }
+//    public void catcher() {
+//       if (catcherGamepad.right_trigger != 0) {
+//           spinForward();
+//       }
+//       if (catcherGamepad.left_trigger != 0) {
+//           spinBackward();
+//       }
+//       if (catcherGamepad.left_trigger == 0 && catcherGamepad.right_trigger == 0) {
+//           stopSpinning();
+//       }
+//    }
 
 
     //public void collectAngleRightstickY() {
@@ -88,40 +88,29 @@ public class Gripper {
 
     //public void turnBBackwards() {
 
-    public void changeAngle(double angle){
+    public void changeToAngle(double angle){
         gripperAngleServo.turnToAngle(angle);
     }
-    public void angleJoystick() {
-        if (angleGamepad.x){
-            changeAngle(40); // Best angle to drop game piece in lower basket and high basket - front robot
-        }
-        else if(angleGamepad.a){
-            changeAngle(35.5); // Best angle to drop game piece in high basket - behind robot, and collect from ground
-        }
-        else if (angleGamepad.right_stick_y < 0){
-            gripperAngleServo.rotateByAngle(-0.3);
-        }
-        else if(angleGamepad.right_stick_y > 0){
-            gripperAngleServo.rotateByAngle(0.3);
-        }
-        else if (angleGamepad.right_stick_y == 0){
-            gripperAngleServo.rotateByAngle(0);
-        }
-
-
-
+    public void moveAngleServo(double angleChange){
+        gripperAngleServo.rotateByAngle(angleChange);
     }
-    public void angleRoatateUp(){
-        gripperAngleServo.rotateBy(0.03);
-    }
-
-    public void angleRoataeDown(){
-        gripperAngleServo.rotateBy(-0.03);
-    }
-
-    public void angleRoatateStop(){
-        gripperAngleServo.rotateBy(0.0);
-    }
+//    public void angleJoystick() {
+//        if (angleGamepad.x){
+//            changeToAngle(40); // Best angle to drop game piece in lower basket and high basket - front robot
+//        }
+//        else if(angleGamepad.a){
+//            changeToAngle(35.5); // Best angle to drop game piece in high basket - behind robot, and collect from ground
+//        }
+//        else if (angleGamepad.right_stick_y < 0){
+//            gripperAngleServo.rotateByAngle(-0.3);
+//        }
+//        else if(angleGamepad.right_stick_y > 0){
+//            gripperAngleServo.rotateByAngle(0.3);
+//        }
+//        else if (angleGamepad.right_stick_y == 0){
+//            gripperAngleServo.rotateByAngle(0);
+//        }
+//   }
 
 
 
@@ -131,10 +120,10 @@ public class Gripper {
     //    turnBBackwards();
     //}
 
-    public void gripperControl() {
-       angleJoystick();
-       catcher();
-    }
+//    public void gripperControl() {
+//       angleJoystick();
+//       catcher();
+//    }
 
 
 //    public String getDirection() {
