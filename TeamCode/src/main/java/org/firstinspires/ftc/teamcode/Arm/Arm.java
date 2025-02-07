@@ -15,8 +15,6 @@ public class Arm {
     private Gamepad gamepad;
     private double wantedBusketAngle;
 
-    boolean isAngleOverCurrent = false;
-
     //private int wristSetpoint = 0;
     //TODO: PID management
 
@@ -49,15 +47,17 @@ public class Arm {
         currentMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);;
     }
 
-    public void autoResetAngleEncoder(){
-        if (angleMotor.isOverCurrent() && -getAngle() < 4){
-            isAngleOverCurrent = true;
-            resetEncoder(angleMotor);
+    public void  autoReset(){
+        if(gamepad.x){
+            angleDown();
+            if(angleMotor.isOverCurrent()){
+                resetEncoder(angleMotor);
+            }
         }
     }
 
     public void angleDown() {
-        if (isAngleOverCurrent){
+        if (angleMotor.isOverCurrent()){
             return;
         }
         angleMotor.setPower(0.7);
@@ -68,7 +68,6 @@ public class Arm {
         if (-angleMotor.getCurrentPosition() >= 3600){
             return;
         }
-        isAngleOverCurrent = false;
         angleMotor.setPower(-0.6);
     }
 
@@ -202,7 +201,7 @@ public class Arm {
         dpadAngle();
         resetEncoderTeleOp();
         resetAngleEncoderTeleop();
-        autoResetAngleEncoder();
+        autoReset();
     }
 
 
@@ -231,7 +230,7 @@ public class Arm {
         return extensionMotor;
     }
     public boolean getIsOverCurrent(){
-        return isAngleOverCurrent;
+        return angleMotor.isOverCurrent();
     }
 
     public double getAngleMotorCurrent(double average, int count){
