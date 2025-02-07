@@ -1,11 +1,9 @@
 package org.firstinspires.ftc.teamcode.TeleOpMode;
 
-import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.arcrobotics.ftclib.util.MathUtils;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
@@ -45,10 +43,26 @@ public class TeleOpMode extends OpMode {
 
     @Override
     public void loop() {
-        arm.armControl();
-        gripper.gripperControl();
         mecanum.mecanumAlL();
         telemetry.update();
+
+        if (gamepad2.b) arm.autoReset();
+        if (gamepad2.dpad_down) arm.angleDown();
+        if(gamepad2.dpad_up) arm.angleUp();
+        if(gamepad2.right_trigger != 0) arm.extend();
+        if(gamepad2.right_bumper) arm.retract();
+
+        if (gamepad2.right_stick_button) arm.resetExtensionEncoder();
+        if (gamepad2.y) arm.resetAngleEncoder();
+
+        if (gamepad1.right_trigger != 0) gripper.spinForward();
+        if (gamepad1.left_trigger != 0) gripper.spinBackward();
+        if (gamepad1.left_trigger == 0 && gamepad1.right_trigger == 0) gripper.stopSpinning();
+
+        if(gamepad2.a) gripper.changeToAngle(35.5);
+        if(gamepad2.x) gripper.changeToAngle(40);
+        gripper.moveAngleServo(gamepad2.right_stick_y == 0 ? 0 : gamepad2.right_stick_y < 0 ? -0.3 : 0.3);
+
 
 
         telemetry.addData("Status", "Run Time: " + getRuntime());
