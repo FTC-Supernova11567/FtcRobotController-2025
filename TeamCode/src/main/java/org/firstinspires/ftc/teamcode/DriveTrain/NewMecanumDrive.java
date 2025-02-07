@@ -47,6 +47,20 @@ public class NewMecanumDrive {
         backLeft.setPower(-Power);
     }
 
+    public void rotateRight() {
+        frontRight.setPower(-Power);
+        backRight.setPower(-Power);
+        frontLeft.setPower(Power);
+        backLeft.setPower(Power);
+    }
+
+    public void rotateLeft() {
+        frontRight.setPower(Power);
+        backRight.setPower(Power);
+        frontLeft.setPower(Power);
+        backLeft.setPower(Power);
+    }
+
     public void diagonalFrontRight() {
         frontRight.setPower(0);
         backRight.setPower(Power);
