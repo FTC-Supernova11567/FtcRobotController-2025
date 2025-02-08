@@ -46,7 +46,6 @@ public class TeleOpMode extends OpMode {
     public void loop() {
         arm.armControl();
         gripper.gripperControl();
-        telemetry.update();
 
         if (-gamepad1.right_stick_y > 0 && gamepad1.right_stick_x == 0) mecanum.forward();
         if (-gamepad1.right_stick_y < 0 && gamepad1.right_stick_x == 0) mecanum.backwards();
@@ -82,5 +81,7 @@ public class TeleOpMode extends OpMode {
         // telemetry.addData("extension current", arm.getExtensionMotor().getCurrent(CurrentUnit.MILLIAMPS));
         // telemetry.addData("average extension", arm.getAverage(300));
         // telemetry.addData("Extension avg current", arm.getExtensionMotor().isOverCurrent());
+
+        telemetry.update();
     }
 }
