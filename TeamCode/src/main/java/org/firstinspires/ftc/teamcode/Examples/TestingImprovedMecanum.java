@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Examples;
 
+import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -15,7 +16,6 @@ public class TestingImprovedMecanum extends OpMode {
     ImprovedMecanum mecanum;
     // Retrieve the IMU from the hardware map
     IMU imu;
-
 
     @Override
     public void init(){
@@ -42,7 +42,6 @@ public class TestingImprovedMecanum extends OpMode {
 
         if (gamepad1.a) {
             imu.resetYaw();
-
         }
 
         double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
@@ -56,6 +55,9 @@ public class TestingImprovedMecanum extends OpMode {
         telemetry.addData("IMU Pitch", imu.getRobotYawPitchRollAngles().getPitch(AngleUnit.RADIANS));
         telemetry.update();
 
+        if (gamepad1.y){
+            mecanum.rotateLeft();
+        }
         // mecanum.drive(y, x, rx);
     }
 }
