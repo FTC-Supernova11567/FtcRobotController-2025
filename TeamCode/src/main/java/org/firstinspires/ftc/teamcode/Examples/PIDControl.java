@@ -8,6 +8,7 @@ public class PIDControl {
     private double kD = 0;
     private double integralSum = 0;
 
+
     ElapsedTime timer = new ElapsedTime();
     private double lastError = 0;
 
@@ -18,8 +19,8 @@ public class PIDControl {
         this.kD = kD;
     }
 
-    public double calculatePID(double reference, double currecntState){
-        double error = reference - currecntState;
+    public double calculatePID(double reference, double currentState){
+        double error = reference - currentState;
         integralSum += error * timer.seconds();
         double derivative = (error - lastError) / timer.seconds();
         lastError = error;
@@ -28,6 +29,7 @@ public class PIDControl {
 
         return (error * kP) + (integralSum * kI) + (derivative * kD);
     }
+
 }
 
 
