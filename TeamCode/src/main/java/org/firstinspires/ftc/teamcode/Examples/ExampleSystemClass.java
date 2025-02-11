@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Examples;
 
+import static java.lang.Math.signum;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -8,25 +10,23 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 public class ExampleSystemClass {
 
     private final DcMotorEx PIDMotor;
-    private Gamepad gamepad;
+    private final DcMotorEx angleMotor; // Only when testing extension PID
 
-    // private PIDFController pidfController = new PIDFController(0.5, 0, 0, 0);
-
-    // PID stats for wrist
-    //private final PIDControl rotationPID = new PIDControl(0.2, 0.000,0.0015);
-
-    //PID stats for extension
-    private final PIDControl extensionPID = new PIDControl(0.2, 0.000,0);
+    private final PIDControl extensionPID;
     private double wantedPosition = 0;
 
     //At the default constructor you initialize the motor .
-    public ExampleSystemClass(HardwareMap constHardwareMap, Gamepad constGamepad) {
+    public ExampleSystemClass(HardwareMap constHardwareMap, double kP, double kI, double kD) {
 //        myMotor = constHardwareMap.get(DcMotor.class, "myMotor");
         PIDMotor = constHardwareMap.get(DcMotorEx.class, "PIDMotor");
+        angleMotor = constHardwareMap.get(DcMotorEx.class, "angleMotor"); // Only when testing extension PID
 
         PIDMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         PIDMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        gamepad = constGamepad;
+
+        angleMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); // Only when testing extension PID
+
+        extensionPID = new PIDControl(kP, kI, kD);
     }
 
 //    public void changeAngle(){
@@ -41,17 +41,10 @@ public class ExampleSystemClass {
 //        }
 //    }
 
-    public void changeLength(){
-        if (gamepad.left_stick_y < 0){
-            PIDMotor.setPower(0.8);
-        }
-        else if(gamepad.left_stick_y > 0){
-            PIDMotor.setPower(-0.8);
-        }
-        else if(gamepad.left_stick_y == 0){
-            PIDMotor.setPower(0);
-        }
+    public void changeLength(double power){
+        PIDMotor.setPower(power);
     }
+
     //Here you write the actions your system can do as functions.
 //    void activateMyMotor(double power) {
 //        myMotor.setPower(power);
@@ -102,34 +95,30 @@ public class ExampleSystemClass {
 //        }
 //    }
 
-    void correctByPID(){
+//    public void moveToAngleInsideEncoder(int position){
+//        PIDMotor.setTargetPosition(-position);
+//        PIDMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//    }
 
-        if (gamepad.x){
-            wantedPosition = 2500;
-            double power = extensionPID.calculatePID(wantedPosition, PIDMotor.getCurrentPosition());
-            PIDMotor.setPower(Math.max(-0.8, (power / 10)));
-        }
-        else if (gamepad.b){
-            wantedPosition = 20;
-            double power = extensionPID.calculatePID(wantedPosition, PIDMotor.getCurrentPosition());
-            PIDMotor.setPower(Math.min(0.8, (power / 10)));
-        }
+    void correctByPID(double pos){
+        // wantedPosition = -pos; // Only when testing angle PID
+        wantedPosition = pos; // Only when testing extension PID
+        double power = (extensionPID.calculatePID(wantedPosition, PIDMotor.getCurrentPosition()))/10;
+        PIDMotor.setPower(Math.abs(power) > 1 ? signum(power) * 1 : power);
     }
 
 
     public void resetEncoder(){
-        if(gamepad.y){
-            PIDMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            PIDMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        }
+        PIDMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        PIDMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
     }
 
     public double getPose() {
         return PIDMotor.getCurrentPosition();
     }
-
-    public DcMotorEx getMotor(){
-        return PIDMotor;
+    public double getPower() {
+        return PIDMotor.getPower();
     }
     public double getCorrection(){
         return extensionPID.calculatePID(wantedPosition, PIDMotor.getCurrentPosition());
