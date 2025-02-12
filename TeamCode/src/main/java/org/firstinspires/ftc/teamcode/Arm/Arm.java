@@ -15,11 +15,13 @@ public class Arm {
     private final DcMotorEx extensionMotor;
     private final DcMotorEx angleMotor;
     private final PIDControl anglePID;
-    private final PIDControl extensionPid;
+    private final PIDControl extensionPID;
+    private double legalMaxExtension;
 
     private Gamepad gamepad;
     private double wantedBusketAngle;
     private double wantedBusketExtension;
+    private double power;
 
     //private int wristSetpoint = 0;
     //TODO: PID management
@@ -36,7 +38,7 @@ public class Arm {
         //PIDTestingMode() =new PIDTestingMode();
 
         anglePID = new PIDControl(0.1, 0.00014,0.00061);
-        extensionPid = new PIDControl( 0.8, 0.000,0.00002);
+        extensionPID = new PIDControl( 0.8, 0.000,0.00002);
 
         //TODO: PID management
 
@@ -99,10 +101,10 @@ public class Arm {
         if (-angleMotor.getCurrentPosition() >= 3600){
             return;
         }
-        if (Math.abs(Math.cos(Math.toRadians(-getAngle() - 64 )) *  extensionMotor.getCurrentPosition()) < 2500) {
+        if (Math.abs(Math.cos(Math.toRadians(-getAngle())) *  extensionMotor.getCurrentPosition()) < 2500) {
             extensionMotor.setPower(0.8);
         }
-        else if (Math.abs(Math.cos(Math.toRadians(-getAngle() - 64)) *  extensionMotor.getCurrentPosition()) >= 2500){
+        else if (Math.abs(Math.cos(Math.toRadians(-getAngle())) *  extensionMotor.getCurrentPosition()) >= 2500){
             stopExtension();
         }
     }
@@ -145,16 +147,20 @@ public class Arm {
 
     public void moveByPIDAngle(double anglePos){
         wantedBusketAngle = -anglePos;
-        double power = (anglePID.calculatePID(wantedBusketAngle, angleMotor.getCurrentPosition()))/10;
-        angleMotor.setPower(Math.abs(power) > 1 ? signum(power) : power);
+        power = (anglePID.calculatePID(wantedBusketAngle, angleMotor.getCurrentPosition()))/10;
+        angleMotor.setPower(power);
     }
 
     public void moveByPIDExtension(double extensionPos){
-        double legalMaxExtension = 2500 / Math.abs(Math.cos(Math.toRadians(-getAngle() - 64 ))); // finding the max extension of our arm
-        wantedBusketExtension = 2500 > (Math.abs(Math.cos(Math.toRadians(-getAngle() - 64 )) * extensionPos)) ? extensionPos : legalMaxExtension;
 
-        double power= (extensionPid.calculatePID(wantedBusketExtension,extensionMotor.getCurrentPosition()))/10;
-        extensionMotor.setPower(Math.abs(power) > 1 ? signum(power): power);
+        // Math.cos(Math.toRadians(-getAngle())) *  x == 2500
+
+        legalMaxExtension = 2500 / Math.cos(Math.toRadians(-getAngle())); // finding the max extension of our arm
+        wantedBusketExtension = 2500 > (Math.abs(Math.cos(Math.toRadians(-getAngle())) * extensionPos)) ? extensionPos : legalMaxExtension;
+
+        power = (extensionPID.calculatePID(wantedBusketExtension, extensionMotor.getCurrentPosition()))/10;
+        power = Math.abs(power) > 0.8 ? signum(power) * 0.8 : power;
+        extensionMotor.setPower(power);
     }
 
     public void setPoints(){
@@ -236,27 +242,28 @@ public class Arm {
 
 
     public double getAngle () {
-        return (((double) angleMotor.getCurrentPosition()) / 8192 * 360);
+        return (((double) angleMotor.getCurrentPosition() + 1423) / 8192 * 360);
     }
     public int getExtend(){
         return extensionMotor.getCurrentPosition();
     }
-    public DcMotorEx getAngleMotor(){
-        return angleMotor;
+    public double getAngleMotorPosition(){
+        return angleMotor.getCurrentPosition();
     }
-    public DcMotorEx getExtensionMotor(){
-        return extensionMotor;
+    public double getExtensionMotorPosition(){
+        return extensionMotor.getCurrentPosition();
     }
     public boolean getIsOverCurrent(){
         return angleMotor.isOverCurrent();
     }
-
-    public double getAngleMotorCurrent(double average, int count){
-        double sum = average * count;
-        sum += angleMotor.getCurrent(CurrentUnit.MILLIAMPS);
-        count++;
-        average = sum/count;
-        return average;
+    public double getLegalMaxExtension(){
+        return legalMaxExtension;
+    }
+    public double getWantedBusketExtension(){
+        return wantedBusketExtension;
+    }
+    public double getPower(){
+        return power;
     }
 }
 

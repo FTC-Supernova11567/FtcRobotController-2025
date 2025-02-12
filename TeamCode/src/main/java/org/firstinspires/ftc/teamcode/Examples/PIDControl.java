@@ -3,9 +3,9 @@ package org.firstinspires.ftc.teamcode.Examples;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class PIDControl {
-    private double kP = 0;
-    private double kI = 0;
-    private double kD = 0;
+    private static double kP = 0;
+    private static double kI = 0;
+    private static double kD = 0;
     private double integralSum = 0;
 
 

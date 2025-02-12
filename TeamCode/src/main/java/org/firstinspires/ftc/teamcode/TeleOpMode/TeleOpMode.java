@@ -74,19 +74,22 @@ public class TeleOpMode extends OpMode {
 
 
         telemetry.addData("Status", "Run Time: " + getRuntime());
-        telemetry.addData("gripper angle", gripper.getAngle());
+        // telemetry.addData("gripper angle", gripper.getAngle());
         telemetry.addData("arm angle", -arm.getAngle());
-        telemetry.addData("Angle motor current limit", arm.getAngleMotor().getCurrentAlert(CurrentUnit.MILLIAMPS));
-        telemetry.addData("Angle motor over current", arm.getIsOverCurrent());
+        // telemetry.addData("Angle motor current limit", arm.getAngleMotor().getCurrentAlert(CurrentUnit.MILLIAMPS));
+        // telemetry.addData("Angle motor over current", arm.getIsOverCurrent());
         // telemetry.addData("Extension", arm.getExtend());
         //telemetry.addData("Current angle ticks", -arm.getAngleMotor().getCurrentPosition());
-        telemetry.addData("Extension Calculation ouput", Math.cos(Math.toRadians(-arm.getAngle() - 64)) *  arm.getExtensionMotor().getCurrentPosition());
+        telemetry.addData("Extension Calculation ouput", Math.cos(Math.toRadians(-arm.getAngle())) *  arm.getExtensionMotorPosition());
         // telemetry.addData("Extension avg current", arm.getExtensionMotor().isOverCurrent());
         //telemetry.addData("angleCurrent", arm.getAngleMotor().getCurrent(CurrentUnit.MILLIAMPS));
 
-        telemetry.addData("Angle motor current", arm.getAngleMotor().getCurrent(CurrentUnit.MILLIAMPS));
-        telemetry.addData("Angle current position", arm.getAngleMotor().getCurrentPosition());
-        telemetry.addData("Extenstion current position", arm.getExtensionMotor().getCurrentPosition());
+        // telemetry.addData("Angle motor current", arm.getAngleMotor().getCurrent(CurrentUnit.MILLIAMPS));
+        telemetry.addData("Angle position", arm.getAngleMotorPosition());
+        telemetry.addData("Extension position", arm.getExtensionMotorPosition());
+        telemetry.addData("LegalMaxExtension",arm.getLegalMaxExtension());
+        telemetry.addData("wantedBusketExtension",arm.getWantedBusketExtension());
+        telemetry.addData("Motor power",arm.getPower());
 
 //        avg = arm.getAngleMotorCurrent(avg, count);
 //        telemetry.addData("Angle motor current avg MiliAmps", avg);
