@@ -13,8 +13,8 @@ public class PIDTestingMode extends OpMode {
     @Override
     public void init() {
         // perfect values for angle PID: 0.1, 0.00014,0.00061
-        // perfect values for extension PID:
-        mySystem = new ExampleSystemClass(hardwareMap, 0.8, 0.000,0.00002);
+        // perfect values for extension PID: 0.8, 0.000,0.00002
+        mySystem = new ExampleSystemClass(hardwareMap, 0.1, 0.00014,0.00061);
     }
 
 
@@ -25,7 +25,7 @@ public class PIDTestingMode extends OpMode {
         // mySystem.changeAngle();
         mySystem.changeLength(gamepad2.left_stick_y == 0 ? 0.0 : (signum(gamepad2.left_stick_y) * -0.8));
 
-        if (gamepad2.x) mySystem.correctByPID(3700);
+        if (gamepad2.x) mySystem.correctByPID(3000);
         if (gamepad2.b) mySystem.correctByPID(0);
 
         telemetry.addData("Current pose", mySystem.getPose());

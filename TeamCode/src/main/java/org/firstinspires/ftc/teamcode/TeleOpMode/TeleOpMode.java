@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.TeleOpMode;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.arcrobotics.ftclib.util.MathUtils;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Arm.Arm;
@@ -17,7 +15,7 @@ public class TeleOpMode extends OpMode {
     Arm arm;
     Gripper gripper;
     MecanumDrive mecanum;
-    private IMU imu;
+    // private IMU imu;
     int count = 1;
     double avg = 0;
 
@@ -44,24 +42,34 @@ public class TeleOpMode extends OpMode {
     @Override
     public void loop() {
         mecanum.mecanumAlL();
-        telemetry.update();
 
-        if (gamepad2.b) arm.autoReset();
+        // if (gamepad2.b) arm.autoReset();
         if (gamepad2.dpad_down) arm.angleDown();
-        if(gamepad2.dpad_up) arm.angleUp();
-        if(gamepad2.right_trigger != 0) arm.extend();
-        if(gamepad2.right_bumper) arm.retract();
+        if (gamepad2.dpad_up) arm.angleUp();
+        if (!gamepad2.dpad_up && !gamepad2.dpad_down) arm.stopAngle();
+
+        if (gamepad2.right_trigger != 0) arm.extend();
+        if (gamepad2.right_bumper) arm.retract();
+        if (!gamepad2.right_bumper && gamepad2.right_trigger==0) arm.stopExtension();
 
         if (gamepad2.right_stick_button) arm.resetExtensionEncoder();
-        if (gamepad2.y) arm.resetAngleEncoder();
+        if (gamepad2.back) arm.resetAngleEncoder();
 
         if (gamepad1.right_trigger != 0) gripper.spinForward();
         if (gamepad1.left_trigger != 0) gripper.spinBackward();
         if (gamepad1.left_trigger == 0 && gamepad1.right_trigger == 0) gripper.stopSpinning();
 
-        if(gamepad2.a) gripper.changeToAngle(35.5);
-        if(gamepad2.x) gripper.changeToAngle(40);
+        // if(gamepad2.a) gripper.changeToAngle(35.5); // drop game piece in lower and high baskets
+        if(gamepad2.x) gripper.changeToAngle(35.5); // todo: needs to be 40
         gripper.moveAngleServo(gamepad2.right_stick_y == 0 ? 0 : gamepad2.right_stick_y < 0 ? -0.3 : 0.3);
+
+        //if (gamepad2.a) arm.moveByPIDAngle(0);
+        //if (gamepad2.b) arm.moveByPIDAngle(2300);
+        //if (gamepad2.y) arm.moveByPIDAngle(2750);
+
+        if (gamepad2.a) arm.moveByPIDExtension(0);
+        if (gamepad2.b) arm.moveByPIDExtension(0);
+        if (gamepad2.y) arm.moveByPIDExtension(3440);
 
 
 
@@ -77,9 +85,13 @@ public class TeleOpMode extends OpMode {
         //telemetry.addData("angleCurrent", arm.getAngleMotor().getCurrent(CurrentUnit.MILLIAMPS));
 
         telemetry.addData("Angle motor current", arm.getAngleMotor().getCurrent(CurrentUnit.MILLIAMPS));
+        telemetry.addData("Angle current position", arm.getAngleMotor().getCurrentPosition());
+        telemetry.addData("Extenstion current position", arm.getExtensionMotor().getCurrentPosition());
 
 //        avg = arm.getAngleMotorCurrent(avg, count);
 //        telemetry.addData("Angle motor current avg MiliAmps", avg);
 //        count ++;
+
+        telemetry.update();
     }
 }
