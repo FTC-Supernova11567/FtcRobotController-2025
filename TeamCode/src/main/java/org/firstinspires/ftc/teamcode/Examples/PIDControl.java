@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Examples;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class PIDControl {
