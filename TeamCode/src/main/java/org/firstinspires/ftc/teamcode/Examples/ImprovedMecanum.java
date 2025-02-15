@@ -36,6 +36,7 @@ public class ImprovedMecanum {
         frontRight.setPower(frontRightPower);
         backRight.setPower(backRightPower);
     }
+
     public void forward(){
         this.drive(1.0, 0.0, 0.0);
     }
@@ -48,22 +49,26 @@ public class ImprovedMecanum {
     public void left(){
         this.drive(0.0 , -1.0 , 0.0);
     }
+
     public void rightFront(){
-        this.drive(1.0, 1.0, 0.0);
+        this.drive(1, 1, 0);
     }
     public void rightBack(){
-        this.drive(-1.0, 1.0, 0.0);
+        this.drive(-1, 1, 0);
     }
     public void leftFront(){
-        this.drive(1, -1, 0.0);
+        this.drive(1, -1, 0);
     }
-    public void lefBack(){
-        this.drive(-1, -1, 0.0);
+    public void leftBack(){
+        this.drive(-1, -1, 0);
     }
+
     public void rotateRight(){
         this.drive(0.0 , 0.0 , 1.0);
     }
     public void rotateLeft(){
         this.drive(0.0, 0.0, -1.0);
     }
+
+    public void stop(){this.drive(0, 0, 0);}
 }

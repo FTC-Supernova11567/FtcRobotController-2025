@@ -14,7 +14,6 @@ import org.firstinspires.ftc.teamcode.DriveTrain.MecanumDrive;
 import org.firstinspires.ftc.teamcode.DriveTrain.NewMecanumDrive;
 import org.firstinspires.ftc.teamcode.Gripper.Gripper;
 
-@Config
 @TeleOp
 public class TeleOpMode extends OpMode {
     Arm arm;

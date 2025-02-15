@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Examples;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -10,12 +13,14 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Utils;
 
+@Config
 @TeleOp
 public class TestingImprovedMecanum extends OpMode {
-
     ImprovedMecanum mecanum;
     // Retrieve the IMU from the hardware map
     IMU imu;
+    public static double temp_y = 1;
+    public static double temp_x = 1;
 
     @Override
     public void init(){
@@ -30,6 +35,8 @@ public class TestingImprovedMecanum extends OpMode {
                 RevHubOrientationOnRobot.UsbFacingDirection.DOWN));
         // Without this, the REV Hub's orientation is assumed to be logo up / USB forward
         imu.initialize(parameters);
+
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
     }
 
@@ -49,15 +56,11 @@ public class TestingImprovedMecanum extends OpMode {
         double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
         double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
 
-        mecanum.drive(rotY, rotX, rx);
+        // mecanum.drive(y, x, rx); // Basic driving
+        mecanum.drive(rotY, rotX, rx); // Field orianted driving
 
         telemetry.addData("IMU yaw", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
-        telemetry.addData("IMU Pitch", imu.getRobotYawPitchRollAngles().getPitch(AngleUnit.RADIANS));
         telemetry.update();
 
-        if (gamepad1.y){
-            mecanum.rotateLeft();
-        }
-        // mecanum.drive(y, x, rx);
     }
 }
