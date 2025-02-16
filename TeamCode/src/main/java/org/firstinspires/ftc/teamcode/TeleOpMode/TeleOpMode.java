@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.TeleOpMode;
 
-import com.acmerobotics.dashboard.config.Config;
+import static java.lang.Math.signum;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Arm.Arm;
 import org.firstinspires.ftc.teamcode.DriveTrain.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Gripper.Gripper;
@@ -14,28 +14,12 @@ public class TeleOpMode extends OpMode {
     Arm arm;
     Gripper gripper;
     MecanumDrive mecanum;
-    // private IMU imu;
-    int count = 1;
-    double avg = 0;
 
     @Override
     public void init() {
         arm = new Arm(hardwareMap, gamepad2);
-        gripper = new Gripper(hardwareMap, gamepad1, gamepad2);
+        gripper = new Gripper(hardwareMap);
         mecanum = new MecanumDrive(hardwareMap, gamepad1);
-
-//        RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection = RevHubOrientationOnRobot.LogoFacingDirection.FORWARD;
-//        RevHubOrientationOnRobot.UsbFacingDirection usbFacingDirection = RevHubOrientationOnRobot.UsbFacingDirection.UP;
-//        RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoFacingDirection, usbFacingDirection);
-//
-//        imu = hardwareMap.get(IMU.class, "imu");
-//        imu.initialize(new IMU.Parameters(orientationOnRobot));
-//        mecanum = new MecanumDrive(hardwareMap, gamepad1);
-//
-//        FtcDashboard dashboard = FtcDashboard.getInstance();
-//        telemetry = dashboard.getTelemetry();
-//
-//        telemetry.addData("Status", "Initialized");
     }
 
     @Override
@@ -52,19 +36,18 @@ public class TeleOpMode extends OpMode {
         if (!gamepad2.right_bumper && gamepad2.right_trigger==0) arm.stopExtension();
 
         if (gamepad2.right_stick_button) arm.resetExtensionEncoder();
-        if (gamepad2.back) arm.resetAngleEncoder();
+        if (gamepad2.share) arm.resetAngleEncoder();
 
-        if (gamepad1.right_trigger != 0) gripper.spinForward();
-        if (gamepad1.left_trigger != 0) gripper.spinBackward();
-        if (gamepad1.left_trigger == 0 && gamepad1.right_trigger == 0) gripper.stopSpinning();
+        if (gamepad1.right_trigger != 0) gripper.moveHook(0);
+        if (gamepad1.left_trigger != 0) gripper.moveHook(0.28);
 
-        // if(gamepad2.a) gripper.changeToAngle(35.5); // drop game piece in lower and high baskets
-        if(gamepad2.x) gripper.changeToAngle(35.5); // todo: needs to be 40
-        gripper.moveAngleServo(gamepad2.right_stick_y == 0 ? 0 : gamepad2.right_stick_y < 0 ? -0.3 : 0.3);
+        if(gamepad2.x) gripper.turnToAngle(0); // Gripper centered
+        gripper.moveToAngle(gamepad2.right_stick_x == 0 ? 0 : signum(gamepad2.right_stick_x) * 0.01);
 
         //if (gamepad2.a) arm.moveByPIDAngle(0);
         //if (gamepad2.b) arm.moveByPIDAngle(2300);
         //if (gamepad2.y) arm.moveByPIDAngle(2750);
+        if (gamepad2.touchpad) arm.moveByPIDAngle(3200);
 
         if (gamepad2.a) arm.moveByPIDExtension(0);
         if (gamepad2.b) arm.moveByPIDExtension(0);
@@ -90,10 +73,10 @@ public class TeleOpMode extends OpMode {
         telemetry.addData("wantedBusketExtension",arm.getWantedBusketExtension());
         telemetry.addData("Motor power",arm.getPower());
 
-//        avg = arm.getAngleMotorCurrent(avg, count);
-//        telemetry.addData("Angle motor current avg MiliAmps", avg);
-//        count ++;
-
         telemetry.update();
+    }
+    public void moveToSetPoint(double anglePos, double extensionPos, double gripperAngle){
+        arm.goToSetPoint(anglePos, extensionPos);
+        gripper.turnToAngle(gripperAngle);
     }
 }

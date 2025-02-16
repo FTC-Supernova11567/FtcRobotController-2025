@@ -163,6 +163,11 @@ public class Arm {
         extensionMotor.setPower(power);
     }
 
+    public void goToSetPoint(double anglePos, double extensionPos){
+        moveByPIDAngle(anglePos);
+        moveByPIDExtension(extensionPos);
+    }
+
     public void setPoints(){
         if (gamepad.a){
             wantedBusketAngle = 0;
@@ -177,11 +182,6 @@ public class Arm {
             wantedBusketExtension = 3440;
 
         }
-
-
-        // else if(gamepad.back){
-        //     wantedBusketAngle = 3450; // Best amount of ticks in encoder for high basket - behind robot
-        // }
     }
 
 
