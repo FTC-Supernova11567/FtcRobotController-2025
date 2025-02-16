@@ -110,7 +110,7 @@ public class Arm {
     }
 
     public void retract() {
-        if (extensionMotor.getCurrentPosition() >= 50){
+        if (extensionMotor.getCurrentPosition() >= 25){
             extensionMotor.setPower(-0.8);
         }
         else {

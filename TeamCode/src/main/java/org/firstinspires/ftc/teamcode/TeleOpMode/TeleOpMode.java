@@ -44,6 +44,7 @@ public class TeleOpMode extends OpMode {
         if(gamepad2.x) gripper.turnToAngle(0); // Gripper centered
         gripper.moveToAngle(gamepad2.right_stick_x == 0 ? 0 : signum(gamepad2.right_stick_x) * 0.01);
 
+
         //if (gamepad2.a) arm.moveByPIDAngle(0);
         //if (gamepad2.b) arm.moveByPIDAngle(2300);
         //if (gamepad2.y) arm.moveByPIDAngle(2750);
