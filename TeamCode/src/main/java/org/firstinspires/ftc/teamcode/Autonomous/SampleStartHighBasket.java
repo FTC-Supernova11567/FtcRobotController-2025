@@ -14,7 +14,7 @@ public class SampleStartHighBasket extends LinearOpMode {
     public void runOpMode() {
         Arm arm = new Arm(hardwareMap, gamepad2);
         MecanumDrive mecanum = new MecanumDrive(hardwareMap, gamepad2);
-        Gripper gripper = new Gripper(hardwareMap, gamepad2, gamepad1);
+        Gripper gripper = new Gripper(hardwareMap);
 
         waitForStart();
         while(getRuntime()>0 && getRuntime()<1&& !isStopRequested()){
