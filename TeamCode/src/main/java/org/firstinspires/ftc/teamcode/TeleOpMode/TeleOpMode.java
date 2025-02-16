@@ -24,7 +24,7 @@ public class TeleOpMode extends OpMode {
     @Override
     public void init() {
         arm = new Arm(hardwareMap, gamepad2);
-        gripper = new Gripper(hardwareMap, gamepad1, gamepad2);
+        gripper = new Gripper(hardwareMap);
         mecanum = new MecanumDrive(hardwareMap, gamepad1);
 
 //        RevHubOrientationOnRobot.LogoFacingDirection logoFacingDirection = RevHubOrientationOnRobot.LogoFacingDirection.FORWARD;
@@ -44,7 +44,6 @@ public class TeleOpMode extends OpMode {
     @Override
     public void loop() {
         arm.armControl();
-        gripper.gripperControl();
         mecanum.mecanumAlL();
         telemetry.update();
 
