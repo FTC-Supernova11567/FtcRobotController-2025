@@ -13,23 +13,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Arm.Arm;
-import org.firstinspires.ftc.teamcode.Examples.ImprovedMecanum;
+import org.firstinspires.ftc.teamcode.DriveTrain.ImprovedMecanum;
 
 import java.util.concurrent.TimeUnit;
 
-@Config
 @Autonomous
 public class AutoHigh1Parking extends LinearOpMode {
 
     public ImprovedMecanum mecanum;
     public Arm arm;
 
-    public ElapsedTime timer = new ElapsedTime();
-    double lastError = 0;
-
     public Timing.Timer time;
-
-    private BNO055IMU imu;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -40,7 +34,7 @@ public class AutoHigh1Parking extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         time = new Timing.Timer(30000, TimeUnit.MILLISECONDS);
 
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.mode = BNO055IMU.SensorMode.IMU;
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
@@ -51,23 +45,20 @@ public class AutoHigh1Parking extends LinearOpMode {
         time.start();
 
         //todo lift arm before moving
-        while (time.elapsedTime() < 300 && !isStopRequested()){
-            arm.angleUp();
-        }
+        arm.angleUp();
 
-
-        while (time.elapsedTime() < 500 && !isStopRequested()) {
+        while (time.elapsedTime() < 300 && !isStopRequested()) {
             mecanum.smartDrive(1, 0, 0, 0, 0);
         }
         arm.stopAngle();
 
 
-        while (time.elapsedTime() < 1400 && !isStopRequested()) { //turning 110 degrees left
+        while (time.elapsedTime() < 1000 && !isStopRequested()) { //turning 110 degrees left
             mecanum.turnToAngle(110, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
         }
 
 
-        while (time.elapsedTime() < 2100 && !isStopRequested()) {
+        while (time.elapsedTime() < 1600 && !isStopRequested()) {
             mecanum.drive(1, 0, 0);
         }
 
@@ -82,17 +73,17 @@ public class AutoHigh1Parking extends LinearOpMode {
         }
 
 
-        while (time.elapsedTime() < 5500 && !isStopRequested()) {
+        while (time.elapsedTime() < 4800 && !isStopRequested()) {
             mecanum.smartDrive(1, 0.3, 0, Math.toRadians(0), imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
         }
 
 
-        while (time.elapsedTime() < 6500 && !isStopRequested()) { //turning 90 degrees left
+        while (time.elapsedTime() < 5650 && !isStopRequested()) { //turning 90 degrees left
             mecanum.turnToAngle(100, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
         }
 
 
-        while (time.elapsedTime() < 7850 && !isStopRequested()) {
+        while (time.elapsedTime() < 6300 && !isStopRequested()) {
             mecanum.drive(-1, 0, 0);
         }
 

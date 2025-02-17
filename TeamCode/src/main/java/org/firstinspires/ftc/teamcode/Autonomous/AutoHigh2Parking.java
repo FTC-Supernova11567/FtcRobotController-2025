@@ -13,23 +13,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Arm.Arm;
-import org.firstinspires.ftc.teamcode.Examples.ImprovedMecanum;
+import org.firstinspires.ftc.teamcode.DriveTrain.ImprovedMecanum;
 
 import java.util.concurrent.TimeUnit;
 
-@Config
 @Autonomous
 public class AutoHigh2Parking extends LinearOpMode {
 
     public ImprovedMecanum mecanum;
     public Arm arm;
 
-    public ElapsedTime timer = new ElapsedTime();
-    double lastError = 0;
-
     public Timing.Timer time;
-
-    private BNO055IMU imu;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -40,7 +34,7 @@ public class AutoHigh2Parking extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         time = new Timing.Timer(30000, TimeUnit.MILLISECONDS);
 
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.mode = BNO055IMU.SensorMode.IMU;
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
@@ -58,12 +52,12 @@ public class AutoHigh2Parking extends LinearOpMode {
         arm.stopAngle();
 
 
-        while (time.elapsedTime() < 1400 && !isStopRequested()) { //turning 110 degrees left
+        while (time.elapsedTime() < 1000 && !isStopRequested()) { //turning 110 degrees left
             mecanum.turnToAngle(110, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
         }
 
 
-        while (time.elapsedTime() < 2100 && !isStopRequested()) {
+        while (time.elapsedTime() < 1600 && !isStopRequested()) {
             mecanum.drive(1, 0, 0);
         }
 
@@ -95,7 +89,7 @@ public class AutoHigh2Parking extends LinearOpMode {
 
 
         while (time.elapsedTime() < 6800 && !isStopRequested()) {
-            mecanum.turnToAngle(135, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
+            mecanum.turnToAngle(150, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
         }
 
 

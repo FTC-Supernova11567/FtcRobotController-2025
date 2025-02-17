@@ -1,26 +1,21 @@
-package org.firstinspires.ftc.teamcode.Examples;
+package org.firstinspires.ftc.teamcode.DriveTrain;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.Utils;
+import org.firstinspires.ftc.teamcode.Utils.Utils;
 
-@Config
 @TeleOp
 public class TestingImprovedMecanum extends OpMode {
     ImprovedMecanum mecanum;
     // Retrieve the IMU from the hardware map
     IMU imu;
-    public static double temp_y = 1;
-    public static double temp_x = 1;
 
     @Override
     public void init(){

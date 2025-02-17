@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Arm.Arm;
-import org.firstinspires.ftc.teamcode.Examples.ImprovedMecanum;
+import org.firstinspires.ftc.teamcode.DriveTrain.ImprovedMecanum;
 
 import java.util.concurrent.TimeUnit;
 
