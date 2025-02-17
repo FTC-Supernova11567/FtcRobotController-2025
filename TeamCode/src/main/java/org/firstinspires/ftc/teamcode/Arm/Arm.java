@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Examples.PIDControl;
 
 public class Arm {
@@ -22,6 +21,7 @@ public class Arm {
     private double wantedBusketAngle;
     private double wantedBusketExtension;
     private double power;
+    private boolean overExtend = false;
 
     //private int wristSetpoint = 0;
     //TODO: PID management
@@ -30,7 +30,7 @@ public class Arm {
 //    private PIDFController extensionController = new PIDFController(5.0, 0.0, 0.0, 0.0);
     //TODO: PID management
 
-    public Arm(HardwareMap hardwareMap, Gamepad constGamepad) {
+    public Arm(HardwareMap hardwareMap) {
         extensionMotor = hardwareMap.get(DcMotorEx.class, "extension");
         extensionMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         //extensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -52,7 +52,6 @@ public class Arm {
 
 //        wristController.setTolerance(2000);
         //TODO: PID management
-        gamepad = constGamepad;
     }
 
     public void resetAngleEncoder(){
@@ -65,13 +64,34 @@ public class Arm {
         extensionMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-
     public void  autoReset(){
             angleDown();
             if(angleMotor.isOverCurrent()){
                 resetAngleEncoder();
                 stopAngle();
             }
+    }
+
+    public void updateLegalMaxExtension(){
+        legalMaxExtension = 2500 / Math.cos(Math.toRadians(-getAngle()));;
+    }
+
+    public void check_fix_overExtend(){
+        if (extensionMotor.getCurrentPosition() > legalMaxExtension){
+            overExtend = true;
+            extensionMotor.setPower(extensionPID.calculatePID(legalMaxExtension, extensionMotor.getCurrentPosition()));
+        }
+        else{
+            overExtend = false;
+        }
+    }
+
+    public void stopAngle() {
+        angleMotor.setPower(0);
+    }
+
+    public void stopExtension() {
+        extensionMotor.setPower(0);
     }
 
     public void angleDown() {
@@ -89,22 +109,14 @@ public class Arm {
         angleMotor.setPower(-0.6);
     }
 
-    public void stopAngle() {
-        angleMotor.setPower(0);
-    }
-
-    public void stopExtension() {
-        extensionMotor.setPower(0);
-    }
-
     public void extend() {
         if (-angleMotor.getCurrentPosition() >= 3600){
             return;
         }
-        if (Math.abs(Math.cos(Math.toRadians(-getAngle())) *  extensionMotor.getCurrentPosition()) < 2500) {
+        if (extensionMotor.getCurrentPosition() < legalMaxExtension) {
             extensionMotor.setPower(0.8);
         }
-        else if (Math.abs(Math.cos(Math.toRadians(-getAngle())) *  extensionMotor.getCurrentPosition()) >= 2500){
+        else{
             stopExtension();
         }
     }
@@ -118,33 +130,6 @@ public class Arm {
         }
     }
 
-
-//    public void rightBumperRetract() {
-//        if(Math.abs(Math.cos(Math.toRadians(-getAngle()-66)) * extensionMotor.getCurrentPosition()) > 2500){
-//            retract();
-//        }
-//        else if (gamepad.right_bumper) {
-//            retract();
-//        }
-//        else if(!gamepad.right_bumper && gamepad.right_trigger == 0){
-//            stopExtension();
-//        }
-//    }
-//
-//    public void rightTriggerExtend() {
-//        if (gamepad.right_trigger != 0) {
-//            extend();
-//        }else if(gamepad.right_trigger == 0 && !gamepad.right_bumper){
-//            stopExtension();
-//        }
-//    }
-//
-//    public void extensionButtonControl() {
-//        rightTriggerExtend();
-//        rightBumperRetract();
-//
-//    }
-
     public void moveByPIDAngle(double anglePos){
         wantedBusketAngle = -anglePos;
         power = (anglePID.calculatePID(wantedBusketAngle, angleMotor.getCurrentPosition()))/10;
@@ -153,9 +138,7 @@ public class Arm {
 
     public void moveByPIDExtension(double extensionPos){
 
-        // Math.cos(Math.toRadians(-getAngle())) *  x == 2500
-
-        legalMaxExtension = 2500 / Math.cos(Math.toRadians(-getAngle())); // finding the max extension of our arm
+//        legalMaxExtension = 2500 / Math.cos(Math.toRadians(-getAngle())); // finding the max extension of our arm
         wantedBusketExtension = 2500 > (Math.abs(Math.cos(Math.toRadians(-getAngle())) * extensionPos)) ? extensionPos : legalMaxExtension;
 
         power = (extensionPID.calculatePID(wantedBusketExtension, extensionMotor.getCurrentPosition()))/10;
@@ -184,66 +167,7 @@ public class Arm {
         }
     }
 
-
-
-
-//    public void stopArmMovment(){
-//        if(extensionMotor.getCurrentPosition()<4000){
-//            stopExtension();
-//        }
-//    }
-
-//
-//    public void AutoResetEncoder(){
-//        if(extensionMotor.isAngleOverCurrent()){
-//            resetEncoder();
-//        }
-//    }
-
-    //    public void resetAngleEncoder(){
-//        angleMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        angleMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//    }
-
-
-    public void resetEncoderTeleOp(){
-        if (gamepad.y){
-            resetExtensionEncoder();
-        }
-    }
-
-
-    public void resetAngleEncoderTeleop(){
-        if(gamepad.right_stick_button){
-            resetAngleEncoder();
-        }
-    }
-
-
-//    public void armControl() {
-//        extensionButtonControl();
-//        dpadAngle();
-//        resetEncoderTeleOp();
-//        resetAngleEncoderTeleop();
-//        autoReset();
-//    }
-
-
-//    public void setArmAngle(int position) {]
-
-//        wristSetpoint = position;
-//    }
-//
-//    public void update() {
-//        angleMotor.setPower(wristController.calculate(angleMotor.getCurrentPosition(), wristSetpoint));
-//    }
-
-    //TODO: PID management
-
-
-    public double getAngle () {
-        return (((double) angleMotor.getCurrentPosition() + 1423) / 8192 * 360);
-    }
+    public double getAngle () {return (((double) angleMotor.getCurrentPosition() + 1423) / 8192 * 360);}
     public int getExtend(){
         return extensionMotor.getCurrentPosition();
     }
@@ -264,6 +188,9 @@ public class Arm {
     }
     public double getPower(){
         return power;
+    }
+    public boolean getOverExtend(){
+        return overExtend;
     }
 }
 

@@ -20,12 +20,13 @@ public class ExampleSystemClass {
 //       myMotor = constHardwareMap.get(DcMotor.class, "myMotor");
         PIDMotor = constHardwareMap.get(DcMotorEx.class, "PIDMotor");
         // Only when testing extension PID
-        DcMotorEx angleMotor = constHardwareMap.get(DcMotorEx.class, "angleMotor"); // Only when testing extension PID
+        // DcMotorEx angleMotor = constHardwareMap.get(DcMotorEx.class, "angleMotor"); // Only when testing extension PID
 
         PIDMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         PIDMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-        angleMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); // Only when testing extension PID
+
+        // angleMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); // Only when testing extension PID
 
         PIDController = new PIDControl(kP, kI, kD);
     }
@@ -102,12 +103,11 @@ public class ExampleSystemClass {
 //    }
 
     void correctByPID(double pos){
-        // wantedPosition = -pos; // Only when testing angle PID
-        wantedPosition = pos; // Only when testing extension PID
+        wantedPosition = -pos; // Only when testing angle PID
+        // wantedPosition = pos; // Only when testing extension PID
         PIDPower = (PIDController.calculatePID(wantedPosition, PIDMotor.getCurrentPosition()))/10;
-        PIDPower = Math.abs(PIDPower) > 0.8 ? signum(PIDPower) * 0.8 : PIDPower;
+        //PIDPower = Math.abs(PIDPower) > 0.8 ? signum(PIDPower) * 0.8 : PIDPower;
         PIDMotor.setPower(PIDPower);
-        // PIDMotor.setPower(power);
     }
 
 
@@ -119,9 +119,6 @@ public class ExampleSystemClass {
 
     public double getPose() {
         return PIDMotor.getCurrentPosition();
-    }
-    public double getPIDPower() {
-        return PIDMotor.getPower();
     }
     public double getCorrection(){
         return PIDPower;

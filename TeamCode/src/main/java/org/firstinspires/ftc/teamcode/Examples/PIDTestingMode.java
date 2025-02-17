@@ -9,12 +9,15 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+@Config
 @TeleOp
 public class PIDTestingMode extends OpMode {
     ExampleSystemClass mySystem;
-    public static double kP = 0.8;
-    public static double kI = 0;
-    public static double kD = 0.0002;
+    public static double kP = 0.1;
+    public static double kI = 0.00014;
+    public static double kD = 0.00061;
+    public static double up = 2300;
+    public static double down = 100;
 
     FtcDashboard dashboard = FtcDashboard.getInstance();
     // TelemetryPacket packet = new TelemetryPacket();
@@ -35,8 +38,8 @@ public class PIDTestingMode extends OpMode {
         // mySystem.changeAngle();
         mySystem.changeLength(gamepad2.left_stick_y == 0 ? 0.0 : (signum(gamepad2.left_stick_y) * -0.8));
 
-        if (gamepad2.x) mySystem.correctByPID(3000);
-        if (gamepad2.b) mySystem.correctByPID(0);
+        if (gamepad2.cross) mySystem.correctByPID(down);
+        if (gamepad2.circle) mySystem.correctByPID(up);
 
         telemetry.addData("!!Current pose", mySystem.getPose());
         telemetry.addData("!Wanted position", mySystem.getWantedPosition());

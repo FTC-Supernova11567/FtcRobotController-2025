@@ -11,7 +11,7 @@ public class AutonomusTrail extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Arm myArm = new Arm(hardwareMap, gamepad2);
+        Arm myArm = new Arm(hardwareMap);
         Gripper myGripper = new Gripper(hardwareMap);
         MecanumDrive mecanum = new MecanumDrive(hardwareMap, gamepad1);
 

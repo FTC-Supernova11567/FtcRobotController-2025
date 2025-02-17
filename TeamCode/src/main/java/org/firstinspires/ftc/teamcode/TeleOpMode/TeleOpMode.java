@@ -17,7 +17,7 @@ public class TeleOpMode extends OpMode {
 
     @Override
     public void init() {
-        arm = new Arm(hardwareMap, gamepad2);
+        arm = new Arm(hardwareMap);
         gripper = new Gripper(hardwareMap);
         mecanum = new MecanumDrive(hardwareMap, gamepad1);
     }
@@ -25,6 +25,9 @@ public class TeleOpMode extends OpMode {
     @Override
     public void loop() {
         mecanum.mecanumAlL();
+
+        arm.updateLegalMaxExtension();
+        arm.check_fix_overExtend();
 
         // if (gamepad2.b) arm.autoReset();
         if (gamepad2.dpad_down) arm.angleDown();
@@ -41,18 +44,18 @@ public class TeleOpMode extends OpMode {
         if (gamepad1.right_trigger != 0) gripper.moveHook(0);
         if (gamepad1.left_trigger != 0) gripper.moveHook(0.28);
 
-        if(gamepad2.x) gripper.turnToAngle(0); // Gripper centered
+        if(gamepad2.square) gripper.turnToAngle(0); // Gripper centered
         gripper.moveToAngle(gamepad2.right_stick_x == 0 ? 0 : signum(gamepad2.right_stick_x) * 0.01);
 
 
-        //if (gamepad2.a) arm.moveByPIDAngle(0);
-        //if (gamepad2.b) arm.moveByPIDAngle(2300);
-        //if (gamepad2.y) arm.moveByPIDAngle(2750);
+        if (gamepad2.cross) arm.moveByPIDAngle(0);
+        if (gamepad2.circle) arm.moveByPIDAngle(2300);
+        if (gamepad2.triangle) arm.moveByPIDAngle(2750);
         if (gamepad2.touchpad) arm.moveByPIDAngle(3200);
 
-        if (gamepad2.a) arm.moveByPIDExtension(0);
-        if (gamepad2.b) arm.moveByPIDExtension(0);
-        if (gamepad2.y) arm.moveByPIDExtension(3440);
+//        if (gamepad2.cross && !arm.getOverExtend()) arm.moveByPIDExtension(0);
+//        if (gamepad2.circle && !arm.getOverExtend()) arm.moveByPIDExtension(0);
+//        if (gamepad2.triangle && !arm.getOverExtend()) arm.moveByPIDExtension(2990);
 
 
 
@@ -63,19 +66,20 @@ public class TeleOpMode extends OpMode {
         // telemetry.addData("Angle motor over current", arm.getIsOverCurrent());
         // telemetry.addData("Extension", arm.getExtend());
         //telemetry.addData("Current angle ticks", -arm.getAngleMotor().getCurrentPosition());
-        telemetry.addData("Extension Calculation ouput", Math.cos(Math.toRadians(-arm.getAngle())) *  arm.getExtensionMotorPosition());
         // telemetry.addData("Extension avg current", arm.getExtensionMotor().isOverCurrent());
         //telemetry.addData("angleCurrent", arm.getAngleMotor().getCurrent(CurrentUnit.MILLIAMPS));
 
         // telemetry.addData("Angle motor current", arm.getAngleMotor().getCurrent(CurrentUnit.MILLIAMPS));
         telemetry.addData("Angle position", arm.getAngleMotorPosition());
+        telemetry.addLine();
         telemetry.addData("Extension position", arm.getExtensionMotorPosition());
+        telemetry.addData("Extension Calculation output", Math.cos(Math.toRadians(-arm.getAngle())) *  arm.getExtensionMotorPosition());
         telemetry.addData("LegalMaxExtension",arm.getLegalMaxExtension());
-        telemetry.addData("wantedBusketExtension",arm.getWantedBusketExtension());
-        telemetry.addData("Motor power",arm.getPower());
+        telemetry.addData("WantedBusketExtension",arm.getWantedBusketExtension());
 
         telemetry.update();
     }
+
     public void moveToSetPoint(double anglePos, double extensionPos, double gripperAngle){
         arm.goToSetPoint(anglePos, extensionPos);
         gripper.turnToAngle(gripperAngle);
