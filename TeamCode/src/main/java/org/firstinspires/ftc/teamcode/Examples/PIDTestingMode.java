@@ -9,6 +9,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+@Config
 @TeleOp
 public class PIDTestingMode extends OpMode {
     ExampleSystemClass mySystem;
@@ -30,13 +31,15 @@ public class PIDTestingMode extends OpMode {
 
     @Override
     public void loop() {
-        if (gamepad2.y) mySystem.resetEncoder();
+        if (gamepad2.share) mySystem.resetEncoder();
 
         // mySystem.changeAngle();
         mySystem.changeLength(gamepad2.left_stick_y == 0 ? 0.0 : (signum(gamepad2.left_stick_y) * -0.8));
 
-        if (gamepad2.x) mySystem.correctByPID(3000);
-        if (gamepad2.b) mySystem.correctByPID(0);
+        if (gamepad2.triangle) mySystem.correctByPID(2750);
+        if (gamepad2.circle) mySystem.correctByPID(2300);
+        if (gamepad2.cross) mySystem.correctByPID(500);
+        if (gamepad2.touchpad) mySystem.correctByPID(3200);
 
         telemetry.addData("!!Current pose", mySystem.getPose());
         telemetry.addData("!Wanted position", mySystem.getWantedPosition());
