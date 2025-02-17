@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 @Config
 @Autonomous
-public class AutoHigh1Parking extends LinearOpMode {
+public class AutoHigh2Parking extends LinearOpMode {
 
     public ImprovedMecanum mecanum;
     public Arm arm;
@@ -50,13 +50,9 @@ public class AutoHigh1Parking extends LinearOpMode {
         waitForStart();
         time.start();
 
-        //todo lift arm before moving
-        while (time.elapsedTime() < 300 && !isStopRequested()){
-            arm.angleUp();
-        }
+        arm.angleUp();
 
-
-        while (time.elapsedTime() < 500 && !isStopRequested()) {
+        while (time.elapsedTime() < 300 && !isStopRequested()) {
             mecanum.smartDrive(1, 0, 0, 0, 0);
         }
         arm.stopAngle();
@@ -71,10 +67,12 @@ public class AutoHigh1Parking extends LinearOpMode {
             mecanum.drive(1, 0, 0);
         }
 
-        //todo: add angle and busket game piece
+
+        //todo: add angle and extension and gripper for busket game piece
         while (time.elapsedTime() < 3000 && !isStopRequested()){
             mecanum.stop();
         }
+        //todo: add angle and extension close
 
 
         while (time.elapsedTime() < 3500 && !isStopRequested()) {
@@ -82,17 +80,48 @@ public class AutoHigh1Parking extends LinearOpMode {
         }
 
 
-        while (time.elapsedTime() < 5500 && !isStopRequested()) {
+        while (time.elapsedTime() < 4200 && !isStopRequested()) {
+            mecanum.smartDrive(0, 0.3, 0, Math.toRadians(0), imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
+        }
+
+        while (time.elapsedTime() < 4500 && !isStopRequested()) {
+            mecanum.drive(0.3, 0, 0);
+        }
+
+        //todo: extend arm and collect game piece
+        while (time.elapsedTime() < 6000 && !isStopRequested()){
+            mecanum.stop();
+        }
+
+
+        while (time.elapsedTime() < 6800 && !isStopRequested()) {
+            mecanum.turnToAngle(135, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
+        }
+
+
+        while (time.elapsedTime() < 7000 && !isStopRequested()) {
+            mecanum.drive(1, 0, 0);
+        }
+
+        //todo: add angle and extension and gripper for busket game piece
+        arm.angleUp();
+
+        while (time.elapsedTime() < 7500 && !isStopRequested()) {
+            mecanum.turnToAngle(0, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
+        }
+        arm.stopAngle();
+
+        while (time.elapsedTime() < 9500 && !isStopRequested()) {
             mecanum.smartDrive(1, 0.3, 0, Math.toRadians(0), imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
         }
 
 
-        while (time.elapsedTime() < 6500 && !isStopRequested()) { //turning 90 degrees left
+        while (time.elapsedTime() < 10500 && !isStopRequested()) {
             mecanum.turnToAngle(100, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
         }
 
 
-        while (time.elapsedTime() < 7850 && !isStopRequested()) {
+        while (time.elapsedTime() < 11550 && !isStopRequested()) {
             mecanum.drive(-1, 0, 0);
         }
 

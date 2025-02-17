@@ -1,19 +1,10 @@
 package org.firstinspires.ftc.teamcode.TeleOpMode;
 
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
-import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Arm.Arm;
-import org.firstinspires.ftc.teamcode.DriveTrain.MecanumDrive;
-import org.firstinspires.ftc.teamcode.DriveTrain.NewMecanumDrive;
-import org.firstinspires.ftc.teamcode.Examples.ImprovedMecanum;
 import org.firstinspires.ftc.teamcode.Gripper.Gripper;
 import org.firstinspires.ftc.teamcode.Utils;
 

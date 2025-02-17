@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Examples.ImprovedMecanum;
 import java.util.concurrent.TimeUnit;
 
 @Autonomous
-public class SafetyAutonomous extends LinearOpMode {
+public class safetyHang1Parking extends LinearOpMode {
     public ImprovedMecanum mecanum;
     public Arm arm;
     private BNO055IMU imu;
@@ -28,7 +28,7 @@ public class SafetyAutonomous extends LinearOpMode {
         mecanum = new ImprovedMecanum(hardwareMap);
         arm = new Arm(hardwareMap, gamepad2);
 
-        time = new Timing.Timer(4000, TimeUnit.MILLISECONDS);
+        time = new Timing.Timer(30000, TimeUnit.MILLISECONDS);
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -40,13 +40,22 @@ public class SafetyAutonomous extends LinearOpMode {
         waitForStart();
         time.start();
 
-        while (time.elapsedTime() < 600 && !isStopRequested()){
-            arm.angleUp();
+        //todo: add code for hang high level
+        arm.angleUp();
+
+        while (time.elapsedTime() < 1500 && !isStopRequested()){
+            mecanum.smartDrive(0, 1, 0, Math.toRadians(0), imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
         }
         arm.stopAngle();
 
-        while (time.elapsedTime() < 1600 && !isStopRequested()){
-            mecanum.smartDrive(1, 0, 0, 0, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
+        while (time.elapsedTime() < 2300 && !isStopRequested()){
+            arm.angleDown();
         }
+        arm.stopAngle();
+
+        while (time.elapsedTime() < 4300 && !isStopRequested()){
+            mecanum.smartDrive(1, 1, 0, Math.toRadians(0), imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
+        }
+
     }
 }

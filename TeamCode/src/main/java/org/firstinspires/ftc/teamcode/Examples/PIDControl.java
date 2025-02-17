@@ -19,7 +19,7 @@ public class PIDControl {
     }
 
     public double calculatePID(double reference, double currecntState){
-        double error = reference - currecntState;
+        double error = angleWrap(reference - currecntState);
         integralSum += error * timer.seconds();
         double derivative = (error - lastError) / timer.seconds();
         lastError = error;
@@ -27,6 +27,16 @@ public class PIDControl {
         timer.reset();
 
         return (error * kP) + (integralSum * kI) + (derivative * kD);
+    }
+
+    public double angleWrap(double radians){
+        while(radians > Math.PI){
+            radians -= 2 * Math.PI;
+        }
+        while(radians < -Math.PI){
+            radians += 2 * Math.PI;
+        }
+        return radians;
     }
 }
 
