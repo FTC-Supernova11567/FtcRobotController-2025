@@ -4,9 +4,9 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class PIDControl {
-    private static double kP = 0;
-    private static double kI = 0;
-    private static double kD = 0;
+    private double kP = 0;
+    private double kI = 0;
+    private double kD = 0;
     private double integralSum = 0;
 
 
@@ -29,6 +29,10 @@ public class PIDControl {
         timer.reset();
 
         return (error * kP) + (integralSum * kI) + (derivative * kD);
+    }
+
+    public double getIntegralSum() {
+        return integralSum;
     }
 
 }

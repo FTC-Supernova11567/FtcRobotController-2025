@@ -13,18 +13,18 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp
 public class PIDTestingMode extends OpMode {
     ExampleSystemClass mySystem;
-    public static double kP = 0.1;
-    public static double kI = 0.00014;
-    public static double kD = 0.00061;
-    public static double up = 2300;
-    public static double down = 100;
+    public static double kP = 0.12;
+    public static double kI = 0;
+    public static double kD = 0;
+    public static double up = 2000;
+    public static double down = 500;
 
     FtcDashboard dashboard = FtcDashboard.getInstance();
     // TelemetryPacket packet = new TelemetryPacket();
 
     @Override
     public void init() {
-        // perfect values for angle PID: 0.1, 0.00014,0.00061
+        // perfect values for angle PID: 0.12, 0, 0
         // perfect values for` extension PID: 0.8, 0.000,0.00002
         mySystem = new ExampleSystemClass(hardwareMap, kP, kI, kD);
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());

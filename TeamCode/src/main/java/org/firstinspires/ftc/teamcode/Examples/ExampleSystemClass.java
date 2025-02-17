@@ -106,7 +106,7 @@ public class ExampleSystemClass {
         wantedPosition = -pos; // Only when testing angle PID
         // wantedPosition = pos; // Only when testing extension PID
         PIDPower = (PIDController.calculatePID(wantedPosition, PIDMotor.getCurrentPosition()))/10;
-        //PIDPower = Math.abs(PIDPower) > 0.8 ? signum(PIDPower) * 0.8 : PIDPower;
+        // PIDPower = Math.abs(PIDPower) > 0.8 ? signum(PIDPower) * 0.8 : PIDPower;
         PIDMotor.setPower(PIDPower);
     }
 
@@ -125,5 +125,8 @@ public class ExampleSystemClass {
     }
     public double getWantedPosition(){
         return wantedPosition;
+    }
+    public double getIntegralSum(){
+        return PIDController.getIntegralSum();
     }
 }

@@ -13,11 +13,12 @@ import org.firstinspires.ftc.teamcode.Examples.PIDControl;
 public class Arm {
     private final DcMotorEx extensionMotor;
     private final DcMotorEx angleMotor;
+
     private final PIDControl anglePID;
     private final PIDControl extensionPID;
+
     private double legalMaxExtension;
 
-    private Gamepad gamepad;
     private double wantedBusketAngle;
     private double wantedBusketExtension;
     private double power;
@@ -37,7 +38,7 @@ public class Arm {
         extensionMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         //PIDTestingMode() =new PIDTestingMode();
 
-        anglePID = new PIDControl(0.1, 0.00014,0.00061);
+        anglePID = new PIDControl(0.003, 0, 0);
         extensionPID = new PIDControl( 0.8, 0.000,0.00002);
 
         //TODO: PID management
@@ -131,8 +132,8 @@ public class Arm {
     }
 
     public void moveByPIDAngle(double anglePos){
-        wantedBusketAngle = -anglePos;
-        power = (anglePID.calculatePID(wantedBusketAngle, angleMotor.getCurrentPosition()))/10;
+        wantedBusketAngle = anglePos;
+        power = anglePID.calculatePID(wantedBusketAngle, angleMotor.getCurrentPosition());
         angleMotor.setPower(power);
     }
 
@@ -149,22 +150,6 @@ public class Arm {
     public void goToSetPoint(double anglePos, double extensionPos){
         moveByPIDAngle(anglePos);
         moveByPIDExtension(extensionPos);
-    }
-
-    public void setPoints(){
-        if (gamepad.a){
-            wantedBusketAngle = 0;
-            wantedBusketExtension = 0;
-        }
-        else if(gamepad.b){
-            wantedBusketAngle = 2300; // Best amount of ticks in encoder for lower basket
-            wantedBusketExtension = 0;
-        }
-        else if(gamepad.x){
-            wantedBusketAngle = 2750; // Best amount of ticks in encoder for high basket - front robot
-            wantedBusketExtension = 3440;
-
-        }
     }
 
     public double getAngle () {return (((double) angleMotor.getCurrentPosition() + 1423) / 8192 * 360);}
@@ -191,6 +176,14 @@ public class Arm {
     }
     public boolean getOverExtend(){
         return overExtend;
+    }
+
+
+    public void setAngleMotorPower(double power){
+        angleMotor.setPower(power);
+    }
+    public void setExtensionMotorPower(double power){
+        extensionMotor.setPower(power);
     }
 }
 
