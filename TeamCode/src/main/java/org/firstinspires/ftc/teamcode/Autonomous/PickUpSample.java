@@ -18,14 +18,14 @@ public class PickUpSample extends LinearOpMode {
 
         while (getRuntime()>0&&getRuntime()<5){
             mecanum.forward();
-            myGripper.moveHook(0.28);
+            myGripper.spinForward();
         }
 
         while(getRuntime()>5&&getRuntime()<7){
             myArm.angleUp();
         }
         while (getRuntime()>7&&getRuntime()<10){
-            myGripper.moveHook(0);
+            myGripper.spinBackward();
         }
     }
 }
