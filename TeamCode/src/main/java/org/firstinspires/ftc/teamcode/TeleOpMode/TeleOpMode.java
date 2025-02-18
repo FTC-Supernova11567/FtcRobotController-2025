@@ -23,7 +23,7 @@ import org.firstinspires.ftc.teamcode.Utils.Utils;
 public class TeleOpMode extends OpMode {
     Arm arm;
     Gripper gripper;
-    MecanumDrive mecanum;
+    ImprovedMecanum mecanum;
     private IMU imu;
 
     @Override

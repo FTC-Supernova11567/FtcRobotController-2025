@@ -24,7 +24,7 @@ public class safetyHang1Parking extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         mecanum = new ImprovedMecanum(hardwareMap);
-        arm = new Arm(hardwareMap, gamepad2);
+        arm = new Arm(hardwareMap);
 
         time = new Timing.Timer(30000, TimeUnit.MILLISECONDS);
 

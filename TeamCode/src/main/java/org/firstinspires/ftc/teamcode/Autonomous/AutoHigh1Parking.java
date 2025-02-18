@@ -29,7 +29,7 @@ public class AutoHigh1Parking extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         mecanum = new ImprovedMecanum(hardwareMap);
-        arm = new Arm(hardwareMap, gamepad2);
+        arm = new Arm(hardwareMap);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         time = new Timing.Timer(30000, TimeUnit.MILLISECONDS);

@@ -8,8 +8,9 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.Examples.PIDControl;
+import org.firstinspires.ftc.teamcode.Utils.PIDControl;
 import org.firstinspires.ftc.teamcode.Gripper.Gripper;
+import org.firstinspires.ftc.teamcode.Utils.PIDControl;
 
 public class Arm {
     private final DcMotorEx extensionMotor;

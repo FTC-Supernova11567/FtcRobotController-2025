@@ -26,7 +26,7 @@ public class SafetyAutonomous extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         mecanum = new ImprovedMecanum(hardwareMap);
-        arm = new Arm(hardwareMap, gamepad2);
+        arm = new Arm(hardwareMap);
 
         time = new Timing.Timer(4000, TimeUnit.MILLISECONDS);
 
