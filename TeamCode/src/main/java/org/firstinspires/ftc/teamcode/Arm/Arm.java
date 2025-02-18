@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Examples.PIDControl;
+import org.firstinspires.ftc.teamcode.Gripper.Gripper;
 
 public class Arm {
     private final DcMotorEx extensionMotor;
@@ -150,6 +151,11 @@ public class Arm {
     public void goToSetPoint(double anglePos, double extensionPos){
         moveByPIDAngle(anglePos);
         moveByPIDExtension(extensionPos);
+    }
+
+    public void moveToSetPoint(double anglePos, double extensionPos, double gripperAngle, Gripper gripper){
+        goToSetPoint(anglePos, extensionPos);
+        gripper.turnToAngle(gripperAngle);
     }
 
     public double getAngle () {return (((double) angleMotor.getCurrentPosition() + 1423) / 8192 * 360);}
