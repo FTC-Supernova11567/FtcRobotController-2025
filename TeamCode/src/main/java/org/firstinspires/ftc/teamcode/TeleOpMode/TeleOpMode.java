@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Arm.Arm;
 import org.firstinspires.ftc.teamcode.DriveTrain.ImprovedMecanum;
 import org.firstinspires.ftc.teamcode.Gripper.Gripper;
@@ -42,37 +43,22 @@ public class TeleOpMode extends OpMode {
         arm.armControl();
 //        gripper.gripperControl();
 
-        //if (-gamepad1.right_stick_y > 0 && gamepad1.right_stick_x == 0) mecanum.forward();
-        //if (-gamepad1.right_stick_y < 0 && gamepad1.right_stick_x == 0) mecanum.backwards();
-        //if (-gamepad1.right_stick_y == 0 && gamepad1.right_stick_x > 0) mecanum.right();
-        //if (-gamepad1.right_stick_y == 0 && gamepad1.right_stick_x < 0) mecanum.left();
-//
-        //if(-gamepad1.right_stick_y > 0 && gamepad1.right_stick_x > 0) mecanum.diagonalFrontRight();
-        //if(-gamepad1.right_stick_y > 0 && gamepad1.right_stick_x < 0) mecanum.diagonalFrontLeft();
-        //if (-gamepad1.right_stick_y < 0 && gamepad1.right_stick_x > 0) mecanum.diagonalBackRight();
-        //if(-gamepad1.right_stick_y < 0 && gamepad1.right_stick_x < 0) mecanum.diagonalBackLeft();
-
-        // if(-gamepad1.left_stick_x > 0) mecanum.rotateRight();
-        //if(-gamepad1.left_stick_x < 0) mecanum.rotateLeft();
-
-        // if (gamepad1.right_stick_y == 0 && gamepad1.right_stick_x == 0) mecanum.stop();
-
         double deadbend = 0.4;
         double y = Utils.deadbend(-gamepad1.left_stick_y, deadbend);
         double x = Utils.deadbend(gamepad1.left_stick_x, deadbend);
         double rx = Utils.deadbend(gamepad1.right_stick_x, deadbend);
 
-//        if (gamepad1.a) {
-//            imu.resetYaw();
-//        }
-//
-//        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
-//
-//        double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
-//        double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
+        if (gamepad1.a) {
+            imu.resetYaw();
+        }
 
-        mecanum.drive(y, x, rx); // Basic driving
-        // mecanum.drive(rotY, rotX, rx); // Field orianted driving
+        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+
+        double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
+        double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
+
+//        mecanum.drive(y, x, rx); // Basic driving
+        mecanum.drive(rotY, rotX, rx); // Field orianted driving
 
 //        telemetry.addData("IMU yaw", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
 //        telemetry.update();
