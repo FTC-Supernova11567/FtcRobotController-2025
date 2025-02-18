@@ -19,7 +19,18 @@ public class PIDControl {
     }
 
     public double calculatePID(double reference, double currecntState){
-        double error = angleWrap(reference - currecntState);
+        double error = reference - currecntState;
+        integralSum += error * timer.seconds();
+        double derivative = (error - lastError) / timer.seconds();
+        lastError = error;
+
+        timer.reset();
+
+        return (error * kP) + (integralSum * kI) + (derivative * kD);
+    }
+
+    public double MecanumPID(double reference, double currentState){
+        double error = angleWrap(reference - currentState);
         integralSum += error * timer.seconds();
         double derivative = (error - lastError) / timer.seconds();
         lastError = error;

@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.arcrobotics.ftclib.util.Timing;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -47,7 +45,7 @@ public class AutoHigh2Parking extends LinearOpMode {
         arm.angleUp();
 
         while (time.elapsedTime() < 300 && !isStopRequested()) {
-            mecanum.smartDrive(1, 0, 0, 0, 0);
+            mecanum.smartDrive(1, 0, 0, 0);
         }
         arm.stopAngle();
 
@@ -58,7 +56,7 @@ public class AutoHigh2Parking extends LinearOpMode {
 
 
         while (time.elapsedTime() < 1600 && !isStopRequested()) {
-            mecanum.drive(1, 0, 0);
+            mecanum.driveWithBuffer(1, 0, 0, 1);
         }
 
 
@@ -75,11 +73,11 @@ public class AutoHigh2Parking extends LinearOpMode {
 
 
         while (time.elapsedTime() < 4200 && !isStopRequested()) {
-            mecanum.smartDrive(0, 0.3, 0, Math.toRadians(0), imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
+            mecanum.smartDrive(0, 0.3, Math.toRadians(0), imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
         }
 
         while (time.elapsedTime() < 4500 && !isStopRequested()) {
-            mecanum.drive(0.3, 0, 0);
+            mecanum.driveWithBuffer(0.3, 0, 0, 1);
         }
 
         //todo: extend arm and collect game piece
@@ -94,7 +92,7 @@ public class AutoHigh2Parking extends LinearOpMode {
 
 
         while (time.elapsedTime() < 7000 && !isStopRequested()) {
-            mecanum.drive(1, 0, 0);
+            mecanum.driveWithBuffer(1, 0, 0, 1);
         }
 
         //todo: add angle and extension and gripper for busket game piece
@@ -106,7 +104,7 @@ public class AutoHigh2Parking extends LinearOpMode {
         arm.stopAngle();
 
         while (time.elapsedTime() < 9500 && !isStopRequested()) {
-            mecanum.smartDrive(1, 0.3, 0, Math.toRadians(0), imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
+            mecanum.smartDrive(1, 0.3, Math.toRadians(0), imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
         }
 
 
@@ -116,7 +114,7 @@ public class AutoHigh2Parking extends LinearOpMode {
 
 
         while (time.elapsedTime() < 11550 && !isStopRequested()) {
-            mecanum.drive(-1, 0, 0);
+            mecanum.driveWithBuffer(-1, 0, 0, 1);
         }
 
         //todo: add arm angle up

@@ -46,7 +46,7 @@ public class SafetyAutonomous extends LinearOpMode {
         arm.stopAngle();
 
         while (time.elapsedTime() < 2000 && !isStopRequested()){
-            mecanum.smartDrive(0, 1, 0, 0, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
+            mecanum.smartDrive(0, 1, 0, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
         }
     }
 }

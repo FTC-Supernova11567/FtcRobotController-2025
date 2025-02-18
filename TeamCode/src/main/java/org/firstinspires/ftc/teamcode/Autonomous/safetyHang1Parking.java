@@ -42,7 +42,7 @@ public class safetyHang1Parking extends LinearOpMode {
         arm.angleUp();
 
         while (time.elapsedTime() < 650 && !isStopRequested()){
-            mecanum.smartDrive(1, 0, 0, Math.toRadians(0), imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
+            mecanum.smartDrive(1, 0, Math.toRadians(0), imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
         }
 
 //        //todo: calibrate and add copde for arm and gripper
@@ -57,11 +57,11 @@ public class safetyHang1Parking extends LinearOpMode {
 //        arm.stopAngle();
 
         while (time.elapsedTime() < 1000 && !isStopRequested()){
-            mecanum.drive(-1, 0, 0);
+            mecanum.driveWithBuffer(-1, 0, 0, 1);
         }
 
         while (time.elapsedTime() < 4000 && !isStopRequested()){
-            mecanum.smartDrive(0, 1, 0, Math.toRadians(0), imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
+            mecanum.smartDrive(0, 1, Math.toRadians(0), imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
         }
 
     }

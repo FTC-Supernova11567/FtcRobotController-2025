@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.DriveTrain;
 
+import static java.lang.Math.signum;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -42,6 +44,23 @@ public class ImprovedMecanum {
 
     }
 
+    public void driveWithBuffer(double y, double x, double rx, double buffer){
+        // Denominator is the largest motor power (absolute value) or 1
+        // This ensures all the powers maintain the same ratio,
+        // but only if at least one is out of the range [-1, 1]
+        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+        double frontLeftPower = (y + x + rx) / denominator;
+        double backLeftPower = (y - x + rx) / denominator;
+        double frontRightPower = (y - x - rx) / denominator;
+        double backRightPower = (y + x - rx) / denominator;
+
+
+        frontLeft.setPower(Math.abs(frontLeftPower) > buffer ? signum(frontLeftPower) * buffer : frontLeftPower);
+        backLeft.setPower(Math.abs(backLeftPower) > buffer ? signum(backLeftPower) * buffer : backLeftPower);
+        frontRight.setPower(Math.abs(frontRightPower) > buffer ? signum(frontRightPower) * buffer : frontRightPower);
+        backRight.setPower(Math.abs(backRightPower) > buffer ? signum(backRightPower) * buffer : backRightPower);
+    }
+
     public void drive(double y, double x, double rx){
         // Denominator is the largest motor power (absolute value) or 1
         // This ensures all the powers maintain the same ratio,
@@ -52,14 +71,14 @@ public class ImprovedMecanum {
         double frontRightPower = (y - x - rx) / denominator;
         double backRightPower = (y + x - rx) / denominator;
 
-        frontLeft.setPower(frontLeftPower);
+        frontLeft.setPower(frontRightPower);
         backLeft.setPower(backLeftPower);
         frontRight.setPower(frontRightPower);
         backRight.setPower(backRightPower);
     }
 
     public void turnToAngle(double angle, double currentOrientation){
-        double output = PIDMecanum.calculatePID(Math.toRadians(angle), currentOrientation);
+        double output = PIDMecanum.MecanumPID(Math.toRadians(angle), currentOrientation);
 
         frontLeft.setPower(-output);
         backLeft.setPower(-output);
@@ -67,49 +86,16 @@ public class ImprovedMecanum {
         backRight.setPower(output);
     }
 
-    public void smartDrive(double y, double x, double rx, double wantedAngle, double currentOrientation){
+    public void smartDrive(double y, double x, double wantedAngle, double currentOrientation){
 
         double output = PIDMecanum.calculatePID(Math.toRadians(wantedAngle), currentOrientation);
-        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+        double denominator = Math.max(Math.abs(y) + Math.abs(x), 1);
 
-        frontLeft.setPower(-output + (y + x + rx) / denominator);
-        backLeft.setPower(-output + (y - x + rx) / denominator);
-        frontRight.setPower(output + (y - x - rx) / denominator);
-        backRight.setPower(output + (y + x - rx) / denominator);
-    }
-
-    public void forward(){
-        this.drive(1.0, 0.0, 0.0);
-    }
-    public void backwards(){
-        this.drive(-1.0, 0.0 , 0.0 );
-    }
-    public void right(){
-        this.drive(0.0, 1.0, 0.0);
-    }
-    public void left(){
-        this.drive(0.0 , -1.0 , 0.0);
+        frontLeft.setPower(-output + (y + x) / denominator);
+        backLeft.setPower(-output + (y - x) / denominator);
+        frontRight.setPower(output + (y - x) / denominator);
+        backRight.setPower(output + (y + x) / denominator);
     }
 
-    public void rightFront(){
-        this.drive(1, 1, 0);
-    }
-    public void rightBack(){
-        this.drive(-1, 1, 0);
-    }
-    public void leftFront(){
-        this.drive(1, -1, 0);
-    }
-    public void leftBack(){
-        this.drive(-1, -1, 0);
-    }
-
-    public void rotateRight(){
-        this.drive(0.0 , 0.0 , 1.0);
-    }
-    public void rotateLeft(){
-        this.drive(0.0, 0.0, -1.0);
-    }
-
-    public void stop(){this.drive(0, 0, 0);}
+    public void stop(){this.driveWithBuffer(0, 0, 0, 1);}
 }

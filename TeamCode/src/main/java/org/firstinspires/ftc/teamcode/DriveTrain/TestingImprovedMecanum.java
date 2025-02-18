@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.DriveTrain;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -52,7 +51,7 @@ public class TestingImprovedMecanum extends OpMode {
         double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
 
         // mecanum.drive(y, x, rx); // Basic driving
-        mecanum.drive(rotY, rotX, rx); // Field orianted driving
+        mecanum.driveWithBuffer(rotY, rotX, rx, 1); // Field orianted driving
 
         telemetry.addData("IMU yaw", imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
         telemetry.update();

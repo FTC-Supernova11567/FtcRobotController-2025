@@ -22,7 +22,6 @@ public class Arm {
     private double wantedBusketAngle;
     private double wantedBusketExtension;
     private double power;
-    private boolean overExtend = false;
 
 
 
@@ -36,10 +35,10 @@ public class Arm {
         extensionMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         angleMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
-        extensionMotor.setPower(0);
-        angleMotor.setPower(0);
+//        extensionMotor.setPower(0);
+//        angleMotor.setPower(0);
 
-        extensionPID = new PIDControl( 0.8, 0.000,0.00002);
+        extensionPID = new PIDControl( 0.009, 0,0);
         anglePID = new PIDControl(0.003, 0, 0);
 
         // angleMotor.setCurrentAlert(1200, CurrentUnit.MILLIAMPS);
@@ -70,11 +69,7 @@ public class Arm {
 
     public void check_fix_overExtend(){
         if (extensionMotor.getCurrentPosition() > legalMaxExtension){
-            overExtend = true;
             extensionMotor.setPower(extensionPID.calculatePID(legalMaxExtension, extensionMotor.getCurrentPosition()));
-        }
-        else{
-            overExtend = false;
         }
     }
 
@@ -90,7 +85,7 @@ public class Arm {
         if (angleMotor.isOverCurrent()){
             return;
         }
-        angleMotor.setPower(0.7);
+        angleMotor.setPower(0.3);
     }
 
 
@@ -98,7 +93,7 @@ public class Arm {
         if (-angleMotor.getCurrentPosition() >= 3600){
             return;
         }
-        angleMotor.setPower(-0.6);
+        angleMotor.setPower(-0.4);
     }
 
     public void extend() {
@@ -106,7 +101,7 @@ public class Arm {
             return;
         }
         if (extensionMotor.getCurrentPosition() < legalMaxExtension) {
-            extensionMotor.setPower(0.8);
+            extensionMotor.setPower(0.4);
         }
         else{
             stopExtension();
@@ -114,12 +109,7 @@ public class Arm {
     }
 
     public void retract() {
-        if (extensionMotor.getCurrentPosition() >= 25){
-            extensionMotor.setPower(-0.8);
-        }
-        else {
-            stopExtension();
-        }
+        extensionMotor.setPower(-0.4);
     }
 
     public void moveByPIDAngle(double anglePos){
@@ -129,8 +119,6 @@ public class Arm {
     }
 
     public void moveByPIDExtension(double extensionPos){
-
-//        legalMaxExtension = 2500 / Math.cos(Math.toRadians(-getAngle())); // finding the max extension of our arm
         wantedBusketExtension = 2500 > (Math.abs(Math.cos(Math.toRadians(-getAngle())) * extensionPos)) ? extensionPos : legalMaxExtension;
 
         power = (extensionPID.calculatePID(wantedBusketExtension, extensionMotor.getCurrentPosition()))/10;
@@ -159,9 +147,6 @@ public class Arm {
     }
     public double getPower(){
         return power;
-    }
-    public boolean getOverExtend(){
-        return overExtend;
     }
 
 
