@@ -7,27 +7,32 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 
 public class Gripper {
-    private final ServoEx gripperCatcherServo;
-    private final ServoEx gripperAngleServo;
+    private final ServoEx catcherServo;
+    private final ServoEx angleServo;
 
     public Gripper(HardwareMap constHardwareMap) {
-        gripperCatcherServo = new SimpleServo(constHardwareMap, "catcher", 0 , 1, AngleUnit.DEGREES);
-        gripperAngleServo = new SimpleServo(constHardwareMap, "angle", -1 , 1, AngleUnit.DEGREES);
+        catcherServo = new SimpleServo(constHardwareMap, "catcher", 0 , 1, AngleUnit.DEGREES);
+        angleServo = new SimpleServo(constHardwareMap, "angle", -1 , 1, AngleUnit.DEGREES);
+
+        catcherServo.turnToAngle(0);
+        angleServo.turnToAngle(0);
+
 
     }
 
-    public void moveHook(double angle){gripperCatcherServo.turnToAngle(angle);}
+    public void moveHook(double angle){catcherServo.turnToAngle(angle);}
 
-    public void turnToAngle(double angle){gripperAngleServo.turnToAngle(angle);}
-    public void moveToAngle(double angleChange){
-        gripperAngleServo.rotateByAngle(angleChange);
+    public void turnToAngle(double angle){
+        angleServo.turnToAngle(angle);}
+    public void moveByAngle(double angleChange){
+        angleServo.rotateByAngle(angleChange);
     }
 
     public double getPosition() {
-        return gripperAngleServo.getPosition();
+        return angleServo.getPosition();
     }
     public double getAngle() {
-        return gripperAngleServo.getAngle();
+        return angleServo.getAngle();
     }
 
 }

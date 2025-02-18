@@ -128,7 +128,4 @@ public class ExampleSystemClass {
     public double getWantedPosition(){
         return wantedPosition;
     }
-    public double getIntegralSum(){
-        return PIDController.getIntegralSum();
-    }
 }

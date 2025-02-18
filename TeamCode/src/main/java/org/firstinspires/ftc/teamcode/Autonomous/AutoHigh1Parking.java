@@ -7,6 +7,7 @@ import com.arcrobotics.ftclib.util.Timing;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -14,6 +15,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Arm.Arm;
 import org.firstinspires.ftc.teamcode.DriveTrain.ImprovedMecanum;
+import org.firstinspires.ftc.teamcode.Gripper.Gripper;
+import org.firstinspires.ftc.teamcode.TeleOpMode.TeleOpMode;
 
 import java.util.concurrent.TimeUnit;
 
@@ -22,6 +25,7 @@ public class AutoHigh1Parking extends LinearOpMode {
 
     public ImprovedMecanum mecanum;
     public Arm arm;
+    public Gripper gripper;
 
     public Timing.Timer time;
 
@@ -30,6 +34,7 @@ public class AutoHigh1Parking extends LinearOpMode {
 
         mecanum = new ImprovedMecanum(hardwareMap);
         arm = new Arm(hardwareMap);
+        gripper = new Gripper(hardwareMap);
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         time = new Timing.Timer(30000, TimeUnit.MILLISECONDS);
@@ -45,16 +50,19 @@ public class AutoHigh1Parking extends LinearOpMode {
         time.start();
 
         //todo lift arm before moving
-        arm.angleUp();
+        arm.moveByPIDAngle(-2920);
+        arm.moveByPIDExtension(2990);
+        gripper.turnToAngle(1);
 
         while (time.elapsedTime() < 300 && !isStopRequested()) {
             mecanum.smartDrive(1, 0, 0, 0, 0);
         }
         arm.stopAngle();
+        arm.stopExtension();
 
 
-        while (time.elapsedTime() < 1000 && !isStopRequested()) { //turning 110 degrees left
-            mecanum.turnToAngle(110, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
+        while (time.elapsedTime() < 1000 && !isStopRequested()) {
+            mecanum.turnToAngle(90, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
         }
 
 
@@ -78,7 +86,7 @@ public class AutoHigh1Parking extends LinearOpMode {
         }
 
 
-        while (time.elapsedTime() < 5650 && !isStopRequested()) { //turning 90 degrees left
+        while (time.elapsedTime() < 5650 && !isStopRequested()) {
             mecanum.turnToAngle(100, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
         }
 

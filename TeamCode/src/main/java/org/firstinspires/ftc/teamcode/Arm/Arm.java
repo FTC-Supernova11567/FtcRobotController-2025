@@ -5,12 +5,10 @@ import static java.lang.Math.signum;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Utils.PIDControl;
 import org.firstinspires.ftc.teamcode.Gripper.Gripper;
-import org.firstinspires.ftc.teamcode.Utils.PIDControl;
 
 public class Arm {
     private final DcMotorEx extensionMotor;
@@ -26,35 +24,26 @@ public class Arm {
     private double power;
     private boolean overExtend = false;
 
-    //private int wristSetpoint = 0;
-    //TODO: PID management
 
-//    private PIDFControllerwristController = new PIDFController(0.5, 0.0, 0.0, 1.0);
-//    private PIDFController extensionController = new PIDFController(5.0, 0.0, 0.0, 0.0);
-    //TODO: PID management
 
     public Arm(HardwareMap hardwareMap) {
         extensionMotor = hardwareMap.get(DcMotorEx.class, "extension");
-        extensionMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
-        //extensionMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        extensionMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        //PIDTestingMode() =new PIDTestingMode();
-
-        anglePID = new PIDControl(0.003, 0, 0);
-        extensionPID = new PIDControl( 0.8, 0.000,0.00002);
-
-        //TODO: PID management
-
         angleMotor = hardwareMap.get(DcMotorEx.class, "angleControl");
+
+        extensionMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         angleMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        extensionMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         angleMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+
+        extensionMotor.setPower(0);
+        angleMotor.setPower(0);
+
+        extensionPID = new PIDControl( 0.8, 0.000,0.00002);
+        anglePID = new PIDControl(0.003, 0, 0);
+
         // angleMotor.setCurrentAlert(1200, CurrentUnit.MILLIAMPS);
-        //resetEncoder(angleMotor);
 
-        //TODO: PID management
-
-//        wristController.setTolerance(2000);
-        //TODO: PID management
     }
 
     public void resetAngleEncoder(){
@@ -147,16 +136,6 @@ public class Arm {
         power = (extensionPID.calculatePID(wantedBusketExtension, extensionMotor.getCurrentPosition()))/10;
         power = Math.abs(power) > 0.8 ? signum(power) * 0.8 : power;
         extensionMotor.setPower(power);
-    }
-
-    public void goToSetPoint(double anglePos, double extensionPos){
-        moveByPIDAngle(anglePos);
-        moveByPIDExtension(extensionPos);
-    }
-
-    public void moveToSetPoint(double anglePos, double extensionPos, double gripperAngle, Gripper gripper){
-        goToSetPoint(anglePos, extensionPos);
-        gripper.turnToAngle(gripperAngle);
     }
 
     public double getAngle () {return (((double) angleMotor.getCurrentPosition() + 1423) / 8192 * 360);}
