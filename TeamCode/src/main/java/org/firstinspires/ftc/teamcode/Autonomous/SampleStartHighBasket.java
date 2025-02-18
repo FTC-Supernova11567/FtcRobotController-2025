@@ -12,7 +12,7 @@ public class SampleStartHighBasket extends LinearOpMode {
     // There is no arm extension and no gripper in this code.
     @Override
     public void runOpMode() {
-        Arm arm = new Arm(hardwareMap, gamepad2);
+        Arm arm = new Arm(hardwareMap);
         MecanumDrive mecanum = new MecanumDrive(hardwareMap, gamepad2);
         Gripper gripper = new Gripper(hardwareMap);
 
