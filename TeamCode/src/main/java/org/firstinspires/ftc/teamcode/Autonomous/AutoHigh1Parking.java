@@ -63,11 +63,13 @@ public class AutoHigh1Parking extends LinearOpMode {
             telemetry.update();
         }
         currentTime = time.elapsedTime();
+
+
         gripper.turnToAngle(1);
-        arm.moveByPIDAngle(-2580);
+        arm.moveByPIDAngle(-2600);
         arm.moveByPIDExtension(3000);
 
-        while (time.elapsedTime() < currentTime + 700 && !isStopRequested()) {
+        while (time.elapsedTime() < currentTime + 800 && !isStopRequested()) {
             mecanum.turnToAngle(135,
                     imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
             telemetry.addData("angle position", arm.getAngleMotorPosition());
@@ -76,9 +78,11 @@ public class AutoHigh1Parking extends LinearOpMode {
         currentTime = time.elapsedTime();
 
 
-        while (time.elapsedTime() < currentTime + 1350 && !isStopRequested()) {
+        while (time.elapsedTime() < currentTime + 1300 && !isStopRequested()) {
             mecanum.smartDrive(1, 0.67, 135,
                     imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);arm.moveByPIDAngle(-2920);
+            arm.moveByPIDAngle(-2500);
+            arm.moveByPIDExtension(3000);
             telemetry.addData("angle position", arm.getAngleMotorPosition());
             telemetry.update();
         }
@@ -86,8 +90,8 @@ public class AutoHigh1Parking extends LinearOpMode {
 
         mecanum.stop();
 
-        while (time.elapsedTime() < currentTime + 700 && !isStopRequested()){
-            arm.moveByPIDAngle(-2580);
+        while (time.elapsedTime() < currentTime + 500 && !isStopRequested()){
+            arm.moveByPIDAngle(-2500);
             arm.moveByPIDExtension(3000);
             telemetry.addData("angle position", arm.getAngleMotorPosition());
             telemetry.update();
@@ -98,60 +102,66 @@ public class AutoHigh1Parking extends LinearOpMode {
         arm.stopAngle();
         arm.stopExtension();
 
-        while (time.elapsedTime() < currentTime + 300 && !isStopRequested()) {
+        while (time.elapsedTime() < currentTime + 400 && !isStopRequested()) {
             gripper.moveHook(0.28);
             telemetry.addData("angle position", arm.getAngleMotorPosition());
             telemetry.update();
         }
         currentTime = time.elapsedTime();
-
         // until here, "working" auto
-        gripper.moveHook(0);
 
-        while (time.elapsedTime() < currentTime + 700 && !isStopRequested()){
+
+        while (time.elapsedTime() < currentTime + 800 && !isStopRequested()){
             arm.moveByPIDAngle(-2800);
         }
         currentTime = time.elapsedTime();
 
 
+        gripper.moveHook(0);
         gripper.turnToAngle(0);
+
+        while (time.elapsedTime() < currentTime + 200 && !isStopRequested()) {
+            mecanum.turnToAngle(0, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
+
+        }
+        currentTime = time.elapsedTime();
 
         while (time.elapsedTime() < currentTime + 1500 && !isStopRequested()) {
             mecanum.turnToAngle(0, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
-            arm.moveByPIDAngle(-700);
+            arm.moveByPIDAngle(-650);
             arm.moveByPIDExtension(0);
         }
         currentTime = time.elapsedTime();
 
 
-
-        while (time.elapsedTime() < currentTime + 1750 && !isStopRequested()) {
-            mecanum.smartDrive(1, 0.7, Math.toRadians(0), imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
-            arm.moveByPIDAngle(-700);
+        while (time.elapsedTime() < currentTime + 1850 && !isStopRequested()) {
+            mecanum.smartDrive(0.97, 0.67, Math.toRadians(0), imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
+            arm.moveByPIDAngle(-650);
             arm.moveByPIDExtension(0);
         }
         currentTime = time.elapsedTime();
+
 
         arm.stopAngle();
         arm.stopExtension();
 
-
         while (time.elapsedTime() < currentTime + 700 && !isStopRequested()) {
-            mecanum.turnToAngle(100, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
+            mecanum.turnToAngle(90, imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle);
         }
         currentTime = time.elapsedTime();
 
 
 
-        while (time.elapsedTime() < currentTime + 600 && !isStopRequested()) {
+        while (time.elapsedTime() < currentTime + 450 && !isStopRequested()) {
             mecanum.driveWithBuffer(-1, 0, 0, 1);
         }
         currentTime = time.elapsedTime();
+
+
         mecanum.stop();
 
-
-        while (time.elapsedTime() < currentTime + 850 && !isStopRequested()){
-            arm.moveByPIDAngle(-2920);
+        while (time.elapsedTime() < currentTime + 1100 && !isStopRequested()){
+            arm.moveByPIDAngle(-2000);
         }
         arm.stopAngle();
 

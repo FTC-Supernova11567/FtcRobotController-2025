@@ -19,8 +19,8 @@ public class Arm {
 
     private double legalMaxExtension;
 
-    private double wantedBusketAngle;
-    private double wantedBusketExtension;
+    private double wantedBasketAngle;
+    private double wantedBasketExtension;
     private double power;
 
 
@@ -38,7 +38,7 @@ public class Arm {
 //        extensionMotor.setPower(0);
 //        angleMotor.setPower(0);
 
-        extensionPID = new PIDControl( 0.009, 0,0);
+        extensionPID = new PIDControl( 0.055, 0,0);
         anglePID = new PIDControl(0.003, 0, 0);
 
         // angleMotor.setCurrentAlert(1200, CurrentUnit.MILLIAMPS);
@@ -64,11 +64,14 @@ public class Arm {
     }
 
     public void updateLegalMaxExtension(){
-        legalMaxExtension = 2500 / Math.cos(Math.toRadians(-getAngle()));;
+        legalMaxExtension = 3500 / Math.cos(Math.toRadians(-getAngle()));;
     }
 
     public void check_fix_overExtend(){
-        if (extensionMotor.getCurrentPosition() > legalMaxExtension){
+        if (angleMotor.getCurrentPosition() > 0){
+            return;
+        }
+        if (extensionMotor.getCurrentPosition() > Math.abs(legalMaxExtension)){
             extensionMotor.setPower(extensionPID.calculatePID(legalMaxExtension, extensionMotor.getCurrentPosition()));
         }
     }
@@ -113,20 +116,20 @@ public class Arm {
     }
 
     public void moveByPIDAngle(double anglePos){
-        wantedBusketAngle = anglePos;
-        power = anglePID.calculatePID(wantedBusketAngle, angleMotor.getCurrentPosition());
+        wantedBasketAngle = anglePos;
+        power = anglePID.calculatePID(wantedBasketAngle, angleMotor.getCurrentPosition());
         angleMotor.setPower(power);
     }
 
     public void moveByPIDExtension(double extensionPos){
-        wantedBusketExtension = 2500 > (Math.abs(Math.cos(Math.toRadians(-getAngle())) * extensionPos)) ? extensionPos : legalMaxExtension;
+        wantedBasketExtension = 3500 > (Math.abs(Math.cos(Math.toRadians(-getAngle())) * extensionPos)) ? extensionPos : legalMaxExtension;
 
-        power = (extensionPID.calculatePID(wantedBusketExtension, extensionMotor.getCurrentPosition()))/10;
+        power = (extensionPID.calculatePID(wantedBasketExtension, extensionMotor.getCurrentPosition()))/10;
         power = Math.abs(power) > 0.8 ? signum(power) * 0.8 : power;
         extensionMotor.setPower(power);
     }
 
-    public double getAngle () {return (((double) angleMotor.getCurrentPosition() + 1423) / 8192 * 360);}
+    public double getAngle () {return (((double) angleMotor.getCurrentPosition() + 1000) / 8192 * 360);}
     public int getExtend(){
         return extensionMotor.getCurrentPosition();
     }
@@ -142,8 +145,11 @@ public class Arm {
     public double getLegalMaxExtension(){
         return legalMaxExtension;
     }
-    public double getWantedBusketExtension(){
-        return wantedBusketExtension;
+    public double getWantedBasketExtension(){
+        return wantedBasketExtension;
+    }
+    public double getWantedBasketAngle(){
+        return wantedBasketAngle;
     }
     public double getPower(){
         return power;
